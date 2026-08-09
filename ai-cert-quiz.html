@@ -32,6 +32,40 @@
   body[data-track="GHC"]    { --accent: var(--ghc);    --accent-2: var(--ghc-2); }
   body[data-track="Claude"] { --accent: var(--claude); --accent-2: var(--claude-2); }
 
+  /* Chế độ sáng */
+  body[data-theme="light"] {
+    --bg: #eef0f7;
+    --panel: #ffffff;
+    --panel-2: #f2f3fa;
+    --panel-3: #e7e9f5;
+    --border: #d9dbec;
+    --text: #1c1e2b;
+    --muted: #676b8a;
+    --green-bg: rgba(34,197,94,0.10);
+    --red-bg: rgba(239,68,68,0.10);
+    --amber-bg: rgba(245,158,11,0.10);
+  }
+  body[data-theme="light"] html,
+  body[data-theme="light"] {
+    background: radial-gradient(1200px 800px at 10% -10%, #dfe2f5 0%, var(--bg) 55%);
+  }
+  body[data-theme="light"] .card { box-shadow: 0 8px 24px rgba(30,30,60,.08); }
+
+  .theme-toggle {
+    position: fixed; top: 14px; right: 14px; z-index: 50;
+    background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+    font-size: 12px; font-weight: 700; padding: 7px 12px; border-radius: 999px;
+    cursor: pointer; font-family: inherit; box-shadow: 0 4px 14px rgba(0,0,0,.25);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
+  .streak-badge {
+    display: none; margin: 8px auto 0; width: fit-content;
+    background: var(--amber-bg); border: 1px solid var(--amber); color: var(--amber);
+    font-size: 12.5px; font-weight: 700; padding: 5px 13px; border-radius: 999px;
+  }
+  .streak-badge.show { display: block; }
+
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
@@ -179,6 +213,10 @@
     content: '★'; position: absolute; transform: translate(11px, -11px);
     font-size: 9px; color: var(--amber); line-height: 1;
   }
+  .qnav-cell.confusing::before {
+    content: '🔁'; position: absolute; transform: translate(-11px, -11px);
+    font-size: 9px; line-height: 1;
+  }
   .qnav-cell { position: relative; }
   /* Ô đang xem: viền sáng — đặt sau các class màu để không che mất xanh/đỏ */
   .qnav-cell.current {
@@ -213,6 +251,7 @@
   .bookmark-btn.on {
     background: var(--amber-bg); border-color: var(--amber); color: var(--amber);
   }
+  .confuse-btn.on { background: rgba(124,108,255,.15); border-color: var(--accent); color: var(--accent); }
 
   /* ---------- Thẻ phục hồi lượt đang làm ---------- */
   .resume-card {
@@ -315,6 +354,9 @@
   .qnav-head .qh-stats b { font-weight: 800; }
   .qnav-body { display: none; }
   .qnav-body.open { display: block; padding: 11px 13px 13px; border-top: 1px solid var(--border); }
+  .help-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .help-list li { font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+  .help-list li b { color: var(--text); }
 
   /* ---------- Chip category ---------- */
   .cat-chips { display: flex; gap: 7px; flex-wrap: wrap; }
@@ -335,6 +377,29 @@
     border: 1px solid rgba(245,158,11,.4); border-radius: 8px; padding: 9px 12px;
   }
   .cat-warn.show { display: block; }
+
+  /* ---------- Tìm kiếm câu hỏi ---------- */
+  .search-block { margin-bottom: 18px; position: relative; }
+  .search-block input {
+    width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+    font-family: inherit; font-size: 14px; padding: 11px 14px; border-radius: 11px;
+  }
+  .search-block input:focus { outline: none; border-color: var(--accent); }
+  .search-results {
+    display: none; margin-top: 8px; max-height: 360px; overflow-y: auto;
+    border: 1px solid var(--border); border-radius: 11px; background: var(--panel);
+  }
+  .search-results.show { display: block; }
+  .sr-item {
+    display: block; width: 100%; text-align: left; background: transparent; border: none;
+    border-bottom: 1px solid var(--border); color: var(--text); padding: 10px 13px;
+    cursor: pointer; font-family: inherit;
+  }
+  .sr-item:last-child { border-bottom: none; }
+  .sr-item:hover { background: var(--panel-3); }
+  .sr-item .sr-q { font-size: 13px; line-height: 1.4; margin-bottom: 5px; }
+  .sr-item .sr-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+  .sr-empty { padding: 12px 13px; font-size: 12.5px; color: var(--muted); }
 
   /* ---------- Báo cáo điểm yếu ---------- */
   .rp-section-label {
@@ -362,6 +427,8 @@
     border-radius: 7px; cursor: pointer; font-family: inherit;
   }
   .rp-row .rp-go:hover { border-color: var(--accent); background: var(--panel-3); }
+  .rp-row .rp-spark-wrap { flex: 0 0 auto; }
+  .rp-spark { display: block; width: 64px; height: 22px; }
 
   .rp-qlist { display: flex; flex-direction: column; gap: 7px; }
   .rp-q {
@@ -430,6 +497,41 @@
   .type-badge.multi { color: var(--amber); border-color: rgba(245,158,11,.45); background: var(--amber-bg); }
 
   .question-text { font-size: 17px; line-height: 1.55; font-weight: 600; margin: 0 0 18px; }
+  .translate-box {
+    display: none; margin: 0 0 18px; padding: 13px 15px;
+    background: var(--panel-3); border: 1px dashed var(--border); border-radius: 12px;
+    font-size: 14px; line-height: 1.6; color: var(--text);
+  }
+  .translate-box.show { display: block; }
+  .translate-box .tr-label {
+    display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .translate-box .tr-q { font-weight: 600; margin-bottom: 8px; }
+  .translate-box .tr-opt { margin: 3px 0; color: var(--muted); }
+  .translate-box .tr-opt b { color: var(--text); }
+  .translate-box .tr-exp { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); color: var(--muted); }
+  .translate-box .tr-loading { color: var(--muted); font-style: italic; }
+  .translate-btn {
+    border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+    padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700;
+    cursor: pointer; transition: all .15s ease;
+  }
+  .translate-btn:hover { border-color: var(--accent); }
+  .translate-btn.on { border-color: transparent; background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #fff; }
+
+  .note-box {
+    display: none; margin: 0 0 18px; padding: 12px 14px;
+    background: var(--panel-3); border: 1px solid var(--border); border-radius: 12px;
+  }
+  .note-box.show { display: block; }
+  .note-box textarea {
+    width: 100%; min-height: 70px; resize: vertical; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 8px; color: var(--text);
+    font-family: inherit; font-size: 13.5px; padding: 9px 11px; line-height: 1.5;
+  }
+  .note-box .note-hint { display: block; font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .note-btn.on { background: var(--green-bg); border-color: var(--green); color: var(--green); }
   .options { display: flex; flex-direction: column; gap: 10px; }
   .option {
     display: flex; align-items: flex-start; gap: 12px;
@@ -564,12 +666,14 @@
 </style>
 </head>
 <body data-track="GHC">
+<button class="theme-toggle" id="theme-toggle">☀️ Sáng</button>
 <div class="app">
 
   <header class="top">
     <div class="kicker" id="kicker">AI Certification Practice</div>
     <h1>Tổng hợp đề thi GHC &amp; Claude</h1>
     <p id="top-sub">Đang tải bộ đề…</p>
+    <div class="streak-badge" id="streak-badge"></div>
   </header>
 
   <!-- ========== HOME ========== -->
@@ -578,6 +682,32 @@
 
     <div id="home-body" style="display:none;">
       <div id="resume-list"></div>
+
+      <div class="qnav-panel" style="margin-bottom:18px">
+        <button class="qnav-head" id="help-head">
+          <span class="caret">▶</span>
+          <span>💡 Các tính năng của trang (bấm để xem)</span>
+        </button>
+        <div class="qnav-body" id="help-body">
+          <ul class="help-list">
+            <li><b>🔍 Tìm kiếm</b> — tra cứu nhanh 1 câu bất kỳ trong toàn bộ ngân hàng câu hỏi.</li>
+            <li><b>☀️/🌙 nút góc trên phải</b> — đổi giao diện sáng/tối.</li>
+            <li><b>🌐 Dịch</b> — dịch câu hỏi, đáp án, giải thích sang tiếng Việt ngay trong lúc làm bài.</li>
+            <li><b>📝 Ghi chú</b> — ghi chú riêng cho từng câu, tự lưu trên trình duyệt.</li>
+            <li><b>🔁 Hay nhầm</b> — tự đánh dấu câu hay nhầm lẫn (khác với câu làm sai), luyện riêng bộ này khi cần.</li>
+            <li><b>☆ Lưu câu này / ⚠ Câu yếu nhất</b> — lưu câu muốn ôn lại hoặc để hệ thống tự chọn câu bạn hay sai.</li>
+            <li><b>🔥 Streak</b> — số ngày học liên tiếp, hiện dưới tiêu đề trang.</li>
+            <li><b>📈 Ước tính khả năng đậu</b> — hiện trong mục Thi thử sau khi có đủ vài lượt làm gần đây.</li>
+            <li><b>📋/🖼 Chia sẻ kết quả</b> — copy tóm tắt hoặc tải ảnh kết quả sau khi làm xong 1 lượt.</li>
+            <li><b>⭳/⭱ Xuất · Nạp tiến độ</b> — sao lưu hoặc chuyển toàn bộ dữ liệu học sang máy/trình duyệt khác.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="search-block">
+        <input type="search" id="search-input" placeholder="🔍 Tìm câu hỏi theo từ khoá (tiếng Anh) trong toàn bộ ngân hàng…">
+        <div class="search-results" id="search-results"></div>
+      </div>
 
       <div class="track-tabs" id="track-tabs"></div>
 
@@ -721,6 +851,7 @@
           <span class="lg-wrong"><i></i>Sai</span>
           <span class="lg-todo"><i></i>Chưa làm</span>
           <span style="color:var(--amber)">★ đã lưu</span>
+          <span>🔁 hay nhầm</span>
           <span class="lg-hint">Bấm số để nhảy tới câu đó</span>
         </div>
         <div class="qnav" id="qnav"></div>
@@ -735,10 +866,18 @@
       <span class="tag" id="topic-badge" style="display:none"></span>
       <span class="tag" id="diff-badge" style="display:none"></span>
       <button class="bookmark-btn" id="bookmark-btn">☆ Lưu câu này</button>
+      <button class="bookmark-btn confuse-btn" id="confuse-btn" title="Đánh dấu câu hay nhầm, riêng với đúng/sai">🔁 Hay nhầm</button>
+      <button class="translate-btn" id="translate-btn" title="Dịch câu hỏi sang tiếng Việt">🌐 Dịch</button>
+      <button class="bookmark-btn note-btn" id="note-btn" title="Ghi chú riêng cho câu này">📝 Ghi chú</button>
     </div>
 
     <p class="question-text" id="question-text"></p>
     <div class="options" id="options"></div>
+    <div class="translate-box" id="translate-box"></div>
+    <div class="note-box" id="note-box">
+      <textarea id="note-text" placeholder="Ghi chú riêng cho câu này (tự động lưu)…"></textarea>
+      <span class="note-hint">Tự lưu trên trình duyệt này (localStorage)</span>
+    </div>
 
     <div class="feedback-banner" id="feedback"></div>
     <div class="hint-block" id="hint"></div>
@@ -768,6 +907,8 @@
     <button class="primary-btn" id="retry-btn">Làm lại (đề mới trộn lại)</button>
     <button class="secondary-btn" id="save-wrong-btn" style="display:none">★ Lưu câu sai để ôn lại</button>
     <button class="secondary-btn" id="review-toggle">Xem lại từng câu</button>
+    <button class="secondary-btn" id="share-text-btn">📋 Copy kết quả</button>
+    <button class="secondary-btn" id="share-img-btn">🖼 Tải ảnh kết quả</button>
     <button class="secondary-btn" id="home-btn">Về trang chọn đề</button>
 
     <div class="review-list" id="review-list" style="display:none;"></div>
@@ -848,6 +989,7 @@ const S = {
   navOpen: false,
   reportOpen: false,
   histOpen: false,
+  helpOpen: false,
 
   // lượt hiện tại
   quiz: [],
@@ -857,6 +999,11 @@ const S = {
   startedAt: 0,
   deadline: 0,           // 0 = không giới hạn thời gian
   finished: false,
+
+  translateOn: false,   // đang bật dịch EN->VI cho câu hỏi hiện tại
+  trToken: 0,           // chống race-condition khi chuyển câu lúc đang dịch
+  theme: 'dark',
+  noteOpen: false,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -868,6 +1015,9 @@ const LS = {
   prefs:    'aicert.prefs.v1',
   stats:    'aicert.stats.v1',
   history:  'aicert.history.v1',
+  translate:'aicert.translate.v1',
+  notes:    'aicert.notes.v1',
+  confuse:  'aicert.confuse.v1',
 };
 let lsWarned = false;
 function lsGet(key, dflt) {
@@ -902,6 +1052,38 @@ let SAVED    = lsGet(LS.saved, {});
 let SESSIONS = lsGet(LS.sessions, {});
 let STATS    = lsGet(LS.stats, {});
 let HISTORY  = lsGet(LS.history, []);
+let NOTES    = lsGet(LS.notes, {});
+let CONFUSE  = lsGet(LS.confuse, {});
+
+/* --- Chế độ sáng/tối: áp ngay trước khi render để không bị nháy sai theme --- */
+S.theme = (lsGet(LS.prefs, {}).theme === 'light') ? 'light' : 'dark';
+function applyTheme() {
+  document.body.dataset.theme = S.theme;
+  $('theme-toggle').textContent = S.theme === 'light' ? '🌙 Tối' : '☀️ Sáng';
+}
+applyTheme();
+
+/* --- Streak: số ngày học liên tiếp tính từ lịch sử --- */
+function computeStreak() {
+  if (!HISTORY.length) return 0;
+  const days = new Set(HISTORY.map(h => new Date(h.at).toDateString()));
+  const oneDay = 86400000;
+  let cur = new Date(); cur.setHours(0, 0, 0, 0);
+  // Chưa học hôm nay thì không tính là gãy streak (ngày chưa kết thúc), bắt đầu đếm từ hôm qua
+  if (!days.has(cur.toDateString())) cur = new Date(cur.getTime() - oneDay);
+  let streak = 0;
+  while (days.has(cur.toDateString())) {
+    streak++;
+    cur = new Date(cur.getTime() - oneDay);
+  }
+  return streak;
+}
+function renderStreak() {
+  const n = computeStreak();
+  const el = $('streak-badge');
+  el.classList.toggle('show', n > 0);
+  el.textContent = n > 0 ? '🔥 ' + n + ' ngày học liên tiếp' : '';
+}
 
 /* --- Câu đã lưu --- */
 function isSaved(examId, qid) { return !!SAVED[qkey(examId, qid)]; }
@@ -913,6 +1095,21 @@ function setSaved(examId, qid, on, why) {
 }
 function savedCount(track) {
   return Object.values(SAVED).filter(s => {
+    const e = DATA.exams.find(x => x.id === s.exam);
+    return e && (!track || e.track === track);
+  }).length;
+}
+
+/* --- Câu "hay nhầm" — đánh dấu riêng, không phụ thuộc vào đúng/sai --- */
+function isConfusing(examId, qid) { return !!CONFUSE[qkey(examId, qid)]; }
+function setConfusing(examId, qid, on) {
+  const k = qkey(examId, qid);
+  if (on) CONFUSE[k] = { exam: examId, qid, at: Date.now() };
+  else delete CONFUSE[k];
+  lsSet(LS.confuse, CONFUSE);
+}
+function confusingCount(track) {
+  return Object.values(CONFUSE).filter(s => {
     const e = DATA.exams.find(x => x.id === s.exam);
     return e && (!track || e.track === track);
   }).length;
@@ -974,7 +1171,7 @@ function pushHistory(rec) {
 
 /* --- Tuỳ chọn --- */
 const PREF_KEYS = ['track', 'mode', 'examId', 'categories', 'count',
-  'shuffleQ', 'shuffleO', 'instant', 'resume', 'navOpen', 'histOpen', 'reportOpen'];
+  'shuffleQ', 'shuffleO', 'instant', 'resume', 'navOpen', 'histOpen', 'reportOpen', 'helpOpen', 'theme'];
 function savePrefs() {
   const p = {};
   PREF_KEYS.forEach(k => { p[k] = S[k]; });
@@ -1033,6 +1230,14 @@ function poolQuestions(poolId, cats) {
     });
   } else if (poolId.startsWith('WEAK:')) {
     weakList(poolId.slice(5)).forEach(w => src.push({ q: w.q, exam: w.exam }));
+  } else if (poolId.startsWith('CONFUSE:')) {
+    const tr = poolId.slice(8);
+    Object.values(CONFUSE).forEach(s => {
+      const e = DATA.exams.find(x => x.id === s.exam);
+      if (!e || (tr !== 'ALL' && e.track !== tr)) return;
+      const q = e.questions.find(x => String(x.id) === String(s.qid));
+      if (q) src.push({ q, exam: e });
+    });
   } else if (poolId.startsWith('MIX:')) {
     examsOf(poolId.slice(4)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('EXAM:')) {
@@ -1096,6 +1301,14 @@ function pools() {
     count: nWeak, explain: true, weak: true,
   });
 
+  const nConfuse = poolQuestions('CONFUSE:' + S.track, S.categories).length;
+  if (nConfuse) list.push({
+    id: 'CONFUSE:' + S.track,
+    title: '🔁 Câu hay nhầm — ' + S.track,
+    sub: 'Câu bạn tự đánh dấu là dễ nhầm lẫn, không phụ thuộc đúng/sai',
+    count: nConfuse, explain: true, weak: true,
+  });
+
   return list;
 }
 
@@ -1140,6 +1353,8 @@ function renderModeTabs() {
     ];
     if (!multi) notes.push('⚠ Kho câu nhánh này hiện không có câu multi-choice, nên đề thi thử sẽ toàn câu chọn 1 đáp án — có thể khác đề thật.');
     if (pool.length < spec.count) notes.push('⚠ Kho câu (' + pool.length + ') ít hơn số câu đề thi (' + spec.count + '), sẽ thi với ' + pool.length + ' câu.');
+    const pc = estimatePassChance();
+    if (pc) notes.unshift('📈 Ước tính khả năng đậu hiện tại: ~' + pc.chance + '% (dựa trên ' + pc.n + ' lượt gần đây, điểm TB ' + pc.avg + '%)');
     $('exam-note').innerHTML = notes.map(n => '• ' + esc(n)).join('<br>');
   }
 }
@@ -1347,6 +1562,35 @@ function renderHistory() {
   }).join('');
 }
 
+/* --- Ước tính % khả năng đậu, dựa trên điểm TB các lượt gần đây so với ngưỡng pass --- */
+function estimatePassChance() {
+  const pass = EXAM_SPEC[S.track] ? EXAM_SPEC[S.track].pass : 70;
+  const recent = HISTORY.filter(h => h.track === S.track).slice(0, 8);
+  if (recent.length < 3) return null; // chưa đủ dữ liệu để ước tính đáng tin
+  const avg = recent.reduce((s, h) => s + h.pct, 0) / recent.length;
+  // Hàm logistic đơn giản: điểm TB càng cao hơn ngưỡng pass thì % ước tính càng gần 100
+  const diff = avg - pass;
+  const chance = Math.round(100 / (1 + Math.exp(-diff / 6)));
+  return { chance, avg: Math.round(avg), n: recent.length };
+}
+
+/* --- Biểu đồ mini (sparkline) tiến bộ theo chủ đề, dựa trên lịch sử các lượt gần đây --- */
+function catTrendPoints(cat) {
+  return HISTORY
+    .filter(h => h.cats && h.cats[cat] && h.cats[cat].total)
+    .slice(0, 20)
+    .reverse()
+    .map(h => Math.round(h.cats[cat].correct / h.cats[cat].total * 100));
+}
+function sparkline(points) {
+  if (points.length < 2) return '';
+  const W = 64, H = 22, n = points.length, step = W / (n - 1);
+  const path = points.map((p, i) => (i === 0 ? 'M' : 'L') + (i * step).toFixed(1) + ',' + (H - p / 100 * H).toFixed(1)).join(' ');
+  const last = points[points.length - 1];
+  const col = last >= 70 ? 'var(--green)' : last >= 40 ? 'var(--amber)' : 'var(--red)';
+  return `<svg class="rp-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><path d="${path}" fill="none" stroke="${col}" stroke-width="2"/></svg>`;
+}
+
 /* --- Báo cáo điểm yếu: theo chủ đề + câu sai nhiều nhất --- */
 function renderReport() {
   const cats = statsByCategory(S.track);
@@ -1366,11 +1610,13 @@ function renderReport() {
   const barColor = r => r >= .6 ? 'var(--red)' : r >= .35 ? 'var(--amber)' : 'var(--green)';
   $('rp-cats').innerHTML = cats.map(c => {
     const pct = Math.round(c.rate * 100);
+    const trend = sparkline(catTrendPoints(c.cat));
     return `<div class="rp-row">
       <span class="rp-name">${esc(labelCat(c.cat))}</span>
       <span class="rp-bar-wrap"><span class="rp-bar" style="width:${pct}%;background:${barColor(c.rate)}"></span></span>
       <span class="rp-pct" style="color:${barColor(c.rate)}">${pct}%</span>
       <span class="rp-num">sai ${c.bad}/${c.seen} · ${c.questions} câu</span>
+      ${trend ? '<span class="rp-spark-wrap" title="Xu hướng đúng/sai chủ đề này qua các lượt gần đây">' + trend + '</span>' : ''}
       <button class="rp-go" data-c="${esc(c.cat)}">Luyện</button>
     </div>`;
   }).join('');
@@ -1417,6 +1663,51 @@ function renderHome() {
   renderResumeList();
   renderHistory();
   renderReport();
+  renderStreak();
+  $('help-head').classList.toggle('open', S.helpOpen);
+  $('help-body').classList.toggle('open', S.helpOpen);
+}
+
+/* --- Tìm kiếm câu hỏi toàn ngân hàng --- */
+function doSearch(term) {
+  term = term.trim().toLowerCase();
+  const box = $('search-results');
+  if (term.length < 2) { box.classList.remove('show'); box.innerHTML = ''; return; }
+  const words = term.split(/\s+/).filter(Boolean);
+  const hits = [];
+  outer:
+  for (const e of DATA.exams) {
+    for (const q of e.questions) {
+      const hay = q.question.toLowerCase();
+      if (words.every(w => hay.includes(w))) {
+        hits.push({ e, q });
+        if (hits.length >= 30) break outer;
+      }
+    }
+  }
+  box.classList.add('show');
+  if (!hits.length) { box.innerHTML = '<div class="sr-empty">Không tìm thấy câu nào khớp.</div>'; return; }
+  box.innerHTML = hits.map((h, i) => `
+    <button class="sr-item" data-i="${i}">
+      <div class="sr-q">${esc(h.q.question.length > 150 ? h.q.question.slice(0, 150) + '…' : h.q.question)}</div>
+      <div class="sr-meta"><span class="tag">${esc(h.e.title)}</span>${h.q.category ? '<span class="tag mix">' + esc(h.q.category) + '</span>' : ''}</div>
+    </button>`).join('') +
+    (hits.length >= 30 ? '<div class="sr-empty">…còn nữa, gõ từ khoá cụ thể hơn để thu hẹp kết quả.</div>' : '');
+  box.querySelectorAll('.sr-item').forEach((btn, i) => {
+    btn.onclick = () => startSingleQuestion(hits[i].e, hits[i].q);
+  });
+}
+
+// Mở nhanh 1 câu để tra cứu, tái dùng nguyên màn hình làm bài (dịch/ghi chú/lưu vẫn dùng được)
+function startSingleQuestion(exam, q) {
+  S.mode = 'practice';
+  S.quiz = [makeItem(q, exam, labelOptions(q, q.options))];
+  S.idx = 0;
+  S.finished = false;
+  S.startedAt = Date.now();
+  S.deadline = 0;
+  S.sessionKey = null;
+  enterQuiz('Tra cứu: ' + exam.title + ' · #' + q.id);
 }
 
 /* =========================================================
@@ -1480,7 +1771,7 @@ function sessionKeyFor() {
 }
 
 function saveSession() {
-  if (!S.resume || !S.quiz.length || S.finished) return;
+  if (!S.resume || !S.quiz.length || S.finished || !S.sessionKey) return;
   SESSIONS[S.sessionKey] = {
     v: 2,
     at: Date.now(),
@@ -1658,6 +1949,7 @@ function renderNav() {
     }
     if (i === S.idx) cls.push('current');
     if (isSaved(q.originId, q.originNo)) cls.push('saved');
+    if (isConfusing(q.originId, q.originNo)) cls.push('confusing');
     const state = q.result ? (isExam ? 'đã làm' : (q.result.isCorrect ? 'đúng' : 'sai')) : 'chưa làm';
     return `<button class="${cls.join(' ')}" data-i="${i}" title="Câu ${i + 1} — ${state}">${i + 1}</button>`;
   }).join('');
@@ -1733,6 +2025,7 @@ function paintResult(q, picked, reveal) {
       '</span>' + esc(q.explanation) + renderSources(q);
   }
   renderDataNote(q);
+  renderTranslateBox();
 }
 
 // Nguồn tham khảo: chỉ link được URL http(s); đường dẫn tương đối để dạng text
@@ -1788,20 +2081,21 @@ function renderQuestion() {
   $('diff-badge').textContent = q.difficulty;
   $('diff-badge').style.display = q.difficulty ? '' : 'none';
   renderBookmarkBtn();
+  renderConfuseBtn();
 
   $('question-text').textContent = q.question;
+  $('feedback').className = 'feedback-banner';
+  $('feedback').textContent = '';
+  $('hint').className = 'hint-block';
+  $('hint').innerHTML = '';
+  $('data-note').className = 'data-note';
+
   $('options').innerHTML = q.options.map(o => `
     <button class="option ${multi ? 'multi' : ''}" data-key="${esc(o.key)}">
       <span class="letter">${o.label}</span>
       <span class="otext">${esc(o.text)}</span>
     </button>`).join('');
   $('options').querySelectorAll('.option').forEach(b => { b.onclick = () => pick(b.dataset.key); });
-
-  $('feedback').className = 'feedback-banner';
-  $('feedback').textContent = '';
-  $('hint').className = 'hint-block';
-  $('hint').innerHTML = '';
-  $('data-note').className = 'data-note';
 
   if (q.result) {
     if (isExam) {
@@ -1827,6 +2121,8 @@ function renderQuestion() {
   $('prev-btn').disabled = S.idx === 0;
   updateNextBtn();
   renderNav();
+  renderTranslateBox();
+  renderNoteBox();
 }
 
 function updateNextBtn() {
@@ -1846,6 +2142,89 @@ function renderBookmarkBtn() {
   const b = $('bookmark-btn');
   b.className = 'bookmark-btn' + (on ? ' on' : '');
   b.textContent = on ? '★ Đã lưu' : '☆ Lưu câu này';
+}
+
+function renderConfuseBtn() {
+  const q = S.quiz[S.idx];
+  const on = isConfusing(q.originId, q.originNo);
+  const b = $('confuse-btn');
+  b.className = 'bookmark-btn confuse-btn' + (on ? ' on' : '');
+  b.textContent = on ? '🔁 Hay nhầm' : '🔁 Hay nhầm';
+}
+function toggleConfusing() {
+  const q = S.quiz[S.idx];
+  const on = !isConfusing(q.originId, q.originNo);
+  setConfusing(q.originId, q.originNo, on);
+  renderConfuseBtn();
+  renderNav();
+  toast(on ? '🔁 Đã đánh dấu câu hay nhầm' : 'Đã bỏ đánh dấu');
+}
+
+/* --- Ghi chú cá nhân cho từng câu --- */
+function renderNoteBox() {
+  const q = S.quiz[S.idx];
+  const k = qkey(q.originId, q.originNo);
+  $('note-btn').classList.toggle('on', !!NOTES[k]);
+  $('note-box').classList.toggle('show', S.noteOpen);
+  $('note-text').value = NOTES[k] || '';
+}
+let noteSaveTimer = null;
+function saveNote() {
+  clearTimeout(noteSaveTimer);
+  noteSaveTimer = setTimeout(() => {
+    const q = S.quiz[S.idx];
+    const k = qkey(q.originId, q.originNo);
+    const v = $('note-text').value.trim();
+    if (v) NOTES[k] = v; else delete NOTES[k];
+    lsSet(LS.notes, NOTES);
+    $('note-btn').classList.toggle('on', !!v);
+  }, 500);
+}
+
+/* =========================================================
+   Dịch câu hỏi EN -> VI (API dịch công khai của Google, không cần key)
+   ========================================================= */
+const trCache = lsGet(LS.translate, {});
+async function translateText(text) {
+  if (!text) return '';
+  if (trCache[text]) return trCache[text];
+  const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=' + encodeURIComponent(text);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  const translated = data[0].map(part => part[0]).join('');
+  trCache[text] = translated;
+  lsSet(LS.translate, trCache);
+  return translated;
+}
+
+async function renderTranslateBox() {
+  const box = $('translate-box');
+  const btn = $('translate-btn');
+  btn.classList.toggle('on', S.translateOn);
+  if (!S.translateOn) { box.className = 'translate-box'; box.innerHTML = ''; return; }
+
+  const q = S.quiz[S.idx];
+  const token = ++S.trToken;
+  box.className = 'translate-box show';
+  box.innerHTML = '<span class="tr-label">🌐 Bản dịch (tự động, có thể chưa chính xác 100%)</span><span class="tr-loading">Đang dịch…</span>';
+
+  try {
+    const optTexts = q.options.map(o => o.text);
+    const [qTr, ...optTr] = await Promise.all([translateText(q.question), ...optTexts.map(translateText)]);
+    // Chỉ dịch giải thích khi câu đã được chấm — tránh lộ đáp án sớm qua bản dịch
+    const expTr = (q.explanation && q.result) ? await translateText(q.explanation) : '';
+    if (token !== S.trToken) return; // đã chuyển câu khác trong lúc đang dịch
+
+    let html = '<span class="tr-label">🌐 Bản dịch (tự động, có thể chưa chính xác 100%)</span>';
+    html += '<div class="tr-q">' + esc(qTr) + '</div>';
+    html += q.options.map((o, i) => '<div class="tr-opt"><b>' + esc(o.label) + ':</b> ' + esc(optTr[i]) + '</div>').join('');
+    if (expTr) html += '<div class="tr-exp"><b>Giải thích:</b> ' + esc(expTr) + '</div>';
+    box.innerHTML = html;
+  } catch (e) {
+    if (token !== S.trToken) return;
+    box.innerHTML = '<span class="tr-label">🌐 Bản dịch</span><span class="tr-loading">⚠ Không dịch được, kiểm tra kết nối mạng rồi bấm lại nút Dịch.</span>';
+  }
 }
 
 function toggleBookmark() {
@@ -2028,15 +2407,81 @@ function finish(auto) {
 
   updateSaveWrongBtn();
 
+  const catBreak = {};
+  S.quiz.forEach(q => {
+    if (!q.result) return;
+    const c = q.category || NO_CAT;
+    const cb = catBreak[c] || (catBreak[c] = { correct: 0, total: 0 });
+    cb.total++;
+    if (q.result.isCorrect) cb.correct++;
+  });
+
   pushHistory({
     at: Date.now(), mode: wasExam ? 'exam' : 'practice',
     track: S.track, examId: wasExam ? 'EXAM:' + S.track : S.examId,
     title: currentTitle(), correct, total, pct, durationSec, pass: wasExam ? pass : 70,
+    cats: catBreak,
   });
 
   delete SESSIONS[S.sessionKey];
   lsSet(LS.sessions, SESSIONS);
   show('results-screen');
+}
+
+/* --- Chia sẻ kết quả --- */
+function resultSummaryText() {
+  return $('final-label').textContent + ': ' + $('final-score').textContent +
+    ' (' + $('final-pct').textContent + ')\n' + currentTitle();
+}
+async function shareResultText() {
+  const text = resultSummaryText();
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Kết quả ôn thi AI Cert Hub', text }); return; }
+    catch (e) { /* người dùng huỷ hộp thoại chia sẻ — rơi xuống copy clipboard */ }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('Đã copy kết quả — dán ra để chia sẻ');
+  } catch (e) {
+    toast('Không chia sẻ được: trình duyệt chặn clipboard');
+  }
+}
+
+function buildResultCanvas() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 640; canvas.height = 360;
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 640, 360);
+  grad.addColorStop(0, '#201f3d'); grad.addColorStop(1, '#0f1220');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 640, 360);
+  ctx.fillStyle = '#7c6cff'; ctx.font = 'bold 15px sans-serif';
+  ctx.fillText('AI CERT HUB — ' + S.track, 32, 40);
+  ctx.fillStyle = '#e8e9f3'; ctx.font = 'bold 26px sans-serif';
+  ctx.fillText($('final-label').textContent, 32, 88);
+  ctx.font = 'bold 68px sans-serif';
+  ctx.fillText($('final-score').textContent, 32, 172);
+  ctx.fillStyle = '#9498b3'; ctx.font = '20px sans-serif';
+  ctx.fillText($('final-pct').textContent, 32, 210);
+  const title = currentTitle();
+  ctx.font = '16px sans-serif';
+  ctx.fillText(title.length > 60 ? title.slice(0, 60) + '…' : title, 32, 250);
+  ctx.fillText(new Date().toLocaleDateString('vi-VN'), 32, 278);
+  return canvas;
+}
+function shareResultImage() {
+  const canvas = buildResultCanvas();
+  canvas.toBlob((blob) => {
+    if (!blob) { toast('Không tạo được ảnh'); return; }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ket-qua-' + Date.now() + '.png';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast('Đã tải ảnh kết quả');
+  }, 'image/png');
 }
 
 /* =========================================================
@@ -2090,7 +2535,7 @@ function cleanOrphans() {
     const e = DATA.exams.find(x => x.id === exam);
     return !!e && e.questions.some(q => String(q.id) === String(qid));
   };
-  let d1 = false, d2 = false;
+  let d1 = false, d2 = false, d3 = false;
   Object.keys(SAVED).forEach(k => {
     if (!exists(SAVED[k].exam, SAVED[k].qid)) { delete SAVED[k]; d1 = true; }
   });
@@ -2098,8 +2543,12 @@ function cleanOrphans() {
     const [exam, qid] = k.split('#');
     if (!exists(exam, qid)) { delete STATS[k]; d2 = true; }
   });
+  Object.keys(CONFUSE).forEach(k => {
+    if (!exists(CONFUSE[k].exam, CONFUSE[k].qid)) { delete CONFUSE[k]; d3 = true; }
+  });
   if (d1) lsSet(LS.saved, SAVED);
   if (d2) lsSet(LS.stats, STATS);
+  if (d3) lsSet(LS.confuse, CONFUSE);
 }
 
 /* =========================================================
@@ -2110,6 +2559,21 @@ $('submit-btn').onclick = submit;
 $('next-btn').onclick = next;
 $('prev-btn').onclick = prev;
 $('bookmark-btn').onclick = toggleBookmark;
+$('confuse-btn').onclick = toggleConfusing;
+$('translate-btn').onclick = () => { S.translateOn = !S.translateOn; renderTranslateBox(); };
+$('note-btn').onclick = () => { S.noteOpen = !S.noteOpen; renderNoteBox(); };
+$('note-text').oninput = saveNote;
+let searchTimer = null;
+$('search-input').oninput = (e) => {
+  clearTimeout(searchTimer);
+  const v = e.target.value;
+  searchTimer = setTimeout(() => doSearch(v), 200);
+};
+$('theme-toggle').onclick = () => {
+  S.theme = S.theme === 'light' ? 'dark' : 'light';
+  applyTheme();
+  savePrefs();
+};
 $('retry-btn').onclick = startQuiz;
 
 ['practice', 'exam'].forEach(m => {
@@ -2126,6 +2590,12 @@ $('hist-head').onclick = () => {
   S.histOpen = !S.histOpen;
   $('hist-head').classList.toggle('open', S.histOpen);
   $('hist-body').classList.toggle('open', S.histOpen);
+  savePrefs();
+};
+$('help-head').onclick = () => {
+  S.helpOpen = !S.helpOpen;
+  $('help-head').classList.toggle('open', S.helpOpen);
+  $('help-body').classList.toggle('open', S.helpOpen);
   savePrefs();
 };
 
@@ -2153,6 +2623,8 @@ $('review-toggle').onclick = () => {
   rl.style.display = open ? 'none' : 'flex';
   $('review-toggle').textContent = open ? 'Xem lại từng câu' : 'Ẩn phần xem lại';
 };
+$('share-text-btn').onclick = shareResultText;
+$('share-img-btn').onclick = shareResultImage;
 $('save-wrong-btn').onclick = () => {
   let n = 0;
   S.quiz.forEach(q => {
