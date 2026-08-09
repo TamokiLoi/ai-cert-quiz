@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- BẢN STANDALONE: dữ liệu đã nhúng sẵn, chạy offline bằng 1 file -->
 <title>AI Cert Hub — Tổng hợp đề thi GHC &amp; Claude</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1220">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AI Cert Hub">
 <style>
   :root {
     --bg: #0f1220;
@@ -2746,6 +2752,13 @@ loadData().then(d => {
     '<br><br>Chạy <code>node build_data.js</code> để sinh <code>data.json</code> + <code>data.js</code>,' +
     ' hoặc mở site qua HTTP: <code>npx serve .</code></div>';
 });
+
+// Đăng ký PWA: bỏ qua khi mở qua file:// (Service Worker chỉ chạy trên http/https)
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
