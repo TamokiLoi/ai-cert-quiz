@@ -1188,13 +1188,13 @@ function bumpStat(examId, qid, isCorrect) {
   STATS[k] = s;
   lsSet(LS.stats, STATS);
 }
-// Câu "yếu": từng làm sai. Xếp theo SỐ LẦN sai trước, rồi mới tới tỉ lệ —
-// nếu xếp theo tỉ lệ trước thì câu sai 1/1 (100%) đè cả câu sai 5/10, tức là
-// một lần lỡ tay lại bị coi là yếu hơn câu sai đi sai lại nhiều lần.
+// Câu "yếu": đã từng làm sai và lần làm gần nhất vẫn chưa sửa đúng.
+// Khi làm lại đúng, câu sẽ rời khỏi danh sách yếu để phản ánh đúng các câu
+// còn cần ôn lại ở thời điểm hiện tại.
 function weakList(track) {
   const out = [];
   for (const [k, s] of Object.entries(STATS)) {
-    if (!s.bad) continue;
+    if (!s.bad || s.lastOk) continue;
     const [exam, qid] = k.split('#');
     const e = DATA.exams.find(x => x.id === exam);
     if (!e || (track && track !== 'ALL' && e.track !== track)) continue;
@@ -1666,7 +1666,7 @@ function renderReport() {
   const totSeen = cats.reduce((s, c) => s + c.seen, 0);
   const totBad = cats.reduce((s, c) => s + c.bad, 0);
   $('report-summary').innerHTML =
-    `<span>${weak.length} câu từng sai</span>` +
+    `<span>${weak.length} câu còn yếu</span>` +
     `<span>sai <b style="color:var(--red)">${totBad}</b>/${totSeen} lượt</span>`;
   $('report-head').classList.toggle('open', S.reportOpen);
   $('report-body').classList.toggle('open', S.reportOpen);
