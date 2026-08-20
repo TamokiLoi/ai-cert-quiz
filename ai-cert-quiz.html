@@ -1808,7 +1808,7 @@ function makeItem(q, exam, orderedOpts) {
     question: q.question,
     type: q.type,
     options: orderedOpts,
-    correct: q.correct.slice(),
+    correct: (Array.isArray(q.correct) ? q.correct : [q.correct]).slice(),
     explanation: q.explanation || '',
     expSource: q.expSource || '',
     disputed: q.disputed || null,
@@ -2006,6 +2006,7 @@ function startTimer() {
 let warned = new Set();
 
 function enterQuiz(title) {
+  S.answerKeyOpen = false;   // tránh việc lượt mới/tra cứu/resume bị kẹt ở chế độ xem đáp án của lượt trước
   const isExam = S.mode === 'exam';
   $('qt-title').innerHTML = esc(title) + '<span>' + S.quiz.length + ' câu' +
     (isExam ? ' · bấm giờ · không chấm ngay' :
