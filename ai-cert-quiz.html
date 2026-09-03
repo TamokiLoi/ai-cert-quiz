@@ -1558,6 +1558,7 @@ function renderResumeList() {
     const sess = SESSIONS[k];
     const q = rebuildSession(sess);
     if (!q) { delete SESSIONS[k]; dirty = true; return; }
+    if (sess.track !== S.track) return;   // chỉ hiện lượt dở của track đang chọn
     rows.push({ k, sess, q });
   });
   if (dirty) lsSet(LS.sessions, SESSIONS);
@@ -2083,6 +2084,11 @@ function renderNav() {
 
 function jumpTo(i, shouldScroll = true) {
   if (i < 0 || i >= S.quiz.length || i === S.idx) return;
+  const cur = S.quiz[S.idx];
+  if (!S.answerKeyOpen && S.requireAnswerNext && cur && !cur.result) {
+    toast('Please select and check this question before jumping to another one');
+    return;
+  }
   S.idx = i;
   renderQuestion();
   if (shouldScroll) scrollToQuestionArea();
@@ -2380,7 +2386,11 @@ function pick(key) {
   if (q.result && !isExam) return;          // đã chấm thì không cho đổi
   if (q.type === 'multiple') {
     const i = S.picked.indexOf(key);
-    if (i >= 0) S.picked.splice(i, 1); else S.picked.push(key);
+    if (i >= 0) S.picked.splice(i, 1);
+    else if (S.picked.length >= q.correct.length) {
+      toast('Chỉ được chọn tối đa ' + q.correct.length + ' đáp án');
+      return;
+    } else S.picked.push(key);
   } else {
     S.picked = [key];
   }
