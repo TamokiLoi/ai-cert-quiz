@@ -2085,7 +2085,10 @@ function renderNav() {
 function jumpTo(i, shouldScroll = true) {
   if (i < 0 || i >= S.quiz.length || i === S.idx) return;
   const cur = S.quiz[S.idx];
-  if (!S.answerKeyOpen && S.requireAnswerNext && cur && !cur.result) {
+  const target = S.quiz[i];
+  // Chỉ chặn khi cả câu đang làm lẫn câu muốn nhảy tới đều CHƯA làm (né câu qua lưới).
+  // Câu đích đã làm rồi thì luôn cho xem lại (Prev / bấm lưới), bất kể câu hiện tại thế nào.
+  if (!S.answerKeyOpen && S.requireAnswerNext && cur && !cur.result && target && !target.result) {
     toast('Please select and check this question before jumping to another one');
     return;
   }
