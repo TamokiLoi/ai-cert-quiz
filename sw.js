@@ -1,6 +1,6 @@
 // Service worker: cache app-shell để mở được khi mất mạng.
 // Đổi CACHE_NAME (vd v2, v3...) mỗi khi muốn ép trình duyệt nạp bản mới.
-const CACHE_NAME = 'aicert-cache-v2';
+const CACHE_NAME = 'aicert-cache-v3';
 const APP_SHELL = [
   './ai-cert-quiz.html',
   './data.json',
@@ -30,8 +30,8 @@ self.addEventListener('fetch', (event) => {
   // Chỉ can thiệp GET cùng gốc — bỏ qua API dịch (translate.googleapis.com) và các domain khác
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
 
-  // Trang HTML chính: ưu tiên mạng để luôn có bản mới nhất, offline thì dùng cache
-  if (req.mode === 'navigate' || req.destination === 'document') {
+  // Trang HTML chính + data.json: ưu tiên mạng để luôn có bản mới nhất, offline thì dùng cache
+  if (req.mode === 'navigate' || req.destination === 'document' || req.url.endsWith('/data.json')) {
     event.respondWith(
       fetch(req)
         .then((res) => {
