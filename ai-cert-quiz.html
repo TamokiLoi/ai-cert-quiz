@@ -1093,7 +1093,7 @@ const LS = {
   prefs:    'aicert.prefs.v1',
   stats:    'aicert.stats.v1',
   history:  'aicert.history.v1',
-  translate:'aicert.translate.v1',
+  translate:'aicert.translate.v2',
   notes:    'aicert.notes.v1',
   confuse:  'aicert.confuse.v1',
 };
@@ -2335,7 +2335,9 @@ async function translateText(text) {
   const res = await fetch(url);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = await res.json();
-  const translated = data[0].map(part => part[0]).join('');
+  // normalize('NFC'): API dịch đôi khi trả dấu tiếng Việt ở dạng tổ hợp (NFD),
+  // hiển thị lệch/gãy dấu trên một số font — ép về NFC cho nhất quán.
+  const translated = data[0].map(part => part[0]).join('').normalize('NFC');
   trCache[text] = translated;
   lsSet(LS.translate, trCache);
   return translated;
