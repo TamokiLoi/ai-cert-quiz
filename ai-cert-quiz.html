@@ -2328,19 +2328,44 @@ function saveNote() {
 }
 
 /* =========================================================
-   Dịch câu hỏi EN -> VI (API dịch công khai của Google, không cần key)
+   Dịch câu hỏi EN -> VI (API dịch công khai, không cần key)
+   Google gtx là API không chính thức: mạng di động (IP dùng chung qua
+   CGNAT) rất hay bị Google chặn/rate-limit (429 "automated queries").
+   Khi đó tự động chuyển sang MyMemory làm dự phòng.
    ========================================================= */
 const trCache = lsGet(LS.translate, {});
-async function translateText(text) {
-  if (!text) return '';
-  if (trCache[text]) return trCache[text];
+function decodeHtmlEntities(str) {
+  const ta = document.createElement('textarea');
+  ta.innerHTML = str;
+  return ta.value;
+}
+async function translateViaGoogle(text) {
   const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=' + encodeURIComponent(text);
   const res = await fetch(url);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const data = await res.json();
+  return data[0].map(part => part[0]).join('').normalize('NFC');
+}
+async function translateViaMyMemory(text) {
+  const url = 'https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|vi';
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  const translated = data && data.responseData && data.responseData.translatedText;
+  if (!translated) throw new Error('MyMemory: no translation');
+  return decodeHtmlEntities(translated).normalize('NFC');
+}
+async function translateText(text) {
+  if (!text) return '';
+  if (trCache[text]) return trCache[text];
   // normalize('NFC'): API dịch đôi khi trả dấu tiếng Việt ở dạng tổ hợp (NFD),
   // hiển thị lệch/gãy dấu trên một số font — ép về NFC cho nhất quán.
-  const translated = data[0].map(part => part[0]).join('').normalize('NFC');
+  let translated;
+  try {
+    translated = await translateViaGoogle(text);
+  } catch (e) {
+    translated = await translateViaMyMemory(text);
+  }
   trCache[text] = translated;
   lsSet(LS.translate, trCache);
   return translated;
