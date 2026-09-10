@@ -792,6 +792,12 @@
         <div class="section-label">Chọn đề</div>
         <div class="exam-grid" id="exam-grid"></div>
 
+        <div id="mix-block" style="display:none">
+          <div class="section-label">Chọn đề để trộn <span class="lbl-hint">chọn được nhiều đề, kể cả khác nhánh</span></div>
+          <div class="cat-chips" id="mix-chips"></div>
+          <div class="cat-warn" id="mix-warn"></div>
+        </div>
+
         <div id="cat-block" style="display:none">
           <div class="section-label">Lọc theo chủ đề <span class="lbl-hint">chọn được nhiều chủ đề</span></div>
           <div class="cat-chips" id="cat-chips"></div>
@@ -1053,8 +1059,9 @@ const NO_CAT = ' (chưa phân loại)';
 const S = {
   track: 'GHC',
   mode: 'practice',      // 'practice' | 'exam'
-  examId: null,          // id đề, hoặc 'MIX:<track>' / 'MIX:ALL' / 'SAVED:<track>' / 'WEAK:<track>'
+  examId: null,          // id đề, hoặc 'MIX:<track>' / 'MIX:ALL' / 'MIX:CUSTOM' / 'SAVED:<track>' / 'WEAK:<track>'
   categories: [],        // [] = tất cả; chọn được nhiều; NO_CAT = nhóm chưa phân loại
+  mixExamIds: [],        // các id đề được chọn cho pool 'MIX:CUSTOM'
   count: 20,             // 0 = tất cả
   shuffleQ: true,
   shuffleO: true,
@@ -1248,7 +1255,7 @@ function pushHistory(rec) {
 }
 
 /* --- Tuỳ chọn --- */
-const PREF_KEYS = ['track', 'mode', 'examId', 'categories', 'count',
+const PREF_KEYS = ['track', 'mode', 'examId', 'categories', 'count', 'mixExamIds',
   'shuffleQ', 'shuffleO', 'instant', 'resume', 'requireAnswerNext',
   'navOpen', 'histOpen', 'reportOpen', 'helpOpen', 'theme'];
 function savePrefs() {
@@ -1265,6 +1272,7 @@ function loadPrefs() {
     S.categories = p.category ? [p.category] : [];
   }
   if (!Array.isArray(S.categories)) S.categories = [];
+  if (!Array.isArray(S.mixExamIds)) S.mixExamIds = [];
   $('opt-shuffle-q').checked = S.shuffleQ;
   $('opt-shuffle-o').checked = S.shuffleO;
   $('opt-instant').checked = S.instant;
@@ -1300,6 +1308,9 @@ function poolQuestions(poolId, cats) {
   let src = [];
   if (poolId === 'MIX:ALL') {
     DATA.exams.forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
+  } else if (poolId === 'MIX:CUSTOM') {
+    const want = new Set(S.mixExamIds);
+    DATA.exams.filter(e => want.has(e.id)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('SAVED:')) {
     const tr = poolId.slice(6);
     Object.values(SAVED).forEach(s => {
@@ -1356,6 +1367,15 @@ function pools() {
     sub: 'Rút ngẫu nhiên từ cả ' + DATA.exams.length + ' đề, đã loại câu trùng',
     count: poolQuestions('MIX:ALL', S.categories).length,
     explain: true, mix: true,
+  });
+  list.push({
+    id: 'MIX:CUSTOM',
+    title: '🎯 Trộn đề tuỳ chọn',
+    sub: S.mixExamIds.length
+      ? 'Rút ngẫu nhiên từ ' + S.mixExamIds.length + ' đề đã chọn, đã loại câu trùng'
+      : 'Chọn đề muốn trộn ở danh sách bên dưới',
+    count: poolQuestions('MIX:CUSTOM', S.categories).length,
+    explain: true, mix: true, custom: true,
   });
 
   const nSaved = poolQuestions('SAVED:' + S.track, S.categories).length;
@@ -1449,7 +1469,7 @@ function renderExams() {
       <div class="ec-meta">
         <span class="tag count">${p.count} câu</span>
         ${p.explain ? '<span class="tag explain">có giải thích</span>' : '<span class="tag">chỉ đáp án</span>'}
-        ${p.mix ? '<span class="tag mix">mix</span>' : ''}
+        ${p.custom ? '<span class="tag mix">tuỳ chọn</span>' : p.mix ? '<span class="tag mix">mix</span>' : ''}
         ${p.saved ? '<span class="tag mix">đã lưu</span>' : ''}
         ${p.weak ? '<span class="tag mix">theo thống kê</span>' : ''}
       </div>
@@ -1457,6 +1477,47 @@ function renderExams() {
   $('exam-grid').querySelectorAll('.exam-card').forEach(b => {
     b.onclick = () => { S.examId = b.dataset.id; renderHome(); savePrefs(); };
   });
+}
+
+// Danh sách đề để chọn khi pool đang chọn là 'MIX:CUSTOM'
+function renderMixPicker() {
+  const isCustom = S.examId === 'MIX:CUSTOM';
+  $('mix-block').style.display = isCustom ? 'block' : 'none';
+  if (!isCustom) return;
+
+  // Loại id đề không còn tồn tại (VD sau khi cập nhật kho câu)
+  const validIds = new Set(DATA.exams.map(e => e.id));
+  S.mixExamIds = S.mixExamIds.filter(id => validIds.has(id));
+
+  // Đề của nhánh đang xem lên trước cho dễ chọn, đề nhánh khác xuống sau
+  const sorted = DATA.exams.slice().sort((a, b) =>
+    (a.track === S.track ? 0 : 1) - (b.track === S.track ? 0 : 1));
+
+  const sel = new Set(S.mixExamIds);
+  $('mix-chips').innerHTML = sorted.map(e => {
+    const n = e.questions.length;
+    return `<button class="cat-chip ${sel.has(e.id) ? 'active' : ''}" data-id="${esc(e.id)}"
+      title="${n} câu — nhánh ${esc(e.track)}">${esc(e.title)} <span class="cc-n">${n}</span></button>`;
+  }).join('');
+
+  $('mix-chips').querySelectorAll('.cat-chip').forEach(b => {
+    b.onclick = () => {
+      const id = b.dataset.id;
+      if (sel.has(id)) S.mixExamIds = S.mixExamIds.filter(x => x !== id);
+      else S.mixExamIds = [...S.mixExamIds, id];
+      renderHome();
+      savePrefs();
+    };
+  });
+
+  const warn = $('mix-warn');
+  if (!S.mixExamIds.length) {
+    warn.className = 'cat-warn show';
+    warn.textContent = 'Chưa chọn đề nào — bấm chọn ít nhất 1 đề bên trên để trộn.';
+  } else {
+    warn.className = 'cat-warn';
+    warn.textContent = '';
+  }
 }
 
 // Tên hiển thị của chủ đề (bỏ tiền tố dài cho gọn)
@@ -1740,6 +1801,7 @@ function renderHome() {
   renderTracks();
   renderModeTabs();
   renderExams();
+  renderMixPicker();
   renderCategories();
   renderCounts();
   renderSavedLine();
