@@ -819,6 +819,10 @@
           <input type="checkbox" id="opt-instant" checked>
           Hiện đáp án &amp; giải thích ngay sau mỗi câu
         </label>
+        <label class="switch-row">
+          <input type="checkbox" id="opt-auto-next">
+          Tự động qua câu tiếp theo nếu chọn đúng <span class="lbl-hint">chọn sai vẫn phải tự bấm Next</span>
+        </label>
       </div>
 
       <!-- ===== Thi thử ===== -->
@@ -1066,6 +1070,7 @@ const S = {
   shuffleQ: true,
   shuffleO: true,
   instant: true,
+  autoNext: false,       // chọn đúng thì tự qua câu tiếp theo; chọn sai vẫn phải tự bấm Next
   resume: true,
   requireAnswerNext: true,
   navOpen: false,
@@ -1256,7 +1261,7 @@ function pushHistory(rec) {
 
 /* --- Tuỳ chọn --- */
 const PREF_KEYS = ['track', 'mode', 'examId', 'categories', 'count', 'mixExamIds',
-  'shuffleQ', 'shuffleO', 'instant', 'resume', 'requireAnswerNext',
+  'shuffleQ', 'shuffleO', 'instant', 'autoNext', 'resume', 'requireAnswerNext',
   'navOpen', 'histOpen', 'reportOpen', 'helpOpen', 'theme'];
 function savePrefs() {
   const p = {};
@@ -1276,6 +1281,7 @@ function loadPrefs() {
   $('opt-shuffle-q').checked = S.shuffleQ;
   $('opt-shuffle-o').checked = S.shuffleO;
   $('opt-instant').checked = S.instant;
+  $('opt-auto-next').checked = S.autoNext;
   $('opt-resume').checked = S.resume;
   $('opt-require-next').checked = S.requireAnswerNext;
 }
@@ -2264,6 +2270,7 @@ function revealAnswer(q) {
 }
 
 function renderQuestion() {
+  clearTimeout(autoNextTimer);
   const q = S.quiz[S.idx];
   const isExam = S.mode === 'exam' && !S.finished;
   S.picked = q.result ? q.result.picked.slice() : [];
@@ -2514,6 +2521,9 @@ function recordAnswer() {
   saveSession();
 }
 
+const AUTO_NEXT_DELAY = 700; // ms nghỉ để kịp thấy dấu ✓ trước khi tự qua câu
+let autoNextTimer = null;
+
 function submit() {
   if (S.answerKeyOpen) return;
   const q = S.quiz[S.idx];
@@ -2540,6 +2550,15 @@ function submit() {
   $('prog-fill').style.width = pct + '%';
 
   saveSession();
+
+  // Chỉ tự qua câu khi chọn ĐÚNG — chọn sai luôn để người dùng tự bấm Next đọc giải thích
+  if (S.autoNext && isCorrect) {
+    clearTimeout(autoNextTimer);
+    const atIdx = S.idx;
+    autoNextTimer = setTimeout(() => {
+      if (S.idx === atIdx && !S.finished) next();
+    }, AUTO_NEXT_DELAY);
+  }
 }
 
 function next() {
@@ -2567,6 +2586,7 @@ function updateSaveWrongBtn() {
 }
 
 function finish(auto) {
+  clearTimeout(autoNextTimer);
   const wasExam = S.mode === 'exam';
   S.finished = true;
   stopTimer();
@@ -2887,6 +2907,7 @@ $('quit-btn').onclick = () => {
     ? 'Thoát phòng thi? Đồng hồ vẫn chạy, quay lại là tiếp tục đúng thời gian còn lại.'
     : 'Thoát lượt này? Tiến độ vẫn được lưu, bạn có thể quay lại sau.';
   if (!confirm(msg)) return;
+  clearTimeout(autoNextTimer);
   saveSession();
   stopTimer();
   renderHome(); show('home-screen');
@@ -2960,6 +2981,7 @@ $('import-file').onchange = (ev) => {
 $('opt-shuffle-q').onchange = (e) => { S.shuffleQ = e.target.checked; savePrefs(); };
 $('opt-shuffle-o').onchange = (e) => { S.shuffleO = e.target.checked; savePrefs(); };
 $('opt-instant').onchange = (e) => { S.instant = e.target.checked; savePrefs(); };
+$('opt-auto-next').onchange = (e) => { S.autoNext = e.target.checked; savePrefs(); };
 $('opt-resume').onchange = (e) => {
   S.resume = e.target.checked;
   if (!S.resume) { SESSIONS = {}; lsSet(LS.sessions, SESSIONS); }
