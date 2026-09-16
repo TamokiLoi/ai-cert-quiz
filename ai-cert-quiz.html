@@ -537,7 +537,12 @@
   }
   .type-badge.multi { color: var(--amber); border-color: rgba(245,158,11,.45); background: var(--amber-bg); }
 
-  .question-text { font-size: 17px; line-height: 1.55; font-weight: 600; margin: 0 0 18px; }
+  .question-text {
+    font-size: 17px; line-height: 1.55; font-weight: 600; margin: 0 0 18px;
+    cursor: pointer; border-radius: 8px; padding: 4px 6px; margin-left: -6px; margin-right: -6px;
+  }
+  .question-text:hover { background: var(--panel-2); }
+  .question-text:active { background: var(--accent-bg, rgba(124,108,255,.08)); }
   .translate-box {
     display: none; margin: 14px 0 18px; padding: 14px 16px;
     background: var(--panel-3); border: 1px dashed var(--border); border-radius: 12px;
@@ -953,11 +958,10 @@
       <button class="bookmark-btn confuse-btn" id="confuse-btn" title="Đánh dấu câu hay nhầm, riêng với đúng/sai">🔁 Hay nhầm</button>
       <button class="translate-btn" id="translate-btn" title="Dịch câu hỏi sang tiếng Việt">🌐 Dịch</button>
       <button class="bookmark-btn note-btn" id="note-btn" title="Ghi chú riêng cho câu này">📝 Ghi chú</button>
-      <button class="bookmark-btn" id="copy-q-btn" title="Copy nội dung câu này">📋 Copy</button>
       <button class="btn-flat answer-key-btn" id="answer-key-btn" style="display:none">👁 Xem đáp án</button>
     </div>
 
-    <p class="question-text" id="question-text"></p>
+    <p class="question-text" id="question-text" title="Bấm để copy nội dung câu này"></p>
     <div class="options" id="options"></div>
     <div class="translate-box" id="translate-box"></div>
     <div class="note-box" id="note-box">
@@ -2889,7 +2893,7 @@ $('next-btn').onclick = next;
 $('prev-btn').onclick = prev;
 $('bookmark-btn').onclick = toggleBookmark;
 $('confuse-btn').onclick = toggleConfusing;
-$('copy-q-btn').onclick = copyCurrentQuestion;
+$('question-text').onclick = copyCurrentQuestion;
 $('translate-btn').onclick = () => { S.translateOn = !S.translateOn; renderTranslateBox(); };
 $('note-btn').onclick = () => { S.noteOpen = !S.noteOpen; renderNoteBox(); };
 $('note-text').oninput = saveNote;
