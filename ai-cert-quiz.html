@@ -953,6 +953,7 @@
       <button class="bookmark-btn confuse-btn" id="confuse-btn" title="Đánh dấu câu hay nhầm, riêng với đúng/sai">🔁 Hay nhầm</button>
       <button class="translate-btn" id="translate-btn" title="Dịch câu hỏi sang tiếng Việt">🌐 Dịch</button>
       <button class="bookmark-btn note-btn" id="note-btn" title="Ghi chú riêng cho câu này">📝 Ghi chú</button>
+      <button class="bookmark-btn" id="copy-q-btn" title="Copy nội dung câu này">📋 Copy</button>
       <button class="btn-flat answer-key-btn" id="answer-key-btn" style="display:none">👁 Xem đáp án</button>
     </div>
 
@@ -2705,28 +2706,41 @@ function finish(auto) {
   show('results-screen');
 }
 
-/* --- Bấm vào 1 câu trong "Xem lại từng câu" để copy nội dung câu đó ra clipboard --- */
-function reviewItemText(q, i) {
+/* --- Copy nội dung 1 câu ra clipboard (dùng cả ở "Xem lại từng câu" và lúc đang làm bài) --- */
+// revealCorrect=false thì ẩn nhãn "đáp án đúng"/giải thích — dùng khi đang làm bài
+// và câu chưa được check, để không lộ đáp án ngoài ý muốn.
+function reviewItemText(q, i, revealCorrect) {
+  if (revealCorrect === undefined) revealCorrect = true;
   const lines = ['Câu ' + (i + 1) + ': ' + q.question];
   q.options.forEach(o => {
     const tags = [];
-    if (q.correct.includes(o.key)) tags.push('đáp án đúng');
+    if (revealCorrect && q.correct.includes(o.key)) tags.push('đáp án đúng');
     if (q.result && q.result.picked.includes(o.key)) tags.push('bạn chọn');
     lines.push('  ' + o.label + '. ' + o.text + (tags.length ? '  [' + tags.join(', ') + ']' : ''));
   });
-  if (q.explanation) lines.push('Giải thích: ' + q.explanation);
+  if (revealCorrect && q.explanation) lines.push('Giải thích: ' + q.explanation);
   lines.push('Nguồn: ' + q.origin + ' #' + q.originNo);
   return lines.join('\n');
 }
-async function copyReviewItem(i) {
-  const q = S.quiz[i];
-  if (!q) return;
+async function copyQuestionText(q, i, revealCorrect, label) {
   try {
-    await navigator.clipboard.writeText(reviewItemText(q, i));
-    toast('📋 Đã copy câu ' + (i + 1) + ' vào clipboard');
+    await navigator.clipboard.writeText(reviewItemText(q, i, revealCorrect));
+    toast('📋 Đã copy ' + (label || ('câu ' + (i + 1))) + ' vào clipboard');
   } catch (e) {
     toast('Không copy được: trình duyệt chặn clipboard');
   }
+}
+function copyReviewItem(i) {
+  const q = S.quiz[i];
+  if (!q) return;
+  copyQuestionText(q, i, true);
+}
+// Nút 📋 Copy lúc đang làm bài (kể cả xem lại qua Prev/lưới) — chỉ lộ đáp án đúng
+// nếu câu đó đã được check rồi, tránh spoil câu chưa làm.
+function copyCurrentQuestion() {
+  const q = S.quiz[S.idx];
+  if (!q) return;
+  copyQuestionText(q, S.idx, !!q.result, 'câu ' + (S.idx + 1));
 }
 
 /* --- Chia sẻ kết quả --- */
@@ -2875,6 +2889,7 @@ $('next-btn').onclick = next;
 $('prev-btn').onclick = prev;
 $('bookmark-btn').onclick = toggleBookmark;
 $('confuse-btn').onclick = toggleConfusing;
+$('copy-q-btn').onclick = copyCurrentQuestion;
 $('translate-btn').onclick = () => { S.translateOn = !S.translateOn; renderTranslateBox(); };
 $('note-btn').onclick = () => { S.noteOpen = !S.noteOpen; renderNoteBox(); };
 $('note-text').oninput = saveNote;
