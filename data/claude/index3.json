@@ -1,0 +1,1397 @@
+{
+  "id": "claude-index3",
+  "track": "Claude",
+  "title": "Claude CCA-F Bổ sung 3",
+  "subtitle": "Claude CCA-F — chuyển đổi từ index3.html (có giải thích chi tiết)",
+  "source": "index3.html",
+  "count": 42,
+  "hasExplanation": true,
+  "questions": [
+    {
+      "id": 1,
+      "question": "Your CI pipeline performs security-focused code reviews on approximately 50 PRs daily, currently costing $150/day using the synchronous API. Reviews are non-blocking—developers merge after tests pass and address findings in follow-up commits. You 're evaluating the Message Batches API for its 50% cost reduction.\n\nWhat factor most determines whether batch processing is appropriate for this use case?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Whether you can structure each review as a single request without multi-turn refinement."
+        },
+        {
+          "key": "B",
+          "text": "Whether reducing per-review latency from 30-60 seconds to near-instant matters for your workflow."
+        },
+        {
+          "key": "C",
+          "text": "Whether review feedback arriving up to 24 hours after PR creation remains actionable."
+        },
+        {
+          "key": "D",
+          "text": "Whether your result processing can handle reviews arriving in a different order than submitted."
+        }
+      ],
+      "correct": "C",
+      "explanation": "API Lô tin nhắn không đồng bộ — hầu hết các lô kết thúc trong vòng 1 giờ nhưng có thể mất tới 24 giờ — vì vậy, yếu tố phù hợp mang tính quyết định là khả năng chịu đựng độ trễ: liệu các kết quả đánh giá được gửi đến 24 giờ sau khi tạo PR vẫn có thể thực hiện được trong quy trình làm việc không chặn, hợp nhất rồi sửa lỗi hay không. Việc phân nhóm làm tăng độ trễ (B ngược), kết quả được tương quan thông qua custom_id nên việc đặt hàng không phải là vấn đề (D) và cấu trúc yêu cầu đơn (A) chỉ là vấn đề thứ yếu đối với câu hỏi về độ trễ.",
+      "optExp": {
+        "A": "Nó thực hiện “Whether you can structure each review as a single request without multi-turn refinement”, nhưng không giải quyết trực tiếp yêu cầu: what factor most determines whether batch processing is appropriate for this use case. “Whether you can structure each review as a single request without multi-turn refinement” không làm được điều đó: API Lô tin nhắn không đồng bộ.",
+        "B": "Nó thực hiện “Whether reducing per-review latency from 30-60 seconds to near-instant matters for your workflow”, nhưng không giải quyết trực tiếp yêu cầu: what factor most determines whether batch processing is appropriate for this use case. “Whether reducing per-review latency from 30-60 seconds to near-instant matters for your workflow” không làm được điều đó: API Lô tin nhắn không đồng bộ.",
+        "C": "API Lô tin nhắn không đồng bộ — hầu hết các lô kết thúc trong vòng 1 giờ nhưng có thể mất tới 24 giờ — vì vậy, yếu tố phù hợp mang tính quyết định là khả năng chịu đựng độ trễ: liệu các kết quả đánh giá được gửi đến 24 giờ sau khi tạo PR vẫn có thể thực hiện được trong quy trình làm việc không chặn, hợp nhất rồi sửa lỗi hay không. Việc phân nhóm làm tăng độ trễ (B ngược), kết quả được tương quan thông qua custom_id nên việc đặt hàng không phải là vấn đề (D) và cấu trúc yêu cầu đơn (A) chỉ là vấn đề thứ yếu đối với câu hỏi về độ trễ.",
+        "D": "Nó thực hiện “Whether your result processing can handle reviews arriving in a different order than submitted”, nhưng không giải quyết trực tiếp yêu cầu: what factor most determines whether batch processing is appropriate for this use case. “Whether your result processing can handle reviews arriving in a different order than submitted” không làm được điều đó: API Lô tin nhắn không đồng bộ."
+      },
+      "context": "Đây là quyết định về What factor most determines whether batch processing is appropriate for this use case? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: API Lô tin nhắn không đồng bộ — hầu hết các lô kết thúc trong vòng 1 giờ nhưng có thể mất tới 24 giờ — vì vậy, yếu tố phù hợp mang tính quyết định là khả năng chịu đựng độ trễ: liệu các kết quả đánh giá được gửi đến 24 giờ sau khi tạo PR…",
+      "mnemonic": "Đọc requirement trước → chọn C: Whether review feedback arriving up to 24 hours after PR creation remains actionable. ---"
+    },
+    {
+      "id": 2,
+      "question": "After a 40-minute session helping plan a dinner party, the conversation has grown to 78,000 tokens. The history includes: (1) the user mentioning a guest has a severe shellfish allergy, (2) measurements for scaling recipes to 8 servings, (3) the user 's clarification that \"room temperature butter \" means 68°F in their kitchen, and (4) general back-and-forth about meal timing and presentation. You need to implement context management before the window limit is reached.\n\nWhat approach best balances information preservation with token reduction?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Summarize the entire conversation history into a concise summary capturing main topics discussed, then append new messages going forward."
+        },
+        {
+          "key": "B",
+          "text": "Implement a sliding window retaining only the most recent 20,000 tokens relying on users to re-state important information when relevant."
+        },
+        {
+          "key": "C",
+          "text": "Store the full conversation externally and use semantic search to retrieve relevant portions for each turn, loading only matching segments into context."
+        },
+        {
+          "key": "D",
+          "text": "Extract critical structured data (allergies, serving counts, user-defined terms) into a compact reference section, summarize general discussion, and retain recent exchanges verbatim."
+        }
+      ],
+      "correct": "D",
+      "explanation": "Cách tiếp cận tốt nhất là Trích xuất dữ liệu có cấu trúc quan trọng (dị ứng, số lần phục vụ, thuật ngữ do người dùng xác định) vào phần tham chiếu nhỏ gọn, tóm tắt cuộc thảo luận chung và giữ lại nguyên văn các trao đổi gần đây. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Nó thực hiện “Summarize the entire conversation history into a concise summary capturing main topics discussed, then append new messages going forward”, nhưng không giải quyết trực tiếp yêu cầu: what approach best balances information preservation with token reduction. “Summarize the entire conversation history into a concise summary capturing main topics discussed, then append new messages going forward” không làm được điều đó: Cách tiếp cận tốt nhất là Trích xuất dữ liệu có cấu trúc quan trọng (dị ứng, số lần phục vụ, thuật ngữ do người dùng xác định) vào phần tham chiếu nhỏ.",
+        "B": "Nó thực hiện “Implement a sliding window retaining only the most recent 20,000 tokens relying on users to re-state important information when relevant”, nhưng không giải quyết trực tiếp yêu cầu: what approach best balances information preservation with token reduction. “Implement a sliding window retaining only the most recent 20,000 tokens relying on users to re-state important information when relevant” không làm được điều đó: Cách tiếp cận tốt nhất là Trích xuất dữ liệu có cấu trúc quan trọng (dị ứng, số lần phục vụ, thuật ngữ do người dùng xác định) vào phần tham chiếu nhỏ.",
+        "C": "Nó thực hiện “Store the full conversation externally and use semantic search to retrieve relevant portions for each turn, loading only matching segments into context”, nhưng không giải quyết trực tiếp yêu cầu: what approach best balances information preservation with token reduction. “Store the full conversation externally and use semantic search to retrieve relevant portions for each turn, loading only matching segments into context” không làm được điều đó: Cách tiếp cận tốt nhất là Trích xuất dữ liệu có cấu trúc quan trọng (dị ứng, số lần phục vụ, thuật ngữ do người dùng xác định) vào phần tham chiếu nhỏ.",
+        "D": "Cách tiếp cận tốt nhất là Trích xuất dữ liệu có cấu trúc quan trọng (dị ứng, số lần phục vụ, thuật ngữ do người dùng xác định) vào phần tham chiếu nhỏ gọn, tóm tắt cuộc thảo luận chung và giữ lại nguyên văn các trao đổi gần đây. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ."
+      },
+      "context": "Đây là quyết định về You need to implement context management before the window limit is reached. . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Trích xuất dữ liệu có cấu trúc quan trọng (dị ứng, số lần phục vụ, thuật ngữ do người dùng xác định) vào phần tham chiếu nhỏ gọn, tóm tắt cuộc thảo luận chung và giữ lại nguyên văn các trao đổi gần đây. Điều này…",
+      "mnemonic": "Đọc requirement trước → chọn D: Extract critical structured data (allergies, serving counts, user-defined terms) into a compact reference section, summarize general discussion, and retain recent exchanges verbatim. ---"
+    },
+    {
+      "id": 3,
+      "question": "Your resource allocation tool returns a simple acknowledgment message after provisioning is requested. Users frequently approve allocations and immediately ask \"how much did that cost?\" or \"which project was that?\" - indicating they confirmed without understanding the request.\n\nWhat tool design change would most effectively address this?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add a user_acknowledged: boolean parameter that must be set true, with instructions for the agent to only set it after the user explicitly confirms they reviewed the details"
+        },
+        {
+          "key": "B",
+          "text": "Implement a 60-second hold before execution completes, allowing users time to review pending allocations and cancel if needed"
+        },
+        {
+          "key": "C",
+          "text": "Add a detail_level parameter with options \"minimal \" or \"comprehensive \" that controls how much context the agent presents in confirmations"
+        },
+        {
+          "key": "D",
+          "text": "Return structured data including cost estimate, target project, resource specifications, and impact summary in the tool response"
+        }
+      ],
+      "correct": "D",
+      "explanation": "Cách tiếp cận tốt nhất là Trả về dữ liệu có cấu trúc bao gồm ước tính chi phí, dự án mục tiêu, thông số tài nguyên và tóm tắt tác động trong phản hồi của công cụ. Điều này duy trì mối liên hệ giữa kết luận và bằng chứng hỗ trợ, đây là yêu cầu chính trong kịch bản.",
+      "optExp": {
+        "A": "Nó thực hiện “Add a user_acknowledged: boolean parameter that must be set true, with instructions for the agent to only set it after the user explicitly confirms they reviewed the details”, nhưng không giải quyết trực tiếp yêu cầu: what tool design change would most effectively address this. “Add a user_acknowledged: boolean parameter that must be set true, with instructions for the agent to only set it after the user explicitly confirms they reviewed the details” không làm được điều đó: Cách tiếp cận tốt nhất là Trả về dữ liệu có cấu trúc bao gồm ước tính chi phí, dự án mục tiêu, thông số tài nguyên và tóm tắt tác động trong phản hồi .",
+        "B": "Nó thực hiện “Implement a 60-second hold before execution completes, allowing users time to review pending allocations and cancel if needed”, nhưng không giải quyết trực tiếp yêu cầu: what tool design change would most effectively address this. “Implement a 60-second hold before execution completes, allowing users time to review pending allocations and cancel if needed” không làm được điều đó: Cách tiếp cận tốt nhất là Trả về dữ liệu có cấu trúc bao gồm ước tính chi phí, dự án mục tiêu, thông số tài nguyên và tóm tắt tác động trong phản hồi .",
+        "C": "Nó thực hiện “Add a detail_level parameter with options \"minimal \"or \"comprehensive \"that controls how much context the agent presents in confirmations”, nhưng không giải quyết trực tiếp yêu cầu: what tool design change would most effectively address this. “Add a detail_level parameter with options \"minimal \"or \"comprehensive \"that controls how much context the agent presents in confirmations” không làm được điều đó: Cách tiếp cận tốt nhất là Trả về dữ liệu có cấu trúc bao gồm ước tính chi phí, dự án mục tiêu, thông số tài nguyên và tóm tắt tác động trong phản hồi .",
+        "D": "Cách tiếp cận tốt nhất là Trả về dữ liệu có cấu trúc bao gồm ước tính chi phí, dự án mục tiêu, thông số tài nguyên và tóm tắt tác động trong phản hồi của công cụ. Điều này duy trì mối liên hệ giữa kết luận và bằng chứng hỗ trợ, đây là yêu cầu chính trong kịch bản."
+      },
+      "context": "Đây là quyết định về What tool design change would most effectively address this? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Trả về dữ liệu có cấu trúc bao gồm ước tính chi phí, dự án mục tiêu, thông số tài nguyên và tóm tắt tác động trong phản hồi của công cụ. Điều này duy trì mối liên hệ giữa kết luận và bằng chứng hỗ trợ, đây là yêu…",
+      "mnemonic": "Đọc requirement trước → chọn D: Return structured data including cost estimate, target project, resource specifications, and impact summary in the tool response ---"
+    },
+    {
+      "id": 4,
+      "question": "Your search products tool queries an external catalog API that returns paginated results (50 items per request). Production logs show queries frequently match 200 + products, and the design that auto-fetches all pages causes 15-20 second delays.\n\nHow should you redesign the pagination handling?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Create separate search products and fetch more results tools for pagination."
+        },
+        {
+          "key": "B",
+          "text": "Implement server-side relevance ranking and return only the top 50 most relevant items."
+        },
+        {
+          "key": "C",
+          "text": "Add a max pages parameter (default: 2) that controls how many pages are fetched internally."
+        },
+        {
+          "key": "D",
+          "text": "Return the first page with total match count and cursor for additional pages."
+        }
+      ],
+      "correct": "D",
+      "explanation": "Cách tiếp cận tốt nhất là Trả lại trang đầu tiên với tổng số kết quả trùng khớp và con trỏ cho các trang bổ sung. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “Create separate search products and fetch more results tools for pagination”, nhưng không giải quyết trực tiếp yêu cầu: how should you redesign the pagination handling. “Create separate search products and fetch more results tools for pagination” không làm được điều đó: Cách tiếp cận tốt nhất là Trả lại trang đầu tiên với tổng số kết quả trùng khớp và con trỏ cho các trang bổ sung.",
+        "B": "Nó thực hiện “Implement server-side relevance ranking and return only the top 50 most relevant items”, nhưng không giải quyết trực tiếp yêu cầu: how should you redesign the pagination handling. “Implement server-side relevance ranking and return only the top 50 most relevant items” không làm được điều đó: Cách tiếp cận tốt nhất là Trả lại trang đầu tiên với tổng số kết quả trùng khớp và con trỏ cho các trang bổ sung.",
+        "C": "Nó thực hiện “Add a max pages parameter (default: 2) that controls how many pages are fetched internally”, nhưng không giải quyết trực tiếp yêu cầu: how should you redesign the pagination handling. “Add a max pages parameter (default: 2) that controls how many pages are fetched internally” không làm được điều đó: Cách tiếp cận tốt nhất là Trả lại trang đầu tiên với tổng số kết quả trùng khớp và con trỏ cho các trang bổ sung.",
+        "D": "Cách tiếp cận tốt nhất là Trả lại trang đầu tiên với tổng số kết quả trùng khớp và con trỏ cho các trang bổ sung. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn."
+      },
+      "context": "Đây là quyết định về How should you redesign the pagination handling? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Trả lại trang đầu tiên với tổng số kết quả trùng khớp và con trỏ cho các trang bổ sung. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay…",
+      "mnemonic": "Đọc requirement trước → chọn D: Return the first page with total match count and cursor for additional pages. ---"
+    },
+    {
+      "id": 5,
+      "question": "Your MCP server implements a check_availability tool that queries an external calendar API. During testing, you encounter three error conditions: (1) the tool is called with a malformed request, missing the required user_email parameter (2) the calendar API returns a 404 because the specified user doesn 't exist in the calendar system (3) the calendar API returns a 503 because the service is temporarily unavailable.\n\nHow should each error be reported according to MCP 's error handling design?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Report all three as tool results with isError: true"
+        },
+        {
+          "key": "B",
+          "text": "Report errors 1 and 2 as JSON-RPC protocol errors, report error 3 as a tool result with isError: true"
+        },
+        {
+          "key": "C",
+          "text": "Report error 1 as a JSON-RPC protocol error, report errors 2 and 3 as tool results with isError: true"
+        },
+        {
+          "key": "D",
+          "text": "Report all three as JSON-RPC protocol errors."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Báo cáo lỗi 1 dưới dạng lỗi giao thức JSON-RPC, báo cáo lỗi 2 và 3 dưới dạng kết quả của công cụ với isError: true. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+      "optExp": {
+        "A": "Nó thực hiện “Report all three as tool results with isError: true”, nhưng không giải quyết trực tiếp yêu cầu: how should each error be reported according to mcp 's error handling design. “Report all three as tool results with isError: true” không làm được điều đó: Cách tiếp cận tốt nhất là Báo cáo lỗi 1 dưới dạng lỗi giao thức JSON-RPC, báo cáo lỗi 2 và 3 dưới dạng kết quả của công cụ với isError: true.",
+        "B": "Nó thực hiện “Report errors 1 and 2 as JSON-RPC protocol errors, report error 3 as a tool result with isError: true”, nhưng không giải quyết trực tiếp yêu cầu: how should each error be reported according to mcp 's error handling design. “Report errors 1 and 2 as JSON-RPC protocol errors, report error 3 as a tool result with isError: true” không làm được điều đó: Cách tiếp cận tốt nhất là Báo cáo lỗi 1 dưới dạng lỗi giao thức JSON-RPC, báo cáo lỗi 2 và 3 dưới dạng kết quả của công cụ với isError: true.",
+        "C": "Cách tiếp cận tốt nhất là Báo cáo lỗi 1 dưới dạng lỗi giao thức JSON-RPC, báo cáo lỗi 2 và 3 dưới dạng kết quả của công cụ với isError: true. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+        "D": "Nó thực hiện “Report all three as JSON-RPC protocol errors”, nhưng không giải quyết trực tiếp yêu cầu: how should each error be reported according to mcp 's error handling design. “Report all three as JSON-RPC protocol errors” không làm được điều đó: Cách tiếp cận tốt nhất là Báo cáo lỗi 1 dưới dạng lỗi giao thức JSON-RPC, báo cáo lỗi 2 và 3 dưới dạng kết quả của công cụ với isError: true."
+      },
+      "context": "Đây là quyết định về How should each error be reported according to MCP 's error handling design? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Báo cáo lỗi 1 dưới dạng lỗi giao thức JSON-RPC, báo cáo lỗi 2 và 3 dưới dạng kết quả của công cụ với isError: true. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi…",
+      "mnemonic": "Đọc requirement trước → chọn C: Report error 1 as a JSON-RPC protocol error, report errors 2 and 3 as tool results with isError: true ---"
+    },
+    {
+      "id": 6,
+      "question": "Your system has been running for 3 weeks and human reviewers have corrected 847 extractions. Analysis reveals a recurring pattern: when recipes use informal measurements like \"a handful \" or \"a splash,\" the model either invents specific amounts or leaves fields empty—accounting for 23% of all corrections.\n\nHow should you use this feedback to improve extraction accuracy?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Update your JSON schema to add a \"measurement_type \" enum field (precise/informal)."
+        },
+        {
+          "key": "B",
+          "text": "Add few-shot examples to your prompt demonstrating correct handling of informal measurements— extracting them verbatim rather than converting or omitting them."
+        },
+        {
+          "key": "C",
+          "text": "Implement a post-processing layer that uses pattern matching to detect informal measurement phrases in source text and automatically populate values when the extraction is empty."
+        },
+        {
+          "key": "D",
+          "text": "Fine-tune the model on the 847 corrected extractions."
+        }
+      ],
+      "correct": "B",
+      "explanation": "Cách tiếp cận tốt nhất là Thêm một vài ví dụ ngắn gọn vào lời nhắc của bạn để thể hiện cách xử lý chính xác các phép đo không chính thức— trích xuất nguyên văn chúng thay vì chuyển đổi hoặc bỏ qua chúng. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “Update your JSON schema to add a \"measurement_type \"enum field (precise/informal)”, nhưng không giải quyết trực tiếp yêu cầu: how should you use this feedback to improve extraction accuracy. “Update your JSON schema to add a \"measurement_type \"enum field (precise/informal)” không làm được điều đó: Cách tiếp cận tốt nhất là Thêm một vài ví dụ ngắn gọn vào lời nhắc của bạn để thể hiện cách xử lý chính xác các phép đo không chính thức— trích xuất n.",
+        "B": "Cách tiếp cận tốt nhất là Thêm một vài ví dụ ngắn gọn vào lời nhắc của bạn để thể hiện cách xử lý chính xác các phép đo không chính thức— trích xuất nguyên văn chúng thay vì chuyển đổi hoặc bỏ qua chúng. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "C": "Nó thực hiện “Implement a post-processing layer that uses pattern matching to detect informal measurement phrases in source text and automatically populate values when the extraction is empty”, nhưng không giải quyết trực tiếp yêu cầu: how should you use this feedback to improve extraction accuracy. “Implement a post-processing layer that uses pattern matching to detect informal measurement phrases in source text and automatically populate values when the extraction is empty” không làm được điều đó: Cách tiếp cận tốt nhất là Thêm một vài ví dụ ngắn gọn vào lời nhắc của bạn để thể hiện cách xử lý chính xác các phép đo không chính thức— trích xuất n.",
+        "D": "Nó thực hiện “Fine-tune the model on the 847 corrected extractions”, nhưng không giải quyết trực tiếp yêu cầu: how should you use this feedback to improve extraction accuracy. “Fine-tune the model on the 847 corrected extractions” không làm được điều đó: Cách tiếp cận tốt nhất là Thêm một vài ví dụ ngắn gọn vào lời nhắc của bạn để thể hiện cách xử lý chính xác các phép đo không chính thức— trích xuất n."
+      },
+      "context": "Đây là quyết định về How should you use this feedback to improve extraction accuracy? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Thêm một vài ví dụ ngắn gọn vào lời nhắc của bạn để thể hiện cách xử lý chính xác các phép đo không chính thức— trích xuất nguyên văn chúng thay vì chuyển đổi hoặc bỏ qua chúng. Điều này giải quyết trực tiếp nhất…",
+      "mnemonic": "Đọc requirement trước → chọn B: Add few-shot examples to your prompt demonstrating correct handling of informal measurements— extracting them verbatim rather than converting or omitting them. ---"
+    },
+    {
+      "id": 7,
+      "question": "\"You 're the Lead Data Scientist/Engineer on a critical project. Something is not completely right with technical details or the data, and it negative impacts expected outputs. They need to independently develop both approaches to evaluation data...\n\nHow do you manage this scenario?\"",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Start two fresh sessions, having each re-read the relevant source files before beginning."
+        },
+        {
+          "key": "B",
+          "text": "Continue in the original session, developing end-to-end tests first, then snapshot tests sequentially."
+        },
+        {
+          "key": "C",
+          "text": "Resume the analysis session with fork_session enabled, creating a separate branch for each testing strategy."
+        },
+        {
+          "key": "D",
+          "text": "Export the analysis session 's key findings to a file, then create two new sessions that reference this file."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Tiếp tục phiên phân tích khi bật fork_session, tạo một nhánh riêng cho từng chiến lược thử nghiệm. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó khóa trình tự điều tra trước khi các file mới cho biết cần xem gì tiếp theo. “Start two fresh sessions, having each re-read the relevant source files before beginning” không làm được điều đó: Cách tiếp cận tốt nhất là Tiếp tục phiên phân tích khi bật fork_session, tạo một nhánh riêng cho từng chiến lược thử nghiệm.",
+        "B": "Nó thực hiện “Continue in the original session, developing end-to-end tests first, then snapshot tests sequentially”, nhưng không giải quyết trực tiếp yêu cầu: how do you manage this scenario. “Continue in the original session, developing end-to-end tests first, then snapshot tests sequentially” không làm được điều đó: Cách tiếp cận tốt nhất là Tiếp tục phiên phân tích khi bật fork_session, tạo một nhánh riêng cho từng chiến lược thử nghiệm.",
+        "C": "Cách tiếp cận tốt nhất là Tiếp tục phiên phân tích khi bật fork_session, tạo một nhánh riêng cho từng chiến lược thử nghiệm. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó thực hiện “Export the analysis session 's key findings to a file, then create two new sessions that reference this file”, nhưng không giải quyết trực tiếp yêu cầu: how do you manage this scenario. “Export the analysis session 's key findings to a file, then create two new sessions that reference this file” không làm được điều đó: Cách tiếp cận tốt nhất là Tiếp tục phiên phân tích khi bật fork_session, tạo một nhánh riêng cho từng chiến lược thử nghiệm."
+      },
+      "context": "Đây là quyết định về How do you manage this scenario? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Tiếp tục phiên phân tích khi bật fork_session, tạo một nhánh riêng cho từng chiến lược thử nghiệm. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa…",
+      "mnemonic": "Đọc requirement trước → chọn C: Resume the analysis session with fork_session enabled, creating a separate branch for each testing strategy. ---"
+    },
+    {
+      "id": 8,
+      "question": "Your automated reviewer uses a single prompt covering security issues, API design, and business logic correctness. Your evaluation suite shows strong recall findings (82%) but poor recall for business logic edge cases in quiz scoring (34%). When you add few-shot examples of logic bugs to the prompt, logic recall is 41% but API design recall drops to 68%.\n\nHow should you address this trade-off to improve detection across both categories?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Split the review into separate focused prompts - one for security and API design, another for business logic - each with dedicated examples, then combine findings before posting."
+        },
+        {
+          "key": "B",
+          "text": "Upgrade to a more capable model tier, since its stronger reasoning will handle both concern types in a single prompt and eliminate the recall trade-off."
+        },
+        {
+          "key": "C",
+          "text": "Provide the full repository as context instead of just the changed files and surrounding code, giving the model deeper visibility into business logic."
+        },
+        {
+          "key": "D",
+          "text": "Replace the few-shot examples with a detailed checklist of specific logic edge cases to verify, such as division-by-zero in score calculation or grading thresholds."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Chia bài đánh giá thành các lời nhắc tập trung riêng biệt - một lời nhắc dành cho bảo mật và thiết kế API, một lời nhắc khác dành cho logic kinh doanh - mỗi lời nhắc có các ví dụ riêng, sau đó kết hợp các phát hiện trước khi đăng. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Chia bài đánh giá thành các lời nhắc tập trung riêng biệt - một lời nhắc dành cho bảo mật và thiết kế API, một lời nhắc khác dành cho logic kinh doanh - mỗi lời nhắc có các ví dụ riêng, sau đó kết hợp các phát hiện trước khi đăng. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "B": "Nó thực hiện “Upgrade to a more capable model tier, since its stronger reasoning will handle both concern types in a single prompt and eliminate the recall trade-off”, nhưng không giải quyết trực tiếp yêu cầu: how should you address this trade-off to improve detection across both categories. “Upgrade to a more capable model tier, since its stronger reasoning will handle both concern types in a single prompt and eliminate the recall trade-off” không làm được điều đó: một lời nhắc dành cho bảo mật và thiết kế API, một lời nhắc khác dành cho logic kinh doanh.",
+        "C": "Nó thực hiện “Provide the full repository as context instead of just the changed files and surrounding code, giving the model deeper visibility into business logic”, nhưng không giải quyết trực tiếp yêu cầu: how should you address this trade-off to improve detection across both categories. “Provide the full repository as context instead of just the changed files and surrounding code, giving the model deeper visibility into business logic” không làm được điều đó: một lời nhắc dành cho bảo mật và thiết kế API, một lời nhắc khác dành cho logic kinh doanh.",
+        "D": "Nó thực hiện “Replace the few-shot examples with a detailed checklist of specific logic edge cases to verify, such as division-by-zero in score calculation or grading thresholds”, nhưng không giải quyết trực tiếp yêu cầu: how should you address this trade-off to improve detection across both categories. “Replace the few-shot examples with a detailed checklist of specific logic edge cases to verify, such as division-by-zero in score calculation or grading thresholds” không làm được điều đó: một lời nhắc dành cho bảo mật và thiết kế API, một lời nhắc khác dành cho logic kinh doanh."
+      },
+      "context": "Đây là quyết định về How should you address this trade-off to improve detection across both categories? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Chia bài đánh giá thành các lời nhắc tập trung riêng biệt - một lời nhắc dành cho bảo mật và thiết kế API, một lời nhắc khác dành cho logic kinh doanh - mỗi lời nhắc có các ví dụ riêng, sau đó kết hợp các phát…",
+      "mnemonic": "Đọc requirement trước → chọn A: Split the review into separate focused prompts - one for security and API design, another for business logic - each with dedicated examples, then combine findings before posting. ---"
+    },
+    {
+      "id": 9,
+      "question": "Your code review assistant needs to analyze pull requests and provide feedback on three aspects: code style compliance, potential security issues, and documentation completeness. Each aspect requires reading files, running analysis tools, and generating a report section. The review process follows the same three-step workflow for every PR.\n\nWhich task decomposition pattern is most appropriate for this workflow?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Single comprehensive prompt—include all instructions in one prompt and let the model handle all three aspects simultaneously."
+        },
+        {
+          "key": "B",
+          "text": "Routing—classify each PR by type (feature, bugfix, refactor) first, then route to different review prompts optimized for that category."
+        },
+        {
+          "key": "C",
+          "text": "Prompt chaining—break the review into sequential steps where each aspect (style, security, documentation) is analyzed separately, with outputs combined in a final synthesis step."
+        },
+        {
+          "key": "D",
+          "text": "Orchestrator-workers—have a central LLM analyze each PR to dynamically determine which checks are needed, then delegate to specialized worker LLMs for each identified subtask."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Kịch bản nêu rõ việc đánh giá \"tuân theo quy trình làm việc ba bước giống nhau cho mọi hoạt động PR \", mà theo hướng dẫn \"Xây dựng đại lý hiệu quả \" của Anthropic là trường hợp trong sách giáo khoa về quy trình làm việc theo chuỗi nhắc nhở: một chuỗi nhiệm vụ phụ cố định, có thể dự đoán được, mỗi nhiệm vụ được xử lý bởi một dấu nhắc tập trung, sau đó được tổng hợp. Người điều phối-nhân viên (D) chỉ được đảm bảo khi các nhiệm vụ phụ cần thiết thay đổi không thể đoán trước trên mỗi đầu vào và định tuyến (B) được áp dụng khi đầu vào thuộc các danh mục riêng biệt cần xử lý khác nhau—không phù hợp với quy trình làm việc cố định, giống hệt nhau.",
+      "optExp": {
+        "A": "Nó thực hiện “Single comprehensive prompt—include all instructions in one prompt and let the model handle all three aspects simultaneously”, nhưng không giải quyết trực tiếp yêu cầu: which task decomposition pattern is most appropriate for this workflow. “Single comprehensive prompt—include all instructions in one prompt and let the model handle all three aspects simultaneously” không làm được điều đó: Kịch bản nêu rõ việc đánh giá \"tuân theo quy trình làm việc ba bước giống nhau cho mọi hoạt động PR \", mà theo hướng dẫn \"Xây dựng đại lý hiệu quả \"của.",
+        "B": "Nó thực hiện “Routing—classify each PR by type (feature, bugfix, refactor) first, then route to different review prompts optimized for that category”, nhưng không giải quyết trực tiếp yêu cầu: which task decomposition pattern is most appropriate for this workflow. “Routing—classify each PR by type (feature, bugfix, refactor) first, then route to different review prompts optimized for that category” không làm được điều đó: Kịch bản nêu rõ việc đánh giá \"tuân theo quy trình làm việc ba bước giống nhau cho mọi hoạt động PR \", mà theo hướng dẫn \"Xây dựng đại lý hiệu quả \"của.",
+        "C": "Kịch bản nêu rõ việc đánh giá \"tuân theo quy trình làm việc ba bước giống nhau cho mọi hoạt động PR \", mà theo hướng dẫn \"Xây dựng đại lý hiệu quả \" của Anthropic là trường hợp trong sách giáo khoa về quy trình làm việc theo chuỗi nhắc nhở: một chuỗi nhiệm vụ phụ cố định, có thể dự đoán được, mỗi nhiệm vụ được xử lý bởi một dấu nhắc tập trung, sau đó được tổng hợp. Người điều phối-nhân viên (D) chỉ được đảm bảo khi các nhiệm vụ phụ cần thiết thay đổi không thể đoán trước trên mỗi đầu vào và định tuyến (B) được áp dụng khi đầu vào thuộc các danh mục riêng biệt cần xử lý khác nhau—không phù hợp với quy trình làm việc cố định, giống hệt nhau.",
+        "D": "Nó thực hiện “Orchestrator-workers—have a central LLM analyze each PR to dynamically determine which checks are needed, then delegate to specialized worker LLMs for each identified subtask”, nhưng không giải quyết trực tiếp yêu cầu: which task decomposition pattern is most appropriate for this workflow. “Orchestrator-workers—have a central LLM analyze each PR to dynamically determine which checks are needed, then delegate to specialized worker LLMs for each identified subtask” không làm được điều đó: Kịch bản nêu rõ việc đánh giá \"tuân theo quy trình làm việc ba bước giống nhau cho mọi hoạt động PR \", mà theo hướng dẫn \"Xây dựng đại lý hiệu quả \"của."
+      },
+      "context": "Đây là quyết định về Which task decomposition pattern is most appropriate for this workflow? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Kịch bản nêu rõ việc đánh giá \"tuân theo quy trình làm việc ba bước giống nhau cho mọi hoạt động PR \", mà theo hướng dẫn \"Xây dựng đại lý hiệu quả \"của Anthropic là trường hợp trong sách giáo khoa về quy trình làm việc theo chuỗi nhắc nhở…",
+      "mnemonic": "Đọc requirement trước → chọn C: Prompt chaining—break the review into sequential steps where each aspect (style, security, documentation) is analyzed separately, with outputs combined in a final synthesis step. ---"
+    },
+    {
+      "id": 10,
+      "question": "After the web search and document analysis subagents complete their tasks, the coordinator needs to spawn the synthesis subagent to synthesize the findings.\n\nWhat is the correct approach for providing the synthesis subagent with the information it needs?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Provide the subagent with tool definitions that allow it to request outputs from other subagents via callbacks"
+        },
+        {
+          "key": "B",
+          "text": "Include the complete findings from both subagents directly in the synthesis subagent 's prompt"
+        },
+        {
+          "key": "C",
+          "text": "Pass reference identifiers and configure the subagent with read access to a shared memory store where other subagents deposited their results"
+        },
+        {
+          "key": "D",
+          "text": "Spawn the subagent with only a brief task description, relying on automatic context inheritance from the coordinator"
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách thực hành tốt nhất dành cho nhiều tác nhân của Anthropic là để các tác nhân phụ gửi toàn bộ kết quả đầu ra của chúng dưới dạng tạo phẩm vào bộ lưu trữ bên ngoài/được chia sẻ và chuyển các tham chiếu hạng nhẹ, để tác nhân phụ tổng hợp đọc trực tiếp các kết quả trước đó thay vì nhận các bản sao bị mất hoặc có nhiều mã thông báo thông qua lời nhắc. Lệnh gọi lại giữa các tác nhân phụ (A) và kế thừa ngữ cảnh tự động (D) không tồn tại trong kiến ​​trúc này và việc đưa các phát hiện hoàn chỉnh vào trong ngữ cảnh nhắc nhở (B) làm phồng lên ngữ cảnh và có nguy cơ mất thông tin.",
+      "optExp": {
+        "A": "Nó thực hiện “Provide the subagent with tool definitions that allow it to request outputs from other subagents via callbacks”, nhưng không giải quyết trực tiếp yêu cầu: what is the correct approach for providing the synthesis subagent with the information it needs. “Provide the subagent with tool definitions that allow it to request outputs from other subagents via callbacks” không làm được điều đó: Cách thực hành tốt nhất dành cho nhiều tác nhân của Anthropic là để các tác nhân phụ gửi toàn bộ kết quả đầu ra của chúng dưới dạng tạo phẩm vào bộ lư.",
+        "B": "Nó thực hiện “Include the complete findings from both subagents directly in the synthesis subagent 's prompt”, nhưng không giải quyết trực tiếp yêu cầu: what is the correct approach for providing the synthesis subagent with the information it needs. “Include the complete findings from both subagents directly in the synthesis subagent 's prompt” không làm được điều đó: Cách thực hành tốt nhất dành cho nhiều tác nhân của Anthropic là để các tác nhân phụ gửi toàn bộ kết quả đầu ra của chúng dưới dạng tạo phẩm vào bộ lư.",
+        "C": "Cách thực hành tốt nhất dành cho nhiều tác nhân của Anthropic là để các tác nhân phụ gửi toàn bộ kết quả đầu ra của chúng dưới dạng tạo phẩm vào bộ lưu trữ bên ngoài/được chia sẻ và chuyển các tham chiếu hạng nhẹ, để tác nhân phụ tổng hợp đọc trực tiếp các kết quả trước đó thay vì nhận các bản sao bị mất hoặc có nhiều mã thông báo thông qua lời nhắc. Lệnh gọi lại giữa các tác nhân phụ (A) và kế thừa ngữ cảnh tự động (D) không tồn tại trong kiến ​​trúc này và việc đưa các phát hiện hoàn chỉnh vào trong ngữ cảnh nhắc nhở (B) làm phồng lên ngữ cảnh và có nguy cơ mất thông tin.",
+        "D": "Nó thực hiện “Spawn the subagent with only a brief task description, relying on automatic context inheritance from the coordinator”, nhưng không giải quyết trực tiếp yêu cầu: what is the correct approach for providing the synthesis subagent with the information it needs. “Spawn the subagent with only a brief task description, relying on automatic context inheritance from the coordinator” không làm được điều đó: Cách thực hành tốt nhất dành cho nhiều tác nhân của Anthropic là để các tác nhân phụ gửi toàn bộ kết quả đầu ra của chúng dưới dạng tạo phẩm vào bộ lư."
+      },
+      "context": "Đây là quyết định về What is the correct approach for providing the synthesis subagent with the information it needs? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách thực hành tốt nhất dành cho nhiều tác nhân của Anthropic là để các tác nhân phụ gửi toàn bộ kết quả đầu ra của chúng dưới dạng tạo phẩm vào bộ lưu trữ bên ngoài/được chia sẻ và chuyển các tham chiếu hạng nhẹ, để tác nhân phụ tổng hợp…",
+      "mnemonic": "Đọc requirement trước → chọn C: Pass reference identifiers and configure the subagent with read access to a shared memory store where other subagents deposited their results ---"
+    },
+    {
+      "id": 11,
+      "question": "Developer Productivity An engineer asks the agent to find all files in the monorepo that import the @company/auth package to understand how authentication is used across services.\n\nWhich built-in tool is most appropriate for this task?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bash, to execute find . -type d -name \" auth \"and explore matching directories"
+        },
+        {
+          "key": "B",
+          "text": "Read, starting with package.json files to trace dependency declarations"
+        },
+        {
+          "key": "C",
+          "text": "Grep, to search for the import statement pattern across file contents"
+        },
+        {
+          "key": "D",
+          "text": "Glob, to find files with \"auth \" in their filename or path"
+        }
+      ],
+      "correct": "C",
+      "explanation": "Nhiệm vụ là tìm mọi tệp có nội dung chứa phần nhập @company/auth, đây là một vấn đề về tìm kiếm nội dung — chính xác là công cụ Grep tích hợp sẵn (dựa trên ripgrep) được thiết kế để làm gì. Glob và find/Bash chỉ khớp với tên tệp hoặc tên thư mục, điều này sẽ bỏ sót nhiều tệp nhập không có \"auth \" trong đường dẫn của chúng và việc đọc tệp pack.json chỉ hiển thị các phần phụ thuộc đã khai báo chứ không hiển thị các trang web sử dụng thực tế.",
+      "optExp": {
+        "A": "Nó thực hiện “Bash, to execute find . -type d -name \" auth \"and explore matching directories”, nhưng không giải quyết trực tiếp yêu cầu: which built-in tool is most appropriate for this task. “Bash, to execute find . -type d -name \" auth \"and explore matching directories” không làm được điều đó: Glob và find/Bash chỉ khớp với tên tệp hoặc tên thư mục, điều này sẽ bỏ sót nhiều tệp nhập không có \"auth \"trong đường dẫn của chúng và việc đọc tệp p.",
+        "B": "Nó thực hiện “Read, starting with package.json files to trace dependency declarations”, nhưng không giải quyết trực tiếp yêu cầu: which built-in tool is most appropriate for this task. “Read, starting with package.json files to trace dependency declarations” không làm được điều đó: json chỉ hiển thị các phần phụ thuộc đã khai báo chứ không hiển thị các trang web sử dụng thực tế.",
+        "C": "Nhiệm vụ là tìm mọi tệp có nội dung chứa phần nhập @company/auth, đây là một vấn đề về tìm kiếm nội dung — chính xác là công cụ Grep tích hợp sẵn (dựa trên ripgrep) được thiết kế để làm gì. Glob và find/Bash chỉ khớp với tên tệp hoặc tên thư mục, điều này sẽ bỏ sót nhiều tệp nhập không có \"auth \" trong đường dẫn của chúng và việc đọc tệp pack.json chỉ hiển thị các phần phụ thuộc đã khai báo chứ không hiển thị các trang web sử dụng thực tế.",
+        "D": "Nó thực hiện “Glob, to find files with \"auth \"in their filename or path”, nhưng không giải quyết trực tiếp yêu cầu: which built-in tool is most appropriate for this task. “Glob, to find files with \"auth \"in their filename or path” không làm được điều đó: Glob và find/Bash chỉ khớp với tên tệp hoặc tên thư mục, điều này sẽ bỏ sót nhiều tệp nhập không có \"auth \"trong đường dẫn của chúng và việc đọc tệp p."
+      },
+      "context": "Đây là quyết định về Which built-in tool is most appropriate for this task? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Nhiệm vụ là tìm mọi tệp có nội dung chứa phần nhập @company/auth, đây là một vấn đề về tìm kiếm nội dung — chính xác là công cụ Grep tích hợp sẵn (dựa trên ripgrep) được thiết kế để làm gì. Glob và find/Bash chỉ khớp với tên tệp hoặc tên…",
+      "mnemonic": "Đọc requirement trước → chọn C: Grep, to search for the import statement pattern across file contents ---"
+    },
+    {
+      "id": 12,
+      "question": "Your MCP server includes archive_file(file_id) and delete_file(file_id) tools. Production logs show the agent calls delete_file when users ask to \"remove old backups,\" policy requires archiving backup files. Both tools currently have minimal descriptions: \"Archives a file \" and \"Deletes a file.\"\n\nWhich change most directly improves tool selection?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add a confirmation step that requires users to type \"CONFIRM DELETE \" before delete_file executes."
+        },
+        {
+          "key": "B",
+          "text": "Implement server-side validation that rejects delete_file calls for files tagged as backups, returning an error message suggesting archive_file."
+        },
+        {
+          "key": "C",
+          "text": "Expand tool descriptions to clarify use cases, adding guidance like \"Do not use for backup files \" to delete_file."
+        },
+        {
+          "key": "D",
+          "text": "Add few-shot examples to the system prompt demonstrating that requests involving \"backup \" or \"old \" should use archive_file."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Mở rộng mô tả công cụ để làm rõ các trường hợp sử dụng, thêm hướng dẫn như \"Không sử dụng cho các tệp sao lưu \" vào delete_file. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ ràng hơn và phù hợp hơn với nhiệm vụ của tác nhân.",
+      "optExp": {
+        "A": "Nó thực hiện “Add a confirmation step that requires users to type \"CONFIRM DELETE \"before delete_file executes”, nhưng không giải quyết trực tiếp yêu cầu: \"which change most directly improves tool selection. “Add a confirmation step that requires users to type \"CONFIRM DELETE \"before delete_file executes” không làm được điều đó: Cách tiếp cận tốt nhất là Mở rộng mô tả công cụ để làm rõ các trường hợp sử dụng, thêm hướng dẫn như \"Không sử dụng cho các tệp sao lưu \"vào delete_fi.",
+        "B": "Nó thực hiện “Implement server-side validation that rejects delete_file calls for files tagged as backups, returning an error message suggesting archive_file”, nhưng không giải quyết trực tiếp yêu cầu: \"which change most directly improves tool selection. “Implement server-side validation that rejects delete_file calls for files tagged as backups, returning an error message suggesting archive_file” không làm được điều đó: Cách tiếp cận tốt nhất là Mở rộng mô tả công cụ để làm rõ các trường hợp sử dụng, thêm hướng dẫn như \"Không sử dụng cho các tệp sao lưu \"vào delete_fi.",
+        "C": "Cách tiếp cận tốt nhất là Mở rộng mô tả công cụ để làm rõ các trường hợp sử dụng, thêm hướng dẫn như \"Không sử dụng cho các tệp sao lưu \" vào delete_file. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ ràng hơn và phù hợp hơn với nhiệm vụ của tác nhân.",
+        "D": "Nó thực hiện “Add few-shot examples to the system prompt demonstrating that requests involving \"backup \"or \"old \"should use archive_file”, nhưng không giải quyết trực tiếp yêu cầu: \"which change most directly improves tool selection. “Add few-shot examples to the system prompt demonstrating that requests involving \"backup \"or \"old \"should use archive_file” không làm được điều đó: Cách tiếp cận tốt nhất là Mở rộng mô tả công cụ để làm rõ các trường hợp sử dụng, thêm hướng dẫn như \"Không sử dụng cho các tệp sao lưu \"vào delete_fi."
+      },
+      "context": "Đây là quyết định về \" Which change most directly improves tool selection? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Mở rộng mô tả công cụ để làm rõ các trường hợp sử dụng, thêm hướng dẫn như \"Không sử dụng cho các tệp sao lưu \"vào delete_file. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ…",
+      "mnemonic": "Đọc requirement trước → chọn C: Expand tool descriptions to clarify use cases, adding guidance like \"Do not use for backup files \" to delete_file. ---"
+    },
+    {
+      "id": 13,
+      "question": "Your CRM agent 's delete_contact tool handles requests like \"delete the duplicate entry for Acme Corp.\" The database contains similarly named records (e.g., \"Acme Corp,\" \"Acme Corporation,\" \"ACME Corp Inc.\"), and analytics show 8% of deletions are reversed within 24 hours due to misidentified records. Users have also complained that the current multi-step confirmation flow adds too much friction to routine cleanup tasks.\n\nWhich approach most effectively reduces the error rate while maintaining workflow efficiency?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Present matched records with differentiating fields and require single-click confirmation of the intended target before executing deletion."
+        },
+        {
+          "key": "B",
+          "text": "Require users to supply the exact record ID from the CRM Interface rather than using natural language references to contact names."
+        },
+        {
+          "key": "C",
+          "text": "Deploy automated duplicate detection that identifies and merges probable duplicates, removing the need for manual deletion requests."
+        },
+        {
+          "key": "D",
+          "text": "Implement soft-delete with a 30-day recovery window so users can undo mistakes without slowing down the deletion workflow."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Trình bày các bản ghi trùng khớp với các trường khác nhau và yêu cầu xác nhận mục tiêu dự định bằng một cú nhấp chuột trước khi thực hiện xóa. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Trình bày các bản ghi trùng khớp với các trường khác nhau và yêu cầu xác nhận mục tiêu dự định bằng một cú nhấp chuột trước khi thực hiện xóa. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+        "B": "Nó thực hiện “Require users to supply the exact record ID from the CRM Interface rather than using natural language references to contact names”, nhưng không giải quyết trực tiếp yêu cầu: which approach most effectively reduces the error rate while maintaining workflow efficiency. “Require users to supply the exact record ID from the CRM Interface rather than using natural language references to contact names” không làm được điều đó: Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo.",
+        "C": "Nó chuyển phần việc cho người dùng thay vì thực hiện thao tác cần thiết trong workflow. “Deploy automated duplicate detection that identifies and merges probable duplicates, removing the need for manual deletion requests” không làm được điều đó: Cách tiếp cận tốt nhất là Trình bày các bản ghi trùng khớp với các trường khác nhau và yêu cầu xác nhận mục tiêu dự định bằng một cú nhấp chuột trước .",
+        "D": "Nó thực hiện “Implement soft-delete with a 30-day recovery window so users can undo mistakes without slowing down the deletion workflow”, nhưng không giải quyết trực tiếp yêu cầu: which approach most effectively reduces the error rate while maintaining workflow efficiency. “Implement soft-delete with a 30-day recovery window so users can undo mistakes without slowing down the deletion workflow” không làm được điều đó: Cách tiếp cận tốt nhất là Trình bày các bản ghi trùng khớp với các trường khác nhau và yêu cầu xác nhận mục tiêu dự định bằng một cú nhấp chuột trước ."
+      },
+      "context": "Đây là quyết định về Which approach most effectively reduces the error rate while maintaining workflow efficiency? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Trình bày các bản ghi trùng khớp với các trường khác nhau và yêu cầu xác nhận mục tiêu dự định bằng một cú nhấp chuột trước khi thực hiện xóa. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để…",
+      "mnemonic": "Đọc requirement trước → chọn A: Present matched records with differentiating fields and require single-click confirmation of the intended target before executing deletion. ---"
+    },
+    {
+      "id": 14,
+      "question": "Your team is extracting structured data from 50,000 legacy legal contracts under a two-week deadline. Initial testing with 500 sample documents shows 82% pass JSON schema first attempt, while the remaining 18% fall due to diverse issues—missing required fields, malformed dates, and incorrectly identified parties. Documents that fail typically need refinements targeting their specific failure modes before extraction succeeds.\n\nWhich batch processing strategy is the most cost-efficient while still meeting the deadline?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Split documents into 10 sequential batches of 5,000 each, analysing results and refining prompts between batches to improve extraction quality progressively."
+        },
+        {
+          "key": "B",
+          "text": "Submit all 50,000 documents via batch API, then submit failed extractions in successive batches— refining prompts between each batch—until all documents pass validation."
+        },
+        {
+          "key": "C",
+          "text": "Use the real-time API for all 50,000 documents since the batch API 's 24-hour processing window creates unacceptable deadline risk."
+        },
+        {
+          "key": "D",
+          "text": "Process 2,000 sample documents via real time API to identify failure patterns and refine prompts, then batch process all 50,000 with the optimized prompts."
+        }
+      ],
+      "correct": "B",
+      "explanation": "Cách tiếp cận tốt nhất là Gửi tất cả 50.000 tài liệu qua API hàng loạt, sau đó gửi các lần trích xuất không thành công trong các đợt liên tiếp—tinh chỉnh lời nhắc giữa mỗi đợt—cho đến khi tất cả tài liệu đều vượt qua quá trình xác thực. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác thực hoặc phân tích cú pháp ở phía dưới.",
+      "optExp": {
+        "A": "Nó thực hiện “Split documents into 10 sequential batches of 5,000 each, analysing results and refining prompts between batches to improve extraction quality progressively”, nhưng không giải quyết trực tiếp yêu cầu: which batch processing strategy is the most cost-efficient while still meeting the deadline. “Split documents into 10 sequential batches of 5,000 each, analysing results and refining prompts between batches to improve extraction quality progressively” không làm được điều đó: 000 tài liệu qua API hàng loạt, sau đó gửi các lần trích xuất không thành công trong các đợt liên tiếp—tinh chỉnh lời nhắc giữa mỗi đợt—cho đến khi tấ.",
+        "B": "Cách tiếp cận tốt nhất là Gửi tất cả 50.000 tài liệu qua API hàng loạt, sau đó gửi các lần trích xuất không thành công trong các đợt liên tiếp—tinh chỉnh lời nhắc giữa mỗi đợt—cho đến khi tất cả tài liệu đều vượt qua quá trình xác thực. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác thực hoặc phân tích cú pháp ở phía dưới.",
+        "C": "Nó thực hiện “Use the real-time API for all 50,000 documents since the batch API 's 24-hour processing window creates unacceptable deadline risk”, nhưng không giải quyết trực tiếp yêu cầu: which batch processing strategy is the most cost-efficient while still meeting the deadline. “Use the real-time API for all 50,000 documents since the batch API 's 24-hour processing window creates unacceptable deadline risk” không làm được điều đó: 000 tài liệu qua API hàng loạt, sau đó gửi các lần trích xuất không thành công trong các đợt liên tiếp—tinh chỉnh lời nhắc giữa mỗi đợt—cho đến khi tấ.",
+        "D": "Nó thực hiện “Process 2,000 sample documents via real time API to identify failure patterns and refine prompts, then batch process all 50,000 with the optimized prompts”, nhưng không giải quyết trực tiếp yêu cầu: which batch processing strategy is the most cost-efficient while still meeting the deadline. “Process 2,000 sample documents via real time API to identify failure patterns and refine prompts, then batch process all 50,000 with the optimized prompts” không làm được điều đó: 000 tài liệu qua API hàng loạt, sau đó gửi các lần trích xuất không thành công trong các đợt liên tiếp—tinh chỉnh lời nhắc giữa mỗi đợt—cho đến khi tấ."
+      },
+      "context": "Đây là quyết định về Which batch processing strategy is the most cost-efficient while still meeting the deadline? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Gửi tất cả 50.000 tài liệu qua API hàng loạt, sau đó gửi các lần trích xuất không thành công trong các đợt liên tiếp—tinh chỉnh lời nhắc giữa mỗi đợt—cho đến khi tất cả tài liệu đều vượt qua quá trình xác thực.…",
+      "mnemonic": "Đọc requirement trước → chọn B: Submit all 50,000 documents via batch API, then submit failed extractions in successive batches— refining prompts between each batch—until all documents pass validation. ---"
+    },
+    {
+      "id": 15,
+      "question": "After deploying an updated system prompt that improves response quality, users with multi-session conversations spanning several weeks report that the assistant now contradicts its earlier statements and has a noticeably different communication style. New users don 't experience these issues.\n\nWhat 's the best approach to resolve this?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Regenerate summaries of existing conversations using the new prompt and replace the stored histories to align past context with current behavior."
+        },
+        {
+          "key": "B",
+          "text": "Add a transition message when sessions resume explaining that the assistant has been updated and behavior may differ."
+        },
+        {
+          "key": "C",
+          "text": "Version system prompts and associate each conversation with the prompt version under which it started, applying updates only to new conversations."
+        },
+        {
+          "key": "D",
+          "text": "Add instructions to the new system prompt directing the assistant to maintain consistency with any prior statements in the conversation history."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là sử dụng lời nhắc của hệ thống Phiên bản và liên kết từng cuộc hội thoại với phiên bản lời nhắc mà nó bắt đầu, chỉ áp dụng các bản cập nhật cho các cuộc hội thoại mới. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “Regenerate summaries of existing conversations using the new prompt and replace the stored histories to align past context with current behavior”, nhưng không giải quyết trực tiếp yêu cầu: what 's the best approach to resolve this. “Regenerate summaries of existing conversations using the new prompt and replace the stored histories to align past context with current behavior” không làm được điều đó: Cách tiếp cận tốt nhất là sử dụng lời nhắc của hệ thống Phiên bản và liên kết từng cuộc hội thoại với phiên bản lời nhắc mà nó bắt đầu, chỉ áp dụng cá.",
+        "B": "Nó thực hiện “Add a transition message when sessions resume explaining that the assistant has been updated and behavior may differ”, nhưng không giải quyết trực tiếp yêu cầu: what 's the best approach to resolve this. “Add a transition message when sessions resume explaining that the assistant has been updated and behavior may differ” không làm được điều đó: Cách tiếp cận tốt nhất là sử dụng lời nhắc của hệ thống Phiên bản và liên kết từng cuộc hội thoại với phiên bản lời nhắc mà nó bắt đầu, chỉ áp dụng cá.",
+        "C": "Cách tiếp cận tốt nhất là sử dụng lời nhắc của hệ thống Phiên bản và liên kết từng cuộc hội thoại với phiên bản lời nhắc mà nó bắt đầu, chỉ áp dụng các bản cập nhật cho các cuộc hội thoại mới. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó thực hiện “Add instructions to the new system prompt directing the assistant to maintain consistency with any prior statements in the conversation history”, nhưng không giải quyết trực tiếp yêu cầu: what 's the best approach to resolve this. “Add instructions to the new system prompt directing the assistant to maintain consistency with any prior statements in the conversation history” không làm được điều đó: Cách tiếp cận tốt nhất là sử dụng lời nhắc của hệ thống Phiên bản và liên kết từng cuộc hội thoại với phiên bản lời nhắc mà nó bắt đầu, chỉ áp dụng cá."
+      },
+      "context": "Đây là quyết định về What 's the best approach to resolve this? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là sử dụng lời nhắc của hệ thống Phiên bản và liên kết từng cuộc hội thoại với phiên bản lời nhắc mà nó bắt đầu, chỉ áp dụng các bản cập nhật cho các cuộc hội thoại mới. Điều này giải quyết trực tiếp nhất sự thất…",
+      "mnemonic": "Đọc requirement trước → chọn C: Version system prompts and associate each conversation with the prompt version under which it started, applying updates only to new conversations. ---"
+    },
+    {
+      "id": 16,
+      "question": "Evaluation shows 94% extraction accuracy on short meeting transcripts (<30 minutes) but only 68% on longer transcripts (>60 minutes) where discussions meander and key information is scattered throughout. Transcripts of both lengths fit within the model 's context window.\n\nWhat pattern most effectively improves accuracy on complex, lengthy documents?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add few-shot examples demonstrating correct extraction from lengthy meetings with scattered Information."
+        },
+        {
+          "key": "B",
+          "text": "Split lengthy transcripts Into chunks, extract from each chunk separately, then merge and deduplicate the results."
+        },
+        {
+          "key": "C",
+          "text": "Upgrade to a more capable model tier for the extraction task"
+        },
+        {
+          "key": "D",
+          "text": "Add a pre-extraction step where the model summarizes key discussions and conclusions before performing structured extraction."
+        }
+      ],
+      "correct": "B",
+      "explanation": "Cách tiếp cận tốt nhất là Tách các bản ghi dài thành các phần, trích xuất từ ​​mỗi phần riêng biệt, sau đó hợp nhất và loại bỏ kết quả trùng lặp. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Nó thực hiện “Add few-shot examples demonstrating correct extraction from lengthy meetings with scattered Information”, nhưng không giải quyết trực tiếp yêu cầu: what pattern most effectively improves accuracy on complex, lengthy documents. “Add few-shot examples demonstrating correct extraction from lengthy meetings with scattered Information” không làm được điều đó: Cách tiếp cận tốt nhất là Tách các bản ghi dài thành các phần, trích xuất từ ​​mỗi phần riêng biệt, sau đó hợp nhất và loại bỏ kết quả trùng lặp.",
+        "B": "Cách tiếp cận tốt nhất là Tách các bản ghi dài thành các phần, trích xuất từ ​​mỗi phần riêng biệt, sau đó hợp nhất và loại bỏ kết quả trùng lặp. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+        "C": "Nó thực hiện “Upgrade to a more capable model tier for the extraction task”, nhưng không giải quyết trực tiếp yêu cầu: what pattern most effectively improves accuracy on complex, lengthy documents. “Upgrade to a more capable model tier for the extraction task” không làm được điều đó: Cách tiếp cận tốt nhất là Tách các bản ghi dài thành các phần, trích xuất từ ​​mỗi phần riêng biệt, sau đó hợp nhất và loại bỏ kết quả trùng lặp.",
+        "D": "Nó thực hiện “Add a pre-extraction step where the model summarizes key discussions and conclusions before performing structured extraction”, nhưng không giải quyết trực tiếp yêu cầu: what pattern most effectively improves accuracy on complex, lengthy documents. “Add a pre-extraction step where the model summarizes key discussions and conclusions before performing structured extraction” không làm được điều đó: Cách tiếp cận tốt nhất là Tách các bản ghi dài thành các phần, trích xuất từ ​​mỗi phần riêng biệt, sau đó hợp nhất và loại bỏ kết quả trùng lặp."
+      },
+      "context": "Đây là quyết định về What pattern most effectively improves accuracy on complex, lengthy documents? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Tách các bản ghi dài thành các phần, trích xuất từ ​​mỗi phần riêng biệt, sau đó hợp nhất và loại bỏ kết quả trùng lặp. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan…",
+      "mnemonic": "Đọc requirement trước → chọn B: Split lengthy transcripts Into chunks, extract from each chunk separately, then merge and deduplicate the results. ---"
+    },
+    {
+      "id": 17,
+      "question": "You 're implementing a complex graph traversal algorithm with specific performance requirements and edge cases to handle (disconnected nodes, cycles, weighted edges). You want to structure your workflow for efficient iterative refinement with Claude.\n\nWhat approach will most effectively enable progressive improvement across multiple iterations?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Write a test suite covering expected behavior, edge cases, and performance requirements before implementation. Ask Claude to write code that passes the tests, then iterate by sharing test failures with each refinement request."
+        },
+        {
+          "key": "B",
+          "text": "Provide Claude with a detailed natural language specification of the algorithm, including all requirements and edge cases. Review each output manually and provide descriptive feedback on what behavior needs to change."
+        },
+        {
+          "key": "C",
+          "text": "Provide Claude with a reference implementation from documentation, then ask it to rewrite the code to match your codebase style and add the required edge case handling, comparing outputs against the reference."
+        },
+        {
+          "key": "D",
+          "text": "Have Claude extensively research the algorithm and create a detailed implementation plan using extended thinking, then implement the complete solution based on that plan."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Viết một bộ thử nghiệm bao gồm các hành vi dự kiến, các trường hợp khó khăn và các yêu cầu về hiệu suất trước khi triển khai. Yêu cầu Claude viết mã vượt qua các bài kiểm tra, sau đó lặp lại bằng cách chia sẻ các lỗi kiểm tra với mỗi yêu cầu sàng lọc. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Viết một bộ thử nghiệm bao gồm các hành vi dự kiến, các trường hợp khó khăn và các yêu cầu về hiệu suất trước khi triển khai. Yêu cầu Claude viết mã vượt qua các bài kiểm tra, sau đó lặp lại bằng cách chia sẻ các lỗi kiểm tra với mỗi yêu cầu sàng lọc. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "B": "Nó chuyển phần việc cho người dùng thay vì thực hiện thao tác cần thiết trong workflow. “Provide Claude with a detailed natural language specification of the algorithm, including all requirements and edge cases. Review each output manually and provide descriptive feedback on what behavior needs to change” không làm được điều đó: Yêu cầu Claude viết mã vượt qua các bài kiểm tra, sau đó lặp lại bằng cách chia sẻ các lỗi kiểm tra với mỗi yêu cầu sàng lọc.",
+        "C": "Tài liệu mô tả cách dùng dự kiến, không chứng minh mọi caller thực tế. “Provide Claude with a reference implementation from documentation, then ask it to rewrite the code to match your codebase style and add the required edge case handling, comparing outputs against the reference” không làm được điều đó: Yêu cầu Claude viết mã vượt qua các bài kiểm tra, sau đó lặp lại bằng cách chia sẻ các lỗi kiểm tra với mỗi yêu cầu sàng lọc.",
+        "D": "Nó thực hiện “Have Claude extensively research the algorithm and create a detailed implementation plan using extended thinking, then implement the complete solution based on that plan”, nhưng không giải quyết trực tiếp yêu cầu: what approach will most effectively enable progressive improvement across multiple iterations. “Have Claude extensively research the algorithm and create a detailed implementation plan using extended thinking, then implement the complete solution based on that plan” không làm được điều đó: Yêu cầu Claude viết mã vượt qua các bài kiểm tra, sau đó lặp lại bằng cách chia sẻ các lỗi kiểm tra với mỗi yêu cầu sàng lọc."
+      },
+      "context": "Đây là quyết định về What approach will most effectively enable progressive improvement across multiple iterations? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Viết một bộ thử nghiệm bao gồm các hành vi dự kiến, các trường hợp khó khăn và các yêu cầu về hiệu suất trước khi triển khai. Yêu cầu Claude viết mã vượt qua các bài kiểm tra, sau đó lặp lại bằng cách chia sẻ các…",
+      "mnemonic": "Đọc requirement trước → chọn A: Write a test suite covering expected behavior, edge cases, and performance requirements before implementation. Ask Claude to write code that passes the tests, then iterate by sharing test failures with each refinement request. ---"
+    },
+    {
+      "id": 18,
+      "question": "Your infrastructure-as-code repository includes Terraform modules (/terraform/), Kubernetes manifests (/kubernetes/), and CI/CD pipeline scripts (/pipelines/). Each requires different conventions, but your single root CLAUDE.md has grown to 500 + lines. When developers work on Kubernetes files, Terraform-specific rules load into context unnecessarily, consuming tokens.\n\nWhat is the best approach to reorganize so only relevant guidance loads when editing specific file types?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Restructure the root CLAUDE.md into clearly labeled sections with headers (e.g., \"## Terraform Conventions \"), improving organization and readability."
+        },
+        {
+          "key": "B",
+          "text": "Split content into subdirectory CLAUDE.md files (/terraform/CLAUDE.md, /kubernetes/CLAUDE.md), so Claude loads directory-specific guidance."
+        },
+        {
+          "key": "C",
+          "text": "Keep the root CLAUDE.md and use @path/to/import syntax to modularly include tool-specific guidance files from separate documents."
+        },
+        {
+          "key": "D",
+          "text": "Create files in .claude/rules/ with YAML frontmatter path-scoping (e.g., paths: [\"terraform/* / \"]), loading rules only when editing matching files."
+        }
+      ],
+      "correct": "D",
+      "explanation": "Cách tiếp cận tốt nhất là Tạo tệp trong .claude/rules/ với phạm vi đường dẫn của YAML frontmatter (ví dụ: đường dẫn: [\"terraform/* / \"]), chỉ tải quy tắc khi chỉnh sửa các tệp phù hợp. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Nó thực hiện “Restructure the root CLAUDE.md into clearly labeled sections with headers (e.g., \"## Terraform Conventions \"), improving organization and readability”, nhưng không giải quyết trực tiếp yêu cầu: what is the best approach to reorganize so only relevant guidance loads when editing specific file types. “Restructure the root CLAUDE.md into clearly labeled sections with headers (e.g., \"## Terraform Conventions \"), improving organization and readability” không làm được điều đó: claude/rules/ với phạm vi đường dẫn của YAML frontmatter (ví dụ: đường dẫn: [\"terraform/* / \"]), chỉ tải quy tắc khi chỉnh sửa các tệp phù hợp.",
+        "B": "Nó thực hiện “Split content into subdirectory CLAUDE.md files (/terraform/CLAUDE.md, /kubernetes/CLAUDE.md), so Claude loads directory-specific guidance”, nhưng không giải quyết trực tiếp yêu cầu: what is the best approach to reorganize so only relevant guidance loads when editing specific file types. “Split content into subdirectory CLAUDE.md files (/terraform/CLAUDE.md, /kubernetes/CLAUDE.md), so Claude loads directory-specific guidance” không làm được điều đó: claude/rules/ với phạm vi đường dẫn của YAML frontmatter (ví dụ: đường dẫn: [\"terraform/* / \"]), chỉ tải quy tắc khi chỉnh sửa các tệp phù hợp.",
+        "C": "Nó thực hiện “Keep the root CLAUDE.md and use @path/to/import syntax to modularly include tool-specific guidance files from separate documents”, nhưng không giải quyết trực tiếp yêu cầu: what is the best approach to reorganize so only relevant guidance loads when editing specific file types. “Keep the root CLAUDE.md and use @path/to/import syntax to modularly include tool-specific guidance files from separate documents” không làm được điều đó: claude/rules/ với phạm vi đường dẫn của YAML frontmatter (ví dụ: đường dẫn: [\"terraform/* / \"]), chỉ tải quy tắc khi chỉnh sửa các tệp phù hợp.",
+        "D": "Cách tiếp cận tốt nhất là Tạo tệp trong .claude/rules/ với phạm vi đường dẫn của YAML frontmatter (ví dụ: đường dẫn: [\"terraform/* / \"]), chỉ tải quy tắc khi chỉnh sửa các tệp phù hợp. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ."
+      },
+      "context": "Đây là quyết định về What is the best approach to reorganize so only relevant guidance loads when editing specific file types? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Tạo tệp trong .claude/rules/ với phạm vi đường dẫn của YAML frontmatter (ví dụ: đường dẫn: [\"terraform/* / \"]), chỉ tải quy tắc khi chỉnh sửa các tệp phù hợp. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô…",
+      "mnemonic": "Đọc requirement trước → chọn D: Create files in .claude/rules/ with YAML frontmatter path-scoping (e.g., paths: [\"terraform/* / \"]), loading rules only when editing matching files. ---"
+    },
+    {
+      "id": 19,
+      "question": "After expanding the agent 's MCP tools with delivery-specific capabilities (check_delivery_status, contact_driver, issue_credit, apply_promo_code, update_delivery_address, reschedule_delivery), the total tool count has grown from 4 to 10. Your evaluation suite shows tool selection accuracy has dropped to 71%. Log analysis reveals the majority of errors involve the agent selecting between semantically overlapping tools- calling issue_credit when process_refund is correct, and calling check_delivery_status when lookup_order already returns the needed data.\n\nWhich approach structurally eliminates the semantic overlaps that are being logged as the error source?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Split the tools across two sub-agents - a \"financial resolution \" agent with process_refund, issue_credit, and apply_promo_code, and a \"delivery \" agent with the remaining delivery tools - with a coordinator routing between them."
+        },
+        {
+          "key": "B",
+          "text": "Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool pair, such as showing when issue_credit or process_refund is appropriate."
+        },
+        {
+          "key": "C",
+          "text": "Consolidate semantically overlapping tools-merge issue_credit and process_refund into a single resolve_compensation tool with an optional include_tracking flag."
+        },
+        {
+          "key": "D",
+          "text": "Enable the tool search tool with defer_loading on the six new tools, keeping the original four always loaded, so the agent dynamically calls it when needed."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa - hợp nhất issue_credit và process_refund vào một công cụ Resolve_compensation duy nhất với cờ include_tracking tùy chọn. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ ràng hơn và phù hợp hơn với nhiệm vụ của tác nhân.",
+      "optExp": {
+        "A": "Nó thực hiện “Split the tools across two sub-agents - a \"financial resolution \"agent with process_refund, issue_credit, and apply_promo_code, and a \"delivery \"agent with the remaining delivery tools - with a coordinator routing between them”, nhưng không giải quyết trực tiếp yêu cầu: which approach structurally eliminates the semantic overlaps that are being logged as the error source. “Split the tools across two sub-agents - a \"financial resolution \"agent with process_refund, issue_credit, and apply_promo_code, and a \"delivery \"agent with the remaining delivery tools - with a coordinator routing between them” không làm được điều đó: hợp nhất issue_credit và process_refund vào một công cụ Resolve_compensation duy nhất với cờ include_tracking tùy chọn.",
+        "B": "Nó thực hiện “Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool pair, such as showing when issue_credit or process_refund is appropriate”, nhưng không giải quyết trực tiếp yêu cầu: which approach structurally eliminates the semantic overlaps that are being logged as the error source. “Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool pair, such as showing when issue_credit or process_refund is appropriate” không làm được điều đó: hợp nhất issue_credit và process_refund vào một công cụ Resolve_compensation duy nhất với cờ include_tracking tùy chọn.",
+        "C": "Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa - hợp nhất issue_credit và process_refund vào một công cụ Resolve_compensation duy nhất với cờ include_tracking tùy chọn. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ ràng hơn và phù hợp hơn với nhiệm vụ của tác nhân.",
+        "D": "Nó thực hiện “Enable the tool search tool with defer_loading on the six new tools, keeping the original four always loaded, so the agent dynamically calls it when needed”, nhưng không giải quyết trực tiếp yêu cầu: which approach structurally eliminates the semantic overlaps that are being logged as the error source. “Enable the tool search tool with defer_loading on the six new tools, keeping the original four always loaded, so the agent dynamically calls it when needed” không làm được điều đó: hợp nhất issue_credit và process_refund vào một công cụ Resolve_compensation duy nhất với cờ include_tracking tùy chọn."
+      },
+      "context": "Đây là quyết định về Which approach structurally eliminates the semantic overlaps that are being logged as the error source? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa - hợp nhất issue_credit và process_refund vào một công cụ Resolve_compensation duy nhất với cờ include_tracking tùy chọn. Điều này làm giảm các lỗi lựa chọn công…",
+      "mnemonic": "Đọc requirement trước → chọn C: Consolidate semantically overlapping tools-merge issue_credit and process_refund into a single resolve_compensation tool with an optional include_tracking flag. ---"
+    },
+    {
+      "id": 20,
+      "question": "After expanding the agent 's MCP tools with delivery-specific capabilities [apply_promo_code, update_delivery_address, reconcile_delivery], the total tool count has grown from 1 to 7. We have observed that the agent now shows tool selection accuracy has dropped from 86% to 71%. Log analysis reveals the majority of errors involve the agent selecting between semantically overlapping tools — calling issue_credit when process_refund was correct, and calling check_delivery_status when looking order_allready_returns_the_needed_data.\n\nWhich approach structurally eliminates the semantic overlap identified in the error source?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Consolidate semantically overlapping tools – merge issue_credit and process_refund into a single handle_promotions tool with an action parameter and fold check_delivery_status into lookup_order with an optional include_tracking flag."
+        },
+        {
+          "key": "B",
+          "text": "Enable the tool search tool with defer_loading on the six new tools, keeping the original two always loaded, so the agent dynamically discovers specialized tools only when needed."
+        },
+        {
+          "key": "C",
+          "text": "Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool, such as showing when issue_credit applies versus when process_refund is appropriate."
+        },
+        {
+          "key": "D",
+          "text": "Split the tools across two sub-agents — a 'financial resolution ' agent with issue_credit, process_refund, return_order, and apply_promo_code and a 'delivery operations ' agent with the remaining delivery tools — with a coordinating routing between them."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa – hợp nhất issue_credit và process_refund thành một công cụ Handle_promotions duy nhất với một tham số hành động và gộp check_delivery_status vào lookup_order bằng cờ include_tracking tùy chọn. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ ràng hơn và phù hợp hơn với nhiệm vụ của tác nhân.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa – hợp nhất issue_credit và process_refund thành một công cụ Handle_promotions duy nhất với một tham số hành động và gộp check_delivery_status vào lookup_order bằng cờ include_tracking tùy chọn. Điều này làm giảm các lỗi lựa chọn công cụ bằng cách làm cho bề mặt quyết định rõ ràng hơn và phù hợp hơn với nhiệm vụ của tác nhân.",
+        "B": "Nó thực hiện “Enable the tool search tool with defer_loading on the six new tools, keeping the original two always loaded, so the agent dynamically discovers specialized tools only when needed”, nhưng không giải quyết trực tiếp yêu cầu: which approach structurally eliminates the semantic overlap identified in the error source. “Enable the tool search tool with defer_loading on the six new tools, keeping the original two always loaded, so the agent dynamically discovers specialized tools only when needed” không làm được điều đó: Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa – hợp nhất issue_credit và process_refund thành một công cụ Handle_promotio.",
+        "C": "Nó thực hiện “Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool, such as showing when issue_credit applies versus when process_refund is appropriate”, nhưng không giải quyết trực tiếp yêu cầu: which approach structurally eliminates the semantic overlap identified in the error source. “Add few-shot examples to the system prompt demonstrating correct selection for each ambiguous tool, such as showing when issue_credit applies versus when process_refund is appropriate” không làm được điều đó: Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa – hợp nhất issue_credit và process_refund thành một công cụ Handle_promotio.",
+        "D": "Nó thực hiện “Split the tools across two sub-agents — a 'financial resolution 'agent with issue_credit, process_refund, return_order, and apply_promo_code and a 'delivery operations 'agent with the remaining delivery tools — with a coordinating routing between them”, nhưng không giải quyết trực tiếp yêu cầu: which approach structurally eliminates the semantic overlap identified in the error source. “Split the tools across two sub-agents — a 'financial resolution 'agent with issue_credit, process_refund, return_order, and apply_promo_code and a 'delivery operations 'agent with the remaining delivery tools — with a coordinating routing between them” không làm được điều đó: Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa – hợp nhất issue_credit và process_refund thành một công cụ Handle_promotio."
+      },
+      "context": "Đây là quyết định về Which approach structurally eliminates the semantic overlap identified in the error source? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Hợp nhất các công cụ chồng chéo về mặt ngữ nghĩa – hợp nhất issue_credit và process_refund thành một công cụ Handle_promotions duy nhất với một tham số hành động và gộp check_delivery_status vào lookup_order bằng…",
+      "mnemonic": "Đọc requirement trước → chọn A: Consolidate semantically overlapping tools – merge issue_credit and process_refund into a single handle_promotions tool with an action parameter and fold check_delivery_status into lookup_order with an optional include_tracking flag. ---"
+    },
+    {
+      "id": 21,
+      "question": "Your order management system requires tools for three distinct operations: issuing refunds (requires amount and reason), canceling orders (requires reason), and res (requires shipping address). Each operation shares an order id parameter but has different additional requirements. You notice during testing that with your current frequently omits required parameters or includes irrelevant ones.\n\nWhat design change will most effectively improve parameter accuracy?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Split into three separate tools (each defining only the parameters required for that specific operation."
+        },
+        {
+          "key": "B",
+          "text": "Keep one unified tool with all parameters marked optional, but add few-shot examples in the system prompt showing correct parameter combinations for each operation."
+        },
+        {
+          "key": "C",
+          "text": "Keep one unified tool but add JSON Schema if-then-else conditionals to enforce that parameters like amount are required only when the operation type is \"refund \"."
+        },
+        {
+          "key": "D",
+          "text": "Keep one unified tool with a nested operation object parameter whose internal structure varies by operation type, documented in the tool description."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Chia thành ba công cụ riêng biệt (mỗi công cụ chỉ xác định các tham số cần thiết cho hoạt động cụ thể đó. Cách này giải quyết trực tiếp nhất lỗi hoặc ràng buộc được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Chia thành ba công cụ riêng biệt (mỗi công cụ chỉ xác định các tham số cần thiết cho hoạt động cụ thể đó. Cách này giải quyết trực tiếp nhất lỗi hoặc ràng buộc được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "B": "Nó thực hiện “Keep one unified tool with all parameters marked optional, but add few-shot examples in the system prompt showing correct parameter combinations for each operation”, nhưng không giải quyết trực tiếp yêu cầu: what design change will most effectively improve parameter accuracy. “Keep one unified tool with all parameters marked optional, but add few-shot examples in the system prompt showing correct parameter combinations for each operation” không làm được điều đó: Cách tiếp cận tốt nhất là Chia thành ba công cụ riêng biệt (mỗi công cụ chỉ xác định các tham số cần thiết cho hoạt động cụ thể đó.",
+        "C": "Nó thực hiện “Keep one unified tool but add JSON Schema if-then-else conditionals to enforce that parameters like amount are required only when the operation type is \"refund \"”, nhưng không giải quyết trực tiếp yêu cầu: what design change will most effectively improve parameter accuracy. “Keep one unified tool but add JSON Schema if-then-else conditionals to enforce that parameters like amount are required only when the operation type is \"refund \"” không làm được điều đó: Cách tiếp cận tốt nhất là Chia thành ba công cụ riêng biệt (mỗi công cụ chỉ xác định các tham số cần thiết cho hoạt động cụ thể đó.",
+        "D": "Nó thực hiện “Keep one unified tool with a nested operation object parameter whose internal structure varies by operation type, documented in the tool description”, nhưng không giải quyết trực tiếp yêu cầu: what design change will most effectively improve parameter accuracy. “Keep one unified tool with a nested operation object parameter whose internal structure varies by operation type, documented in the tool description” không làm được điều đó: Cách tiếp cận tốt nhất là Chia thành ba công cụ riêng biệt (mỗi công cụ chỉ xác định các tham số cần thiết cho hoạt động cụ thể đó."
+      },
+      "context": "Đây là quyết định về What design change will most effectively improve parameter accuracy? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Chia thành ba công cụ riêng biệt (mỗi công cụ chỉ xác định các tham số cần thiết cho hoạt động cụ thể đó. Cách này giải quyết trực tiếp nhất lỗi hoặc ràng buộc được mô tả trong kịch bản và đáng tin cậy hơn các…",
+      "mnemonic": "Đọc requirement trước → chọn A: Split into three separate tools (each defining only the parameters required for that specific operation. ---"
+    },
+    {
+      "id": 22,
+      "question": "Your fitness coaching assistant uses a system prompt with detailed conditional logic: \"If the user mentions being a beginner, provide step-by-step form instructions. If they use term 'progressive overload ' or 'superset ', respond concisely. If they ask about injury history, always recommend consulting a physician.\" During evaluation, you find the assistant correct explicit expertise declarations but struggles when users don 't clearly state their level-often defaulting to overly detailed responses regardless of contextual cues like technical terms.\n\nWhich change to the system prompt would most directly address this failure to pick up on implicit expertise signals?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Replace most conditionals with a general principle: \"Adapt explanation depth to match user expertise, mirroring their terminology.\" Keep only the safety-critical conditional abou consultations."
+        },
+        {
+          "key": "B",
+          "text": "Add more conditional branches to cover additional expertise signals, such as \"If user mentions specific rep ranges or asks about periodization, treat as advanced.\""
+        },
+        {
+          "key": "C",
+          "text": "Implement a pre-conversation intake that asks users to rate their experience level, then inject that rating into the system prompt as context for all subsequent responses."
+        },
+        {
+          "key": "D",
+          "text": "Add an explicit instruction for the model to ask a clarifying question about experience level whenever the user 's expertise isn 't immediately clear from their first message."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Thay thế hầu hết các điều kiện bằng một nguyên tắc chung: \"Điều chỉnh độ sâu giải thích để phù hợp với chuyên môn của người dùng, phản ánh thuật ngữ của họ \". Chỉ giữ lại các tư vấn về vấn đề an toàn có điều kiện quan trọng. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Thay thế hầu hết các điều kiện bằng một nguyên tắc chung: \"Điều chỉnh độ sâu giải thích để phù hợp với chuyên môn của người dùng, phản ánh thuật ngữ của họ \". Chỉ giữ lại các tư vấn về vấn đề an toàn có điều kiện quan trọng. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+        "B": "Nó thực hiện “Add more conditional branches to cover additional expertise signals, such as \"If user mentions specific rep ranges or asks about periodization, treat as advanced.\"”, nhưng không giải quyết trực tiếp yêu cầu: which change to the system prompt would most directly address this failure to pick up on implicit expert. “Add more conditional branches to cover additional expertise signals, such as \"If user mentions specific rep ranges or asks about periodization, treat as advanced.\"” không làm được điều đó: Cách tiếp cận tốt nhất là Thay thế hầu hết các điều kiện bằng một nguyên tắc chung: \"Điều chỉnh độ sâu giải thích để phù hợp với chuyên môn của người .",
+        "C": "Nó thực hiện “Implement a pre-conversation intake that asks users to rate their experience level, then inject that rating into the system prompt as context for all subsequent responses”, nhưng không giải quyết trực tiếp yêu cầu: which change to the system prompt would most directly address this failure to pick up on implicit expert. “Implement a pre-conversation intake that asks users to rate their experience level, then inject that rating into the system prompt as context for all subsequent responses” không làm được điều đó: Cách tiếp cận tốt nhất là Thay thế hầu hết các điều kiện bằng một nguyên tắc chung: \"Điều chỉnh độ sâu giải thích để phù hợp với chuyên môn của người .",
+        "D": "Nó thực hiện “Add an explicit instruction for the model to ask a clarifying question about experience level whenever the user 's expertise isn 't immediately clear from their first message”, nhưng không giải quyết trực tiếp yêu cầu: which change to the system prompt would most directly address this failure to pick up on implicit expert. “Add an explicit instruction for the model to ask a clarifying question about experience level whenever the user 's expertise isn 't immediately clear from their first message” không làm được điều đó: Cách tiếp cận tốt nhất là Thay thế hầu hết các điều kiện bằng một nguyên tắc chung: \"Điều chỉnh độ sâu giải thích để phù hợp với chuyên môn của người ."
+      },
+      "context": "Đây là quyết định về Which change to the system prompt would most directly address this failure to pick up on implicit expertise signals? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Thay thế hầu hết các điều kiện bằng một nguyên tắc chung: \"Điều chỉnh độ sâu giải thích để phù hợp với chuyên môn của người dùng, phản ánh thuật ngữ của họ \". Chỉ giữ lại các tư vấn về vấn đề an toàn có điều kiện…",
+      "mnemonic": "Đọc requirement trước → chọn A: Replace most conditionals with a general principle: \"Adapt explanation depth to match user expertise, mirroring their terminology.\" Keep only the safety-critical conditional abou consultations. ---"
+    },
+    {
+      "id": 23,
+      "question": "You 're building a security scanning workflow.\n\nWhen engineers need to locate all occurrences of a dangerous function like eval() across a large codebase, which tool should your agent use for content search?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Use Glob with a pattern like / eval to find files, then Read each matching file."
+        },
+        {
+          "key": "B",
+          "text": "Use Grep to search for the pattern \"eval(\" across all files in the codebase."
+        },
+        {
+          "key": "C",
+          "text": "Read the project 's main entry file and follow import statements to trace where eval might be used."
+        },
+        {
+          "key": "D",
+          "text": "Use Bash to run ls -R | grep eval to recursively list files containing eval."
+        }
+      ],
+      "correct": "B",
+      "explanation": "Grep là công cụ tìm kiếm nội dung được xây dựng có mục đích (dựa trên ripgrep) để tìm các mẫu bên trong nội dung tệp trên một cơ sở mã lớn, đây chính xác là công cụ định vị tất cả eval( các trang web cuộc gọi yêu cầu. Glob chỉ khớp với tên tệp, đọc tệp mục nhập và theo dõi quá trình nhập không mở rộng hoặc đảm bảo phạm vi bao phủ và ls -R | grep chỉ khớp với tên tệp chứ không khớp với nội dung tệp.",
+      "optExp": {
+        "A": "Nó thực hiện “Use Glob with a pattern like / eval to find files, then Read each matching file”, nhưng không giải quyết trực tiếp yêu cầu: when engineers need to locate all occurrences of a dangerous function like eval() across a large codebas. “Use Glob with a pattern like / eval to find files, then Read each matching file” không làm được điều đó: Grep là công cụ tìm kiếm nội dung được xây dựng có mục đích (dựa trên ripgrep) để tìm các mẫu bên trong nội dung tệp trên một cơ sở mã lớn, đây chính .",
+        "B": "Grep là công cụ tìm kiếm nội dung được xây dựng có mục đích (dựa trên ripgrep) để tìm các mẫu bên trong nội dung tệp trên một cơ sở mã lớn, đây chính xác là công cụ định vị tất cả eval( các trang web cuộc gọi yêu cầu. Glob chỉ khớp với tên tệp, đọc tệp mục nhập và theo dõi quá trình nhập không mở rộng hoặc đảm bảo phạm vi bao phủ và ls -R | grep chỉ khớp với tên tệp chứ không khớp với nội dung tệp.",
+        "C": "Nó thực hiện “Read the project 's main entry file and follow import statements to trace where eval might be used”, nhưng không giải quyết trực tiếp yêu cầu: when engineers need to locate all occurrences of a dangerous function like eval() across a large codebas. “Read the project 's main entry file and follow import statements to trace where eval might be used” không làm được điều đó: Grep là công cụ tìm kiếm nội dung được xây dựng có mục đích (dựa trên ripgrep) để tìm các mẫu bên trong nội dung tệp trên một cơ sở mã lớn, đây chính .",
+        "D": "Nó thực hiện “Use Bash to run ls -R | grep eval to recursively list files containing eval”, nhưng không giải quyết trực tiếp yêu cầu: when engineers need to locate all occurrences of a dangerous function like eval() across a large codebas. “Use Bash to run ls -R | grep eval to recursively list files containing eval” không làm được điều đó: Grep là công cụ tìm kiếm nội dung được xây dựng có mục đích (dựa trên ripgrep) để tìm các mẫu bên trong nội dung tệp trên một cơ sở mã lớn, đây chính ."
+      },
+      "context": "Đây là quyết định về When engineers need to locate all occurrences of a dangerous function like eval() across a large codebase, which tool should your agent use for content search? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Grep là công cụ tìm kiếm nội dung được xây dựng có mục đích (dựa trên ripgrep) để tìm các mẫu bên trong nội dung tệp trên một cơ sở mã lớn, đây chính xác là công cụ định vị tất cả eval( các trang web cuộc gọi yêu cầu. Glob chỉ khớp với…",
+      "mnemonic": "Đọc requirement trước → chọn B: Use Grep to search for the pattern \"eval(\" across all files in the codebase. ---"
+    },
+    {
+      "id": 24,
+      "question": "Your test generation produces unit tests for new code, but reviews show 55% are low-value: trivial assertions that only verify functions don 't throw exceptions, tests duplicating existing coverage, or tests ignoring your team 's fixture conventions.\n\nHow do you reduce the rate of low-value tests being generated in the first place?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add post-generation coverage analysis that automatically filters out any generated test that doesn 't increase line coverage beyond what existing tests provide."
+        },
+        {
+          "key": "B",
+          "text": "Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing."
+        },
+        {
+          "key": "C",
+          "text": "Document testing standards in CLAUDE.md including valuable test criteria, available fixtures with intended use cases, and examples distinguishing meaningful behavioral tests from trivial assertions."
+        },
+        {
+          "key": "D",
+          "text": "Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Câu hỏi hỏi rõ ràng làm thế nào để giảm bớt các thử nghiệm có giá trị thấp \"được tạo ra ngay từ đầu \", có nghĩa là khắc phục nguyên nhân ngược dòng: Claude thiếu bối cảnh về những gì nhóm coi là một thử nghiệm có giá trị. Việc ghi lại các tiêu chuẩn kiểm tra, cách sử dụng thiết bị cố định và các ví dụ tốt so với tầm thường trong CLAUDE.md cung cấp cho Claude bối cảnh đó tại thời điểm tạo, trong khi A và D chỉ lọc đầu ra xấu sau khi thực tế và B tránh vấn đề thay vì giải quyết nó.",
+      "optExp": {
+        "A": "Nó thực hiện “Add post-generation coverage analysis that automatically filters out any generated test that doesn 't increase line coverage beyond what existing tests provide”, nhưng không giải quyết trực tiếp yêu cầu: how do you reduce the rate of low-value tests being generated in the first place. “Add post-generation coverage analysis that automatically filters out any generated test that doesn 't increase line coverage beyond what existing tests provide” không làm được điều đó: Câu hỏi hỏi rõ ràng làm thế nào để giảm bớt các thử nghiệm có giá trị thấp \"được tạo ra ngay từ đầu \", có nghĩa là khắc phục nguyên nhân ngược dòng: Cl.",
+        "B": "Nó thực hiện “Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing”, nhưng không giải quyết trực tiếp yêu cầu: how do you reduce the rate of low-value tests being generated in the first place. “Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing” không làm được điều đó: Câu hỏi hỏi rõ ràng làm thế nào để giảm bớt các thử nghiệm có giá trị thấp \"được tạo ra ngay từ đầu \", có nghĩa là khắc phục nguyên nhân ngược dòng: Cl.",
+        "C": "Câu hỏi hỏi rõ ràng làm thế nào để giảm bớt các thử nghiệm có giá trị thấp \"được tạo ra ngay từ đầu \", có nghĩa là khắc phục nguyên nhân ngược dòng: Claude thiếu bối cảnh về những gì nhóm coi là một thử nghiệm có giá trị. Việc ghi lại các tiêu chuẩn kiểm tra, cách sử dụng thiết bị cố định và các ví dụ tốt so với tầm thường trong CLAUDE.md cung cấp cho Claude bối cảnh đó tại thời điểm tạo, trong khi A và D chỉ lọc đầu ra xấu sau khi thực tế và B tránh vấn đề thay vì giải quyết nó.",
+        "D": "Nó thực hiện “Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers”, nhưng không giải quyết trực tiếp yêu cầu: how do you reduce the rate of low-value tests being generated in the first place. “Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers” không làm được điều đó: Câu hỏi hỏi rõ ràng làm thế nào để giảm bớt các thử nghiệm có giá trị thấp \"được tạo ra ngay từ đầu \", có nghĩa là khắc phục nguyên nhân ngược dòng: Cl."
+      },
+      "context": "Đây là quyết định về How do you reduce the rate of low-value tests being generated in the first place? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Câu hỏi hỏi rõ ràng làm thế nào để giảm bớt các thử nghiệm có giá trị thấp \"được tạo ra ngay từ đầu \", có nghĩa là khắc phục nguyên nhân ngược dòng: Claude thiếu bối cảnh về những gì nhóm coi là một thử nghiệm có giá trị. Việc ghi lại các…",
+      "mnemonic": "Đọc requirement trước → chọn C: Document testing standards in CLAUDE.md including valuable test criteria, available fixtures with intended use cases, and examples distinguishing meaningful behavioral tests from trivial assertions. ---"
+    },
+    {
+      "id": 25,
+      "question": "Your expense reimbursement agent processes employee requests using a process reimbursement tool. Company policy requires that reimbursements above $500 must be approved before funds are disbursed.\n\nThe agent handles hundreds of requests daily, and you need the threshold enforcement to be tamper-proof regardless of how the agent is prompted ensures the $500 approval threshold cannot be bypassed?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "The process reimbursement tool accepts an approved by manager parameter. The system prompt instructs the agent to only set this to true after confirming that a manager approved the request. A nightly audit script reviews all reimbursements where approved by manager was set to true."
+        },
+        {
+          "key": "B",
+          "text": "Provide two tools: auto reimburse (hard-coded limit of $500) and manager approval. Include detailed system prompt instructions telling the agent to check the amount and use the appropriate tool. Add a Post ToolUse hook that logs which tool was called for auditing."
+        },
+        {
+          "key": "C",
+          "text": "The process reimbursement tool accepts amount and details, and internally enforces the threshold; amounts <$500 are auto-disbursed and the tool returns a success confirmation. Amounts >$500 cause the tool to create a pending approval request and return a status indicating manager review is pending."
+        },
+        {
+          "key": "D",
+          "text": "Implement the threshold check in a PreToolUse hook that inspects the amount parameter before process reimbursement executes. If the amount exceeds $500, the hook modifies the context to add a requires approval: true flag, which the tool checks before disbursing."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Công cụ hoàn trả quy trình chấp nhận số tiền và thông tin chi tiết, đồng thời thực thi ngưỡng nội bộ; số tiền <$500 được tự động giải ngân và công cụ trả về xác nhận thành công. Số tiền >$500 khiến công cụ tạo yêu cầu phê duyệt đang chờ xử lý và trả về trạng thái cho biết đang chờ xem xét của người quản lý. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “The process reimbursement tool accepts an approved by manager parameter. The system prompt instructs the agent to only set this to true after confirming that a manager approved the request. A nightly audit script reviews all reimbursements where approved by manager was set to true”, nhưng không giải quyết trực tiếp yêu cầu: the agent handles hundreds of requests daily, and you need the threshold enforcement to be tamper-proof . “The process reimbursement tool accepts an approved by manager parameter. The system prompt instructs the agent to only set this to true after confirming that a manager approved the request. A nightly audit script reviews all reimbursements where approved by manager was set to true” không làm được điều đó: Cách tiếp cận tốt nhất là Công cụ hoàn trả quy trình chấp nhận số tiền và thông tin chi tiết, đồng thời thực thi ngưỡng nội bộ.",
+        "B": "Nó thực hiện “Provide two tools: auto reimburse (hard-coded limit of $500) and manager approval. Include detailed system prompt instructions telling the agent to check the amount and use the appropriate tool. Add a Post ToolUse hook that logs which tool was called for auditing”, nhưng không giải quyết trực tiếp yêu cầu: the agent handles hundreds of requests daily, and you need the threshold enforcement to be tamper-proof . “Provide two tools: auto reimburse (hard-coded limit of $500) and manager approval. Include detailed system prompt instructions telling the agent to check the amount and use the appropriate tool. Add a Post ToolUse hook that logs which tool was called for auditing” không làm được điều đó: Cách tiếp cận tốt nhất là Công cụ hoàn trả quy trình chấp nhận số tiền và thông tin chi tiết, đồng thời thực thi ngưỡng nội bộ.",
+        "C": "Cách tiếp cận tốt nhất là Công cụ hoàn trả quy trình chấp nhận số tiền và thông tin chi tiết, đồng thời thực thi ngưỡng nội bộ; số tiền <$500 được tự động giải ngân và công cụ trả về xác nhận thành công. Số tiền >$500 khiến công cụ tạo yêu cầu phê duyệt đang chờ xử lý và trả về trạng thái cho biết đang chờ xem xét của người quản lý. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó thực hiện “Implement the threshold check in a PreToolUse hook that inspects the amount parameter before process reimbursement executes. If the amount exceeds $500, the hook modifies the context to add a requires approval: true flag, which the tool checks before disbursing”, nhưng không giải quyết trực tiếp yêu cầu: the agent handles hundreds of requests daily, and you need the threshold enforcement to be tamper-proof . “Implement the threshold check in a PreToolUse hook that inspects the amount parameter before process reimbursement executes. If the amount exceeds $500, the hook modifies the context to add a requires approval: true flag, which the tool checks before disbursing” không làm được điều đó: Cách tiếp cận tốt nhất là Công cụ hoàn trả quy trình chấp nhận số tiền và thông tin chi tiết, đồng thời thực thi ngưỡng nội bộ."
+      },
+      "context": "Đây là quyết định về The agent handles hundreds of requests daily, and you need the threshold enforcement to be tamper-proof regardless of how the agent is prompted ensures the $500 approval threshold cannot be bypassed? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Công cụ hoàn trả quy trình chấp nhận số tiền và thông tin chi tiết, đồng thời thực thi ngưỡng nội bộ; số tiền <$500 được tự động giải ngân và công cụ trả về xác nhận thành công. Số tiền >$500 khiến công cụ…",
+      "mnemonic": "Đọc requirement trước → chọn C: The process reimbursement tool accepts amount and details, and internally enforces the threshold; amounts $500 are auto-disbursed and the tool returns a success confirmation. Amounts >$500 cause the tool to create a pending approval request and return a status indicating manager review is pending. ---"
+    },
+    {
+      "id": 26,
+      "question": "Your portfolio value tool returns the total value of a user 's investment portfolio. You 're deciding between returning a structured JSON object with explicit fields versus returning information as a formatted text string.\n\nWhat is the primary advantage of using structured output with defined fields?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Structured JSON consumes significantly fewer tokens than natural language, substantially reducing API costs."
+        },
+        {
+          "key": "B",
+          "text": "The agent can reliably extract specific values without parsing free form text, reducing errors in subsequent operations."
+        },
+        {
+          "key": "C",
+          "text": "Structured JSON is processed deterministically by the model, significantly improving accuracy when extracting values."
+        },
+        {
+          "key": "D",
+          "text": "JSON schemas automatically validate that the underlying API returned correct data before the agent processes it."
+        }
+      ],
+      "correct": "B",
+      "explanation": "Cách tiếp cận tốt nhất là Tác nhân có thể trích xuất các giá trị cụ thể một cách đáng tin cậy mà không cần phân tích văn bản dạng tự do, giảm lỗi trong các hoạt động tiếp theo. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác thực hoặc phân tích cú pháp ở phía dưới.",
+      "optExp": {
+        "A": "Nó thực hiện “Structured JSON consumes significantly fewer tokens than natural language, substantially reducing API costs”, nhưng không giải quyết trực tiếp yêu cầu: what is the primary advantage of using structured output with defined fields. “Structured JSON consumes significantly fewer tokens than natural language, substantially reducing API costs” không làm được điều đó: Cách tiếp cận tốt nhất là Tác nhân có thể trích xuất các giá trị cụ thể một cách đáng tin cậy mà không cần phân tích văn bản dạng tự do, giảm lỗi tron.",
+        "B": "Cách tiếp cận tốt nhất là Tác nhân có thể trích xuất các giá trị cụ thể một cách đáng tin cậy mà không cần phân tích văn bản dạng tự do, giảm lỗi trong các hoạt động tiếp theo. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác thực hoặc phân tích cú pháp ở phía dưới.",
+        "C": "Nó thực hiện “Structured JSON is processed deterministically by the model, significantly improving accuracy when extracting values”, nhưng không giải quyết trực tiếp yêu cầu: what is the primary advantage of using structured output with defined fields. “Structured JSON is processed deterministically by the model, significantly improving accuracy when extracting values” không làm được điều đó: Cách tiếp cận tốt nhất là Tác nhân có thể trích xuất các giá trị cụ thể một cách đáng tin cậy mà không cần phân tích văn bản dạng tự do, giảm lỗi tron.",
+        "D": "Nó thực hiện “JSON schemas automatically validate that the underlying API returned correct data before the agent processes it”, nhưng không giải quyết trực tiếp yêu cầu: what is the primary advantage of using structured output with defined fields. “JSON schemas automatically validate that the underlying API returned correct data before the agent processes it” không làm được điều đó: Cách tiếp cận tốt nhất là Tác nhân có thể trích xuất các giá trị cụ thể một cách đáng tin cậy mà không cần phân tích văn bản dạng tự do, giảm lỗi tron."
+      },
+      "context": "Đây là quyết định về What is the primary advantage of using structured output with defined fields? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Tác nhân có thể trích xuất các giá trị cụ thể một cách đáng tin cậy mà không cần phân tích văn bản dạng tự do, giảm lỗi trong các hoạt động tiếp theo. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn…",
+      "mnemonic": "Đọc requirement trước → chọn B: The agent can reliably extract specific values without parsing free form text, reducing errors in subsequent operations. ---"
+    },
+    {
+      "id": 27,
+      "question": "Performance analysis reveals your context is composed of accumulated RAG results from all previous queries, which is crowding out conversation history and causing coherence degradation after 15 + turns.\n\nWhich approach best addresses this issue?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Implement semantic deduplication to identify and remove redundant information across the accumulated RAG results and conversation turns"
+        },
+        {
+          "key": "B",
+          "text": "Implement a sliding window for RAG results from the last 2-3 queries while preserving conversation history"
+        },
+        {
+          "key": "C",
+          "text": "Shift context budget to favor RAG results while reducing conversation history allocation"
+        },
+        {
+          "key": "D",
+          "text": "Compress all RAG results into a consolidated summary document that updates incrementally after each retrieval"
+        }
+      ],
+      "correct": "B",
+      "explanation": "Cách tiếp cận tốt nhất là Triển khai cửa sổ trượt cho kết quả RAG từ 2-3 truy vấn gần đây nhất trong khi vẫn lưu giữ lịch sử hội thoại. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Nó thực hiện “Implement semantic deduplication to identify and remove redundant information across the accumulated RAG results and conversation turns”, nhưng không giải quyết trực tiếp yêu cầu: which approach best addresses this issue. “Implement semantic deduplication to identify and remove redundant information across the accumulated RAG results and conversation turns” không làm được điều đó: Cách tiếp cận tốt nhất là Triển khai cửa sổ trượt cho kết quả RAG từ 2-3 truy vấn gần đây nhất trong khi vẫn lưu giữ lịch sử hội thoại.",
+        "B": "Cách tiếp cận tốt nhất là Triển khai cửa sổ trượt cho kết quả RAG từ 2-3 truy vấn gần đây nhất trong khi vẫn lưu giữ lịch sử hội thoại. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+        "C": "Nó thực hiện “Shift context budget to favor RAG results while reducing conversation history allocation”, nhưng không giải quyết trực tiếp yêu cầu: which approach best addresses this issue. “Shift context budget to favor RAG results while reducing conversation history allocation” không làm được điều đó: Cách tiếp cận tốt nhất là Triển khai cửa sổ trượt cho kết quả RAG từ 2-3 truy vấn gần đây nhất trong khi vẫn lưu giữ lịch sử hội thoại.",
+        "D": "Nó thực hiện “Compress all RAG results into a consolidated summary document that updates incrementally after each retrieval”, nhưng không giải quyết trực tiếp yêu cầu: which approach best addresses this issue. “Compress all RAG results into a consolidated summary document that updates incrementally after each retrieval” không làm được điều đó: Cách tiếp cận tốt nhất là Triển khai cửa sổ trượt cho kết quả RAG từ 2-3 truy vấn gần đây nhất trong khi vẫn lưu giữ lịch sử hội thoại."
+      },
+      "context": "Đây là quyết định về Which approach best addresses this issue? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Triển khai cửa sổ trượt cho kết quả RAG từ 2-3 truy vấn gần đây nhất trong khi vẫn lưu giữ lịch sử hội thoại. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có…",
+      "mnemonic": "Đọc requirement trước → chọn B: Implement a sliding window for RAG results from the last 2-3 queries while preserving conversation history ---"
+    },
+    {
+      "id": 28,
+      "question": "Your team frequently migrates React components to Vue. You 've written a step-by-step workflow for Claude Code to follow during each migration, and you want every developer on the team to invoke it by typing /migrate-component. The workflow should stay in sync as the team iterates on it.\n\nWhere should you place the skill file?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "In ~/.claude/skills/migrate-component/SKILL.md on each developer 's machine"
+        },
+        {
+          "key": "B",
+          "text": "In the project 's .claude/settings.json using a skillOverrides entry to register and define the workflow"
+        },
+        {
+          "key": "C",
+          "text": "In .claude/skills/migrate-component/SKILL.md at the project root, committed to version control"
+        },
+        {
+          "key": "D",
+          "text": "As a detailed instruction block in the project 's root CLAUDE.md file"
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Trong .claude/skills/migrate-comComponent/SKILL.md ở gốc dự án, cam kết kiểm soát phiên bản. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “In ~/.claude/skills/migrate-component/SKILL.md on each developer 's machine”, nhưng không giải quyết trực tiếp yêu cầu: where should you place the skill file. “In ~/.claude/skills/migrate-component/SKILL.md on each developer 's machine” không làm được điều đó: claude/skills/migrate-comComponent/SKILL.",
+        "B": "Nó thực hiện “In the project 's .claude/settings.json using a skillOverrides entry to register and define the workflow”, nhưng không giải quyết trực tiếp yêu cầu: where should you place the skill file. “In the project 's .claude/settings.json using a skillOverrides entry to register and define the workflow” không làm được điều đó: claude/skills/migrate-comComponent/SKILL.",
+        "C": "Cách tiếp cận tốt nhất là Trong .claude/skills/migrate-comComponent/SKILL.md ở gốc dự án, cam kết kiểm soát phiên bản. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó thực hiện “As a detailed instruction block in the project 's root CLAUDE.md file”, nhưng không giải quyết trực tiếp yêu cầu: where should you place the skill file. “As a detailed instruction block in the project 's root CLAUDE.md file” không làm được điều đó: claude/skills/migrate-comComponent/SKILL."
+      },
+      "context": "Đây là quyết định về Where should you place the skill file? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Trong .claude/skills/migrate-comComponent/SKILL.md ở gốc dự án, cam kết kiểm soát phiên bản. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn…",
+      "mnemonic": "Đọc requirement trước → chọn C: In .claude/skills/migrate-component/SKILL.md at the project root, committed to version control ---"
+    },
+    {
+      "id": 29,
+      "question": "The system processes product reviews using tool use with a defined schema: rating (integer 1-5), pros (string array), cons (string array), and overall_sentiment (enum: positive, negative, mixed). Testing reveals two issues with brief or ambiguous reviews (~20% of the dataset): (1) for reviews like \"Great product!\", Claude fabricates specific pros and cons rather than indicating this information isn 't explicitly stated, and (2) for sarcastic reviews like \"Well that was... interesting \", Claude picks sentiment arbitrarily since there 's no option for ambiguous cases.\n\nWhat schema modification best addresses both issues?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add an extraction_confidence field (0.0-1.0) for each value, and filter outputs where any confidence falls below a threshold."
+        },
+        {
+          "key": "B",
+          "text": "Allow null values for pros/cons, and add \"unclear \" to the sentiment enum."
+        },
+        {
+          "key": "C",
+          "text": "Allow empty arrays for pros/cons as valid output, and add \"unclear \" to the sentiment enum."
+        },
+        {
+          "key": "D",
+          "text": "Make pros and cons optional fields, and add \"neutral \" and \"unclear \" to the sentiment enum."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Cho phép các mảng trống cho ưu/nhược điểm làm đầu ra hợp lệ và thêm \"không rõ ràng \" vào enum tình cảm. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác thực hoặc phân tích cú pháp ở phía dưới.",
+      "optExp": {
+        "A": "Nó thực hiện “Add an extraction_confidence field (0.0-1.0) for each value, and filter outputs where any confidence falls below a threshold”, nhưng không giải quyết trực tiếp yêu cầu: what schema modification best addresses both issues. “Add an extraction_confidence field (0.0-1.0) for each value, and filter outputs where any confidence falls below a threshold” không làm được điều đó: Cách tiếp cận tốt nhất là Cho phép các mảng trống cho ưu/nhược điểm làm đầu ra hợp lệ và thêm \"không rõ ràng \"vào enum tình cảm.",
+        "B": "Nó thực hiện “Allow null values for pros/cons, and add \"unclear \"to the sentiment enum”, nhưng không giải quyết trực tiếp yêu cầu: what schema modification best addresses both issues. “Allow null values for pros/cons, and add \"unclear \"to the sentiment enum” không làm được điều đó: Cách tiếp cận tốt nhất là Cho phép các mảng trống cho ưu/nhược điểm làm đầu ra hợp lệ và thêm \"không rõ ràng \"vào enum tình cảm.",
+        "C": "Cách tiếp cận tốt nhất là Cho phép các mảng trống cho ưu/nhược điểm làm đầu ra hợp lệ và thêm \"không rõ ràng \" vào enum tình cảm. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác thực hoặc phân tích cú pháp ở phía dưới.",
+        "D": "Nó thực hiện “Make pros and cons optional fields, and add \"neutral \"and \"unclear \"to the sentiment enum”, nhưng không giải quyết trực tiếp yêu cầu: what schema modification best addresses both issues. “Make pros and cons optional fields, and add \"neutral \"and \"unclear \"to the sentiment enum” không làm được điều đó: Cách tiếp cận tốt nhất là Cho phép các mảng trống cho ưu/nhược điểm làm đầu ra hợp lệ và thêm \"không rõ ràng \"vào enum tình cảm."
+      },
+      "context": "Đây là quyết định về What schema modification best addresses both issues? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Cho phép các mảng trống cho ưu/nhược điểm làm đầu ra hợp lệ và thêm \"không rõ ràng \"vào enum tình cảm. Đây là cách đáng tin cậy nhất để giữ cho đầu ra được căn chỉnh với cấu trúc được yêu cầu và giảm các lỗi xác…",
+      "mnemonic": "Đọc requirement trước → chọn C: Allow empty arrays for pros/cons as valid output, and add \"unclear \" to the sentiment enum. ---"
+    },
+    {
+      "id": 30,
+      "question": "Production logs show that when the agent handles complex billing disputes requiring 6 + tool calls, it sometimes exhausts its max_turns limit after gathering data and before completing resolution or escalating. The team 's goal is to guarantee that every customer interaction ends with either a completed resolution or a human escalation, regardless of how the agent loop terminates.\n\nWhich approach achieves this guarantee?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add orchestration-layer code that checks the agent 's outcome after each loop termination - if the loop ended without a completed resolution or escalation, programmatically call escalate_to_human with the accumulated conversation context and tool results."
+        },
+        {
+          "key": "B",
+          "text": "Implement a pre-tool-use hook that counts tool invocations and terminates the loop with an automatic escalation once the agent reaches 80% of its remaining actions."
+        },
+        {
+          "key": "C",
+          "text": "Add system prompt instructions telling the agent to call escalate_to_human with a summary of its findings whenever it determines it cannot resolve the dispute."
+        },
+        {
+          "key": "D",
+          "text": "Split the workflow into two sequential agent invocations — a first agent gathers information via get_customer and lookup_order, then the second agent uses that data and handles process_refund or escalate_to_human, each with separate turn budgets."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Thêm mã lớp điều phối để kiểm tra kết quả của tổng đài viên sau mỗi lần kết thúc vòng lặp - nếu vòng lặp kết thúc mà không có giải pháp hoặc leo thang hoàn thành, hãy gọi theo chương trình escal_to_human với bối cảnh hội thoại tích lũy và kết quả công cụ. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Thêm mã lớp điều phối để kiểm tra kết quả của tổng đài viên sau mỗi lần kết thúc vòng lặp - nếu vòng lặp kết thúc mà không có giải pháp hoặc leo thang hoàn thành, hãy gọi theo chương trình escal_to_human với bối cảnh hội thoại tích lũy và kết quả công cụ. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "B": "Nó thực hiện “Implement a pre-tool-use hook that counts tool invocations and terminates the loop with an automatic escalation once the agent reaches 80% of its remaining actions”, nhưng không giải quyết trực tiếp yêu cầu: which approach achieves this guarantee. “Implement a pre-tool-use hook that counts tool invocations and terminates the loop with an automatic escalation once the agent reaches 80% of its remaining actions” không làm được điều đó: nếu vòng lặp kết thúc mà không có giải pháp hoặc leo thang hoàn thành, hãy gọi theo chương trình escal_to_human với bối cảnh hội thoại tích lũy và kết.",
+        "C": "Nó thực hiện “Add system prompt instructions telling the agent to call escalate_to_human with a summary of its findings whenever it determines it cannot resolve the dispute”, nhưng không giải quyết trực tiếp yêu cầu: which approach achieves this guarantee. “Add system prompt instructions telling the agent to call escalate_to_human with a summary of its findings whenever it determines it cannot resolve the dispute” không làm được điều đó: nếu vòng lặp kết thúc mà không có giải pháp hoặc leo thang hoàn thành, hãy gọi theo chương trình escal_to_human với bối cảnh hội thoại tích lũy và kết.",
+        "D": "Nó thực hiện “Split the workflow into two sequential agent invocations — a first agent gathers information via get_customer and lookup_order, then the second agent uses that data and handles process_refund or escalate_to_human, each with separate turn budgets”, nhưng không giải quyết trực tiếp yêu cầu: which approach achieves this guarantee. “Split the workflow into two sequential agent invocations — a first agent gathers information via get_customer and lookup_order, then the second agent uses that data and handles process_refund or escalate_to_human, each with separate turn budgets” không làm được điều đó: nếu vòng lặp kết thúc mà không có giải pháp hoặc leo thang hoàn thành, hãy gọi theo chương trình escal_to_human với bối cảnh hội thoại tích lũy và kết."
+      },
+      "context": "Đây là quyết định về Which approach achieves this guarantee? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Thêm mã lớp điều phối để kiểm tra kết quả của tổng đài viên sau mỗi lần kết thúc vòng lặp - nếu vòng lặp kết thúc mà không có giải pháp hoặc leo thang hoàn thành, hãy gọi theo chương trình escal_to_human với bối…",
+      "mnemonic": "Đọc requirement trước → chọn A: Add orchestration-layer code that checks the agent 's outcome after each loop termination - if the loop ended without a completed resolution or escalation, programmatically call escalate_to_human with the accumulated conversation context and tool results. ---"
+    },
+    {
+      "id": 31,
+      "question": "A developer uses Claude Code to refactor a function during their development session. Before committing, they ask the same Claude session to review the code for issues. Later, a separate automated CI review catches several bugs that the same-session review missed.\n\nWhat best explains this discrepancy?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "The CI environment has access to the full codebase context while the local session only sees the current file"
+        },
+        {
+          "key": "B",
+          "text": "The CI review uses a more specific prompt tailored for catching bugs, while the developer 's request was too general"
+        },
+        {
+          "key": "C",
+          "text": "Claude retains context about its prior reasoning in the session, making it less likely to question its own decisions"
+        },
+        {
+          "key": "D",
+          "text": "The extended session length caused the context window to fill with conversation history, leaving less room for thorough analysis"
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Claude giữ lại bối cảnh về lý do trước đó của mình trong phiên họp, khiến họ ít có khả năng đặt câu hỏi về các quyết định của chính mình. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “The CI environment has access to the full codebase context while the local session only sees the current file”, nhưng không giải quyết trực tiếp yêu cầu: what best explains this discrepancy. “The CI environment has access to the full codebase context while the local session only sees the current file” không làm được điều đó: Cách tiếp cận tốt nhất là Claude giữ lại bối cảnh về lý do trước đó của mình trong phiên họp, khiến họ ít có khả năng đặt câu hỏi về các quyết định củ.",
+        "B": "Nó thực hiện “The CI review uses a more specific prompt tailored for catching bugs, while the developer 's request was too general”, nhưng không giải quyết trực tiếp yêu cầu: what best explains this discrepancy. “The CI review uses a more specific prompt tailored for catching bugs, while the developer 's request was too general” không làm được điều đó: Cách tiếp cận tốt nhất là Claude giữ lại bối cảnh về lý do trước đó của mình trong phiên họp, khiến họ ít có khả năng đặt câu hỏi về các quyết định củ.",
+        "C": "Cách tiếp cận tốt nhất là Claude giữ lại bối cảnh về lý do trước đó của mình trong phiên họp, khiến họ ít có khả năng đặt câu hỏi về các quyết định của chính mình. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó tăng dung lượng nhưng không lưu lại các phát hiện sẽ bị trôi khỏi context. “The extended session length caused the context window to fill with conversation history, leaving less room for thorough analysis” không làm được điều đó: Cách tiếp cận tốt nhất là Claude giữ lại bối cảnh về lý do trước đó của mình trong phiên họp, khiến họ ít có khả năng đặt câu hỏi về các quyết định củ."
+      },
+      "context": "Đây là quyết định về What best explains this discrepancy? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Claude giữ lại bối cảnh về lý do trước đó của mình trong phiên họp, khiến họ ít có khả năng đặt câu hỏi về các quyết định của chính mình. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả…",
+      "mnemonic": "Đọc requirement trước → chọn C: Claude retains context about its prior reasoning in the session, making it less likely to question its own decisions ---"
+    },
+    {
+      "id": 32,
+      "question": "You 've configured your Claude agent with three MCP servers: one for git operations, one for Jira ticket management, and one for documentation search.\n\nWhen a user asks the agent to \"create a branch for JIRA- 123 and add documentation links to the ticket,\" how does the agent access tools across these servers?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "The agent queries each server sequentially to determine which handles each tool, routing calls based on tool name prefixes."
+        },
+        {
+          "key": "B",
+          "text": "Tools from all configured MCP servers are discovered at connection time and available simultaneously to the agent."
+        },
+        {
+          "key": "C",
+          "text": "You must specify which MCP server to use for each turn, and the agent can only access one server 's tools at a time."
+        },
+        {
+          "key": "D",
+          "text": "The agent automatically selects the most relevant server based on the request and loads only that server 's tools."
+        }
+      ],
+      "correct": "B",
+      "explanation": "Cách tiếp cận tốt nhất là Công cụ từ tất cả các máy chủ MCP được định cấu hình được phát hiện tại thời điểm kết nối và có sẵn đồng thời cho đại lý. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “The agent queries each server sequentially to determine which handles each tool, routing calls based on tool name prefixes”, nhưng không giải quyết trực tiếp yêu cầu: when a user asks the agent to \"create a branch for jira- 123 and add documentation links to the ticket,\". “The agent queries each server sequentially to determine which handles each tool, routing calls based on tool name prefixes” không làm được điều đó: Cách tiếp cận tốt nhất là Công cụ từ tất cả các máy chủ MCP được định cấu hình được phát hiện tại thời điểm kết nối và có sẵn đồng thời cho đại lý.",
+        "B": "Cách tiếp cận tốt nhất là Công cụ từ tất cả các máy chủ MCP được định cấu hình được phát hiện tại thời điểm kết nối và có sẵn đồng thời cho đại lý. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "C": "Nó thực hiện “You must specify which MCP server to use for each turn, and the agent can only access one server 's tools at a time”, nhưng không giải quyết trực tiếp yêu cầu: when a user asks the agent to \"create a branch for jira- 123 and add documentation links to the ticket,\". “You must specify which MCP server to use for each turn, and the agent can only access one server 's tools at a time” không làm được điều đó: Cách tiếp cận tốt nhất là Công cụ từ tất cả các máy chủ MCP được định cấu hình được phát hiện tại thời điểm kết nối và có sẵn đồng thời cho đại lý.",
+        "D": "Nó thực hiện “The agent automatically selects the most relevant server based on the request and loads only that server 's tools”, nhưng không giải quyết trực tiếp yêu cầu: when a user asks the agent to \"create a branch for jira- 123 and add documentation links to the ticket,\". “The agent automatically selects the most relevant server based on the request and loads only that server 's tools” không làm được điều đó: Cách tiếp cận tốt nhất là Công cụ từ tất cả các máy chủ MCP được định cấu hình được phát hiện tại thời điểm kết nối và có sẵn đồng thời cho đại lý."
+      },
+      "context": "Đây là quyết định về When a user asks the agent to \"create a branch for JIRA- 123 and add documentation links to the ticket,\" how does the agent access tools across these servers? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Công cụ từ tất cả các máy chủ MCP được định cấu hình được phát hiện tại thời điểm kết nối và có sẵn đồng thời cho đại lý. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và…",
+      "mnemonic": "Đọc requirement trước → chọn B: Tools from all configured MCP servers are discovered at connection time and available simultaneously to the agent. ---"
+    },
+    {
+      "id": 33,
+      "question": "An engineer submits two requests: • Request A: \"Rename the getUserData function to fetchUserProfile everywhere it 's used.\" • Request B: \"Improve error handling throughout the data processing module—add try/catch blocks, meaningful error messages, and ensure failures don 't silently corrupt data.\"\n\nFor which request does specifying an explicit multi-phase workflow (such as analyze propose implement with review) most improve outcome quality?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Request B, the error handling task"
+        },
+        {
+          "key": "B",
+          "text": "Both requests benefit equally"
+        },
+        {
+          "key": "C",
+          "text": "Request A, the function rename task"
+        },
+        {
+          "key": "D",
+          "text": "Neither request benefits significantly"
+        }
+      ],
+      "correct": "A",
+      "explanation": "Yêu cầu B có kết thúc mở và mang nặng tính phán xét — \"cải thiện việc xử lý lỗi \" yêu cầu phân tích hành vi hiện tại, quyết định vị trí của thử/bắt và chọn các thông báo có ý nghĩa, do đó, một phân tích rõ ràng đề xuất quy trình triển khai kèm theo đánh giá sẽ nâng cao đáng kể chất lượng và phát hiện thiết kế xấu trước khi thay đổi mã. Yêu cầu A là một sự đổi tên cơ học, được xác định rõ ràng mà việc thực thi kiểu tìm và thay thế đơn giản có thể xử lý tốt, do đó cấu trúc nhiều pha sẽ bổ sung thêm rất ít.",
+      "optExp": {
+        "A": "Yêu cầu B có kết thúc mở và mang nặng tính phán xét — \"cải thiện việc xử lý lỗi \" yêu cầu phân tích hành vi hiện tại, quyết định vị trí của thử/bắt và chọn các thông báo có ý nghĩa, do đó, một phân tích rõ ràng đề xuất quy trình triển khai kèm theo đánh giá sẽ nâng cao đáng kể chất lượng và phát hiện thiết kế xấu trước khi thay đổi mã. Yêu cầu A là một sự đổi tên cơ học, được xác định rõ ràng mà việc thực thi kiểu tìm và thay thế đơn giản có thể xử lý tốt, do đó cấu trúc nhiều pha sẽ bổ sung thêm rất ít.",
+        "B": "Nó thực hiện “Both requests benefit equally”, nhưng không giải quyết trực tiếp yêu cầu: \"for which request does specifying an explicit multi-phase workflow (such as analyze propose implement w. “Both requests benefit equally” không làm được điều đó: Yêu cầu B có kết thúc mở và mang nặng tính phán xét.",
+        "C": "Nó thực hiện “Request A, the function rename task”, nhưng không giải quyết trực tiếp yêu cầu: \"for which request does specifying an explicit multi-phase workflow (such as analyze propose implement w. “Request A, the function rename task” không làm được điều đó: Yêu cầu B có kết thúc mở và mang nặng tính phán xét.",
+        "D": "Nó thực hiện “Neither request benefits significantly”, nhưng không giải quyết trực tiếp yêu cầu: \"for which request does specifying an explicit multi-phase workflow (such as analyze propose implement w. “Neither request benefits significantly” không làm được điều đó: Yêu cầu B có kết thúc mở và mang nặng tính phán xét."
+      },
+      "context": "Đây là quyết định về \" For which request does specifying an explicit multi-phase workflow (such as analyze propose implement with review) most improve outcome quality? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Yêu cầu B có kết thúc mở và mang nặng tính phán xét — \"cải thiện việc xử lý lỗi \"yêu cầu phân tích hành vi hiện tại, quyết định vị trí của thử/bắt và chọn các thông báo có ý nghĩa, do đó, một phân tích rõ ràng đề xuất quy trình triển khai…",
+      "mnemonic": "Đọc requirement trước → chọn A: Request B, the error handling task ---"
+    },
+    {
+      "id": 34,
+      "question": "During initial testing of the automated review pipeline, you notice that reviews on large PRs (50 + changed files) sometimes take over 20 minutes and cost $8-12 per run due to extensive agentic loops — Claude reads files, runs analysis tools, and iterates many times. Your team needs each invocation to abort once it reaches a fixed iteration count and a fixed dollar amount, enforced by Claude Code itself rather than the surrounding job runner.\n\nWhich configuration change directly enforces both of those per-invocation caps?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add --max-turns 10 --max-budget-usd 2.00 to the claude -p invocation to cap iterations and spend."
+        },
+        {
+          "key": "B",
+          "text": "Switch the --model flag to a smaller, cheaper model so each iteration uses fewer tokens and lower per- call cost."
+        },
+        {
+          "key": "C",
+          "text": "Set timeout-minutes: 5 on the GitHub Actions job step and monitor per-run costs via the Anthropic Console usage dashboard."
+        },
+        {
+          "key": "D",
+          "text": "Set --permission-mode dontAsk to auto-deny any tool permission requests not in the explicitly allowed set."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Các biện pháp kiểm soát bắt buộc là các giới hạn riêng cho mỗi lần gọi bên trong Mã Claude: một giới hạn số lượt tác nhân và một giới hạn số tiền chi tiêu cho lần chạy đó. Sử dụng các giới hạn thời gian chạy tích hợp đó là cách trực tiếp để ngăn chặn các đánh giá quá lớn mà không phụ thuộc vào cài đặt công việc bên ngoài hoặc giảm chi phí gián tiếp.",
+      "optExp": {
+        "A": "Các biện pháp kiểm soát bắt buộc là các giới hạn riêng cho mỗi lần gọi bên trong Mã Claude: một giới hạn số lượt tác nhân và một giới hạn số tiền chi tiêu cho lần chạy đó. Sử dụng các giới hạn thời gian chạy tích hợp đó là cách trực tiếp để ngăn chặn các đánh giá quá lớn mà không phụ thuộc vào cài đặt công việc bên ngoài hoặc giảm chi phí gián tiếp.",
+        "B": "Nó thực hiện “Switch the --model flag to a smaller, cheaper model so each iteration uses fewer tokens and lower per- call cost”, nhưng không giải quyết trực tiếp yêu cầu: which configuration change directly enforces both of those per-invocation caps. “Switch the --model flag to a smaller, cheaper model so each iteration uses fewer tokens and lower per- call cost” không làm được điều đó: Các biện pháp kiểm soát bắt buộc là các giới hạn riêng cho mỗi lần gọi bên trong Mã Claude: một giới hạn số lượt tác nhân và một giới hạn số tiền chi .",
+        "C": "Nó thực hiện “Set timeout-minutes: 5 on the GitHub Actions job step and monitor per-run costs via the Anthropic Console usage dashboard”, nhưng không giải quyết trực tiếp yêu cầu: which configuration change directly enforces both of those per-invocation caps. “Set timeout-minutes: 5 on the GitHub Actions job step and monitor per-run costs via the Anthropic Console usage dashboard” không làm được điều đó: Các biện pháp kiểm soát bắt buộc là các giới hạn riêng cho mỗi lần gọi bên trong Mã Claude: một giới hạn số lượt tác nhân và một giới hạn số tiền chi .",
+        "D": "Nó thực hiện “Set --permission-mode dontAsk to auto-deny any tool permission requests not in the explicitly allowed set”, nhưng không giải quyết trực tiếp yêu cầu: which configuration change directly enforces both of those per-invocation caps. “Set --permission-mode dontAsk to auto-deny any tool permission requests not in the explicitly allowed set” không làm được điều đó: Các biện pháp kiểm soát bắt buộc là các giới hạn riêng cho mỗi lần gọi bên trong Mã Claude: một giới hạn số lượt tác nhân và một giới hạn số tiền chi ."
+      },
+      "context": "Đây là quyết định về Which configuration change directly enforces both of those per-invocation caps? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Các biện pháp kiểm soát bắt buộc là các giới hạn riêng cho mỗi lần gọi bên trong Mã Claude: một giới hạn số lượt tác nhân và một giới hạn số tiền chi tiêu cho lần chạy đó. Sử dụng các giới hạn thời gian chạy tích hợp đó là cách trực tiếp…",
+      "mnemonic": "Đọc requirement trước → chọn A: Add --max-turns 10 --max-budget-usd 2.00 to the claude -p invocation to cap iterations and spend. ---"
+    },
+    {
+      "id": 35,
+      "question": "Your update_user_profile tool accepts a user_id (required) and an optional fields_to_update object. In testing, Claude frequently omits user_id or passes incorrectly structured data.\n\nWhat is most critical for helping Claude understand what parameter values to provide?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Clear parameter descriptions explaining expected format, such as \"user_id : UUID of the user to update (required) \""
+        },
+        {
+          "key": "B",
+          "text": "Verbose parameter names encoding format hints, such as user_id_string_uuid_format"
+        },
+        {
+          "key": "C",
+          "text": "Strict JSON Schema type constraints marking user_id as required and defining fields_to_update as an object type"
+        },
+        {
+          "key": "D",
+          "text": "Detailed error responses explaining why invalid parameter values were rejected"
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Xóa mô tả tham số giải thích định dạng dự kiến, chẳng hạn như \"user_id: UUID của người dùng cần cập nhật (bắt buộc) \". Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Xóa mô tả tham số giải thích định dạng dự kiến, chẳng hạn như \"user_id: UUID của người dùng cần cập nhật (bắt buộc) \". Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "B": "Nó thực hiện “Verbose parameter names encoding format hints, such as user_id_string_uuid_format”, nhưng không giải quyết trực tiếp yêu cầu: what is most critical for helping claude understand what parameter values to provide. “Verbose parameter names encoding format hints, such as user_id_string_uuid_format” không làm được điều đó: Cách tiếp cận tốt nhất là Xóa mô tả tham số giải thích định dạng dự kiến, chẳng hạn như \"user_id: UUID của người dùng cần cập nhật (bắt buộc) \".",
+        "C": "Nó thực hiện “Strict JSON Schema type constraints marking user_id as required and defining fields_to_update as an object type”, nhưng không giải quyết trực tiếp yêu cầu: what is most critical for helping claude understand what parameter values to provide. “Strict JSON Schema type constraints marking user_id as required and defining fields_to_update as an object type” không làm được điều đó: Cách tiếp cận tốt nhất là Xóa mô tả tham số giải thích định dạng dự kiến, chẳng hạn như \"user_id: UUID của người dùng cần cập nhật (bắt buộc) \".",
+        "D": "Nó thực hiện “Detailed error responses explaining why invalid parameter values were rejected”, nhưng không giải quyết trực tiếp yêu cầu: what is most critical for helping claude understand what parameter values to provide. “Detailed error responses explaining why invalid parameter values were rejected” không làm được điều đó: Cách tiếp cận tốt nhất là Xóa mô tả tham số giải thích định dạng dự kiến, chẳng hạn như \"user_id: UUID của người dùng cần cập nhật (bắt buộc) \"."
+      },
+      "context": "Đây là quyết định về What is most critical for helping Claude understand what parameter values to provide? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Xóa mô tả tham số giải thích định dạng dự kiến, chẳng hạn như \"user_id: UUID của người dùng cần cập nhật (bắt buộc) \". Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng…",
+      "mnemonic": "Đọc requirement trước → chọn A: Clear parameter descriptions explaining expected format, such as \"user_id : UUID of the user to update (required) \" ---"
+    },
+    {
+      "id": 36,
+      "question": "Your conversation history includes two types of content: persistent story elements (character backgrounds, plot structure, world rules) that must remain consistent throughout, and extensive brainstorming discussion that 's mostly ephemeral. After 40 + turns, you 're hitting context limits and users report the assistant \"forgets \" established character traits, breaking narrative consistency.\n\nWhich approach best ensures persistent story elements remain available to the model while reclaiming context space?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Separate persistent story elements into a retained \"story bible \" section at context start, applying trimming or summarization only to brainstorming discussion."
+        },
+        {
+          "key": "B",
+          "text": "Store all history in a vector database and retrieve semantically similar passages for each new message, replacing conversation history with retrieved chunks."
+        },
+        {
+          "key": "C",
+          "text": "Apply a sliding-window approach keeping only the most recent 25 turns, relying on the model to infer earlier context from recent discussion flow."
+        },
+        {
+          "key": "D",
+          "text": "Summarize the entire conversation history into a condensed synopsis every 20 turns, replacing the full history to free up tokens."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Tách các yếu tố câu chuyện dai dẳng thành phần \"kinh thánh câu chuyện \" được giữ lại khi bắt đầu ngữ cảnh, chỉ áp dụng việc cắt xén hoặc tóm tắt cho cuộc thảo luận động não. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Tách các yếu tố câu chuyện dai dẳng thành phần \"kinh thánh câu chuyện \" được giữ lại khi bắt đầu ngữ cảnh, chỉ áp dụng việc cắt xén hoặc tóm tắt cho cuộc thảo luận động não. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+        "B": "Nó thực hiện “Store all history in a vector database and retrieve semantically similar passages for each new message, replacing conversation history with retrieved chunks”, nhưng không giải quyết trực tiếp yêu cầu: which approach best ensures persistent story elements remain available to the model while reclaiming con. “Store all history in a vector database and retrieve semantically similar passages for each new message, replacing conversation history with retrieved chunks” không làm được điều đó: Cách tiếp cận tốt nhất là Tách các yếu tố câu chuyện dai dẳng thành phần \"kinh thánh câu chuyện \"được giữ lại khi bắt đầu ngữ cảnh, chỉ áp dụng việc c.",
+        "C": "Nó thực hiện “Apply a sliding-window approach keeping only the most recent 25 turns, relying on the model to infer earlier context from recent discussion flow”, nhưng không giải quyết trực tiếp yêu cầu: which approach best ensures persistent story elements remain available to the model while reclaiming con. “Apply a sliding-window approach keeping only the most recent 25 turns, relying on the model to infer earlier context from recent discussion flow” không làm được điều đó: Cách tiếp cận tốt nhất là Tách các yếu tố câu chuyện dai dẳng thành phần \"kinh thánh câu chuyện \"được giữ lại khi bắt đầu ngữ cảnh, chỉ áp dụng việc c.",
+        "D": "Nó thực hiện “Summarize the entire conversation history into a condensed synopsis every 20 turns, replacing the full history to free up tokens”, nhưng không giải quyết trực tiếp yêu cầu: which approach best ensures persistent story elements remain available to the model while reclaiming con. “Summarize the entire conversation history into a condensed synopsis every 20 turns, replacing the full history to free up tokens” không làm được điều đó: Cách tiếp cận tốt nhất là Tách các yếu tố câu chuyện dai dẳng thành phần \"kinh thánh câu chuyện \"được giữ lại khi bắt đầu ngữ cảnh, chỉ áp dụng việc c."
+      },
+      "context": "Đây là quyết định về Which approach best ensures persistent story elements remain available to the model while reclaiming context space? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Tách các yếu tố câu chuyện dai dẳng thành phần \"kinh thánh câu chuyện \"được giữ lại khi bắt đầu ngữ cảnh, chỉ áp dụng việc cắt xén hoặc tóm tắt cho cuộc thảo luận động não. Điều này quản lý bối cảnh một cách có…",
+      "mnemonic": "Đọc requirement trước → chọn A: Separate persistent story elements into a retained \"story bible \" section at context start, applying trimming or summarization only to brainstorming discussion. ---"
+    },
+    {
+      "id": 37,
+      "question": "Users frequently refine their search criteria mid-conversation. You notice a pattern: when users say things like \"Actually, let 's raise the budget to $650K \" or \"I 'd prefer a condo now instead of a house,\" the assistant sometimes continues referencing the original preferences in later responses—even though the updates are clearly present in the conversation history. Context usage is only at 35% capacity.\n\nWhich solution most reliably ensures the model uses the current preferences?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Maintain a structured state object with current preferences, update it on changes, and include it in each request."
+        },
+        {
+          "key": "B",
+          "text": "Implement conversation pruning to remove turns containing outdated preferences, ensuring only current ones remain in context."
+        },
+        {
+          "key": "C",
+          "text": "Include few-shot examples showing the assistant correctly acknowledging and applying preference changes in responses."
+        },
+        {
+          "key": "D",
+          "text": "Add system prompt instructions emphasizing that the model should always prioritize the most recently stated preferences over earlier ones."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Duy trì một đối tượng trạng thái có cấu trúc với các tùy chọn hiện tại, cập nhật nó khi có thay đổi và đưa nó vào mỗi yêu cầu. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Duy trì một đối tượng trạng thái có cấu trúc với các tùy chọn hiện tại, cập nhật nó khi có thay đổi và đưa nó vào mỗi yêu cầu. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+        "B": "Nó thực hiện “Implement conversation pruning to remove turns containing outdated preferences, ensuring only current ones remain in context”, nhưng không giải quyết trực tiếp yêu cầu: which solution most reliably ensures the model uses the current preferences. “Implement conversation pruning to remove turns containing outdated preferences, ensuring only current ones remain in context” không làm được điều đó: Cách tiếp cận tốt nhất là Duy trì một đối tượng trạng thái có cấu trúc với các tùy chọn hiện tại, cập nhật nó khi có thay đổi và đưa nó vào mỗi yêu cầ.",
+        "C": "Nó thực hiện “Include few-shot examples showing the assistant correctly acknowledging and applying preference changes in responses”, nhưng không giải quyết trực tiếp yêu cầu: which solution most reliably ensures the model uses the current preferences. “Include few-shot examples showing the assistant correctly acknowledging and applying preference changes in responses” không làm được điều đó: Cách tiếp cận tốt nhất là Duy trì một đối tượng trạng thái có cấu trúc với các tùy chọn hiện tại, cập nhật nó khi có thay đổi và đưa nó vào mỗi yêu cầ.",
+        "D": "Nó thực hiện “Add system prompt instructions emphasizing that the model should always prioritize the most recently stated preferences over earlier ones”, nhưng không giải quyết trực tiếp yêu cầu: which solution most reliably ensures the model uses the current preferences. “Add system prompt instructions emphasizing that the model should always prioritize the most recently stated preferences over earlier ones” không làm được điều đó: Cách tiếp cận tốt nhất là Duy trì một đối tượng trạng thái có cấu trúc với các tùy chọn hiện tại, cập nhật nó khi có thay đổi và đưa nó vào mỗi yêu cầ."
+      },
+      "context": "Đây là quyết định về Which solution most reliably ensures the model uses the current preferences? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Duy trì một đối tượng trạng thái có cấu trúc với các tùy chọn hiện tại, cập nhật nó khi có thay đổi và đưa nó vào mỗi yêu cầu. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin…",
+      "mnemonic": "Đọc requirement trước → chọn A: Maintain a structured state object with current preferences, update it on changes, and include it in each request. ---"
+    },
+    {
+      "id": 38,
+      "question": "After deploying automated code review, developers report that approximately 35% of flagged findings are false positives falling into consistent patterns: style suggestion contradicting team conventions, security warnings for patterns safe in your deployment context, and performance suggestions that would degrade your specific use case. You want to reduce false positives while maintaining the ability to catch genuine issues.\n\nWhich approach best enables the model to generalize its judgment to novel code patterns it hasn 't seen before?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Include few-shot examples in your prompt showing annotated code snippets that distinguish acceptable patterns from genuine issues in each category."
+        },
+        {
+          "key": "B",
+          "text": "Implement post-processing that uses keyword matching to filter out findings containing terms like \"convention,\" \"context-dependent,\" or \"trade-off.\""
+        },
+        {
+          "key": "C",
+          "text": "Add instructions to your system prompt to \"be conservative,\" \"only flag definite issues,\" and \"consider that some patterns may be intentional.\""
+        },
+        {
+          "key": "D",
+          "text": "Create a comprehensive written specification of all patterns that should not be flagged, then include this full documentation in the system prompt."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Đưa các ví dụ ngắn gọn vào lời nhắc của bạn, hiển thị các đoạn mã có chú thích để phân biệt các mẫu có thể chấp nhận được với các vấn đề thực sự trong mỗi danh mục. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Đưa các ví dụ ngắn gọn vào lời nhắc của bạn, hiển thị các đoạn mã có chú thích để phân biệt các mẫu có thể chấp nhận được với các vấn đề thực sự trong mỗi danh mục. Điều này quản lý bối cảnh một cách có chủ ý hơn để mô hình giữ được những thông tin quan trọng nhất có sẵn mà không phụ thuộc vào việc thu hồi lịch sử lâu dài dễ vỡ.",
+        "B": "Nó thực hiện “Implement post-processing that uses keyword matching to filter out findings containing terms like \"convention,\"\"context-dependent,\"or \"trade-off.\"”, nhưng không giải quyết trực tiếp yêu cầu: which approach best enables the model to generalize its judgment to novel code patterns it hasn 't seen b. “Implement post-processing that uses keyword matching to filter out findings containing terms like \"convention,\"\"context-dependent,\"or \"trade-off.\"” không làm được điều đó: Cách tiếp cận tốt nhất là Đưa các ví dụ ngắn gọn vào lời nhắc của bạn, hiển thị các đoạn mã có chú thích để phân biệt các mẫu có thể chấp nhận được vớ.",
+        "C": "Nó thực hiện “Add instructions to your system prompt to \"be conservative,\"\"only flag definite issues,\"and \"consider that some patterns may be intentional.\"”, nhưng không giải quyết trực tiếp yêu cầu: which approach best enables the model to generalize its judgment to novel code patterns it hasn 't seen b. “Add instructions to your system prompt to \"be conservative,\"\"only flag definite issues,\"and \"consider that some patterns may be intentional.\"” không làm được điều đó: Cách tiếp cận tốt nhất là Đưa các ví dụ ngắn gọn vào lời nhắc của bạn, hiển thị các đoạn mã có chú thích để phân biệt các mẫu có thể chấp nhận được vớ.",
+        "D": "Tài liệu mô tả cách dùng dự kiến, không chứng minh mọi caller thực tế. “Create a comprehensive written specification of all patterns that should not be flagged, then include this full documentation in the system prompt” không làm được điều đó: Cách tiếp cận tốt nhất là Đưa các ví dụ ngắn gọn vào lời nhắc của bạn, hiển thị các đoạn mã có chú thích để phân biệt các mẫu có thể chấp nhận được vớ."
+      },
+      "context": "Đây là quyết định về Which approach best enables the model to generalize its judgment to novel code patterns it hasn 't seen before? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Đưa các ví dụ ngắn gọn vào lời nhắc của bạn, hiển thị các đoạn mã có chú thích để phân biệt các mẫu có thể chấp nhận được với các vấn đề thực sự trong mỗi danh mục. Điều này quản lý bối cảnh một cách có chủ ý hơn…",
+      "mnemonic": "Đọc requirement trước → chọn A: Include few-shot examples in your prompt showing annotated code snippets that distinguish acceptable patterns from genuine issues in each category. ---"
+    },
+    {
+      "id": 39,
+      "question": "You are setting up a non-interactive automated code review pipeline using Claude Code. You want Claude to analyze a pulled Git diff (git diff) against the main branch and apply a custom set of code review instructions. However, you notice that when you run the pipeline, Claude only looks at the raw diff text itself and completely stops using its file-reading or code navigation tools. As a result, it fails to inspect the broader codebase repository context, which is critical because the diff modifies a core function called by many other external modules.\n\nWhich change to the CLI invocation will cause Claude to read related files in the repository while still successfully applying your custom review instructions?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Replace --system-prompt with --append-system-prompt so your review instructions are added to Claude Code 's default prompt instead of overwriting the built-in guidance for using file-reading and code navigation tools."
+        },
+        {
+          "key": "B",
+          "text": "Keep --system-prompt and add --allowedTools \"Read, Glob, Grep \" so that the non-interactive mode permits file system tools that it otherwise disables."
+        },
+        {
+          "key": "C",
+          "text": "Stop piping the diff via stdin and instead embed the diff contents inside the prompt string, so Claude Code treats the invocation as an agentic session rather than a stream-processing one."
+        },
+        {
+          "key": "D",
+          "text": "Remove --system-prompt entirely and place the review instructions in a CLAUDE.md file at the repo root, since --system-prompt is incompatible with tool use under -p."
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Thay thế --system-prompt bằng --append-system-prompt để hướng dẫn xem xét của bạn được thêm vào lời nhắc mặc định của Claude Code thay vì ghi đè hướng dẫn tích hợp để sử dụng các công cụ điều hướng mã và đọc tệp. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Thay thế --system-prompt bằng --append-system-prompt để hướng dẫn xem xét của bạn được thêm vào lời nhắc mặc định của Claude Code thay vì ghi đè hướng dẫn tích hợp để sử dụng các công cụ điều hướng mã và đọc tệp. Điều này cung cấp cho tác nhân những tín hiệu rõ ràng hơn về lỗi để có thể chọn hành động khôi phục phù hợp thay vì thử lại một cách mù quáng hoặc leo thang quá sớm.",
+        "B": "Nó thực hiện “Keep --system-prompt and add --allowedTools \"Read, Glob, Grep \"so that the non-interactive mode permits file system tools that it otherwise disables”, nhưng không giải quyết trực tiếp yêu cầu: which change to the cli invocation will cause claude to read related files in the repository while still. “Keep --system-prompt and add --allowedTools \"Read, Glob, Grep \"so that the non-interactive mode permits file system tools that it otherwise disables” không làm được điều đó: Cách tiếp cận tốt nhất là Thay thế --system-prompt bằng --append-system-prompt để hướng dẫn xem xét của bạn được thêm vào lời nhắc mặc định của Claude.",
+        "C": "Nó thực hiện “Stop piping the diff via stdin and instead embed the diff contents inside the prompt string, so Claude Code treats the invocation as an agentic session rather than a stream-processing one”, nhưng không giải quyết trực tiếp yêu cầu: which change to the cli invocation will cause claude to read related files in the repository while still. “Stop piping the diff via stdin and instead embed the diff contents inside the prompt string, so Claude Code treats the invocation as an agentic session rather than a stream-processing one” không làm được điều đó: Cách tiếp cận tốt nhất là Thay thế --system-prompt bằng --append-system-prompt để hướng dẫn xem xét của bạn được thêm vào lời nhắc mặc định của Claude.",
+        "D": "Nó thực hiện “Remove --system-prompt entirely and place the review instructions in a CLAUDE.md file at the repo root, since --system-prompt is incompatible with tool use under -p”, nhưng không giải quyết trực tiếp yêu cầu: which change to the cli invocation will cause claude to read related files in the repository while still. “Remove --system-prompt entirely and place the review instructions in a CLAUDE.md file at the repo root, since --system-prompt is incompatible with tool use under -p” không làm được điều đó: Cách tiếp cận tốt nhất là Thay thế --system-prompt bằng --append-system-prompt để hướng dẫn xem xét của bạn được thêm vào lời nhắc mặc định của Claude."
+      },
+      "context": "Đây là quyết định về Which change to the CLI invocation will cause Claude to read related files in the repository while still successfully applying your custom review instructions? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Thay thế --system-prompt bằng --append-system-prompt để hướng dẫn xem xét của bạn được thêm vào lời nhắc mặc định của Claude Code thay vì ghi đè hướng dẫn tích hợp để sử dụng các công cụ điều hướng mã và đọc tệp.…",
+      "mnemonic": "Đọc requirement trước → chọn A: Replace --system-prompt with --append-system-prompt so your review instructions are added to Claude Code 's default prompt instead of overwriting the built-in guidance for using file-reading and code navigation tools. ---"
+    },
+    {
+      "id": 40,
+      "question": "Your development team is using Claude Code to automate test generation across a large codebase. However, developers are frequently rejecting the generated test suites because Claude creates a high volume of trivial assertions or tests that merely maximize line coverage without validating meaningful behavioral logic or edge cases. You want to guide Claude to generate high-quality, production-ready tests directly without introducing high latency or modifying the core pipeline script.\n\nWhich strategy best ensures that high-quality, meaningful tests are generated in the first place?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing."
+        },
+        {
+          "key": "B",
+          "text": "Add post-generation coverage analysis that automatically filters out any generated test that doesn 't increase line coverage beyond what existing tests provide."
+        },
+        {
+          "key": "C",
+          "text": "Document testing standards in CLAUDE.md including valuable test criteria, available fixtures with intended use cases, and examples distinguishing meaningful behavioral tests from trivial assertions."
+        },
+        {
+          "key": "D",
+          "text": "Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers."
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Ghi lại các tiêu chuẩn kiểm tra trong CLAUDE.md bao gồm các tiêu chí kiểm tra có giá trị, các nội dung cố định sẵn có với các trường hợp sử dụng dự định và các ví dụ phân biệt các kiểm tra hành vi có ý nghĩa với các xác nhận tầm thường. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing”, nhưng không giải quyết trực tiếp yêu cầu: which strategy best ensures that high-quality, meaningful tests are generated in the first place. “Restrict test generation to directories where historical quality metrics show higher acceptance rates, disabling it for areas where generated tests consistently require heavy editing” không làm được điều đó: Cách tiếp cận tốt nhất là Ghi lại các tiêu chuẩn kiểm tra trong CLAUDE.",
+        "B": "Nó thực hiện “Add post-generation coverage analysis that automatically filters out any generated test that doesn 't increase line coverage beyond what existing tests provide”, nhưng không giải quyết trực tiếp yêu cầu: which strategy best ensures that high-quality, meaningful tests are generated in the first place. “Add post-generation coverage analysis that automatically filters out any generated test that doesn 't increase line coverage beyond what existing tests provide” không làm được điều đó: Cách tiếp cận tốt nhất là Ghi lại các tiêu chuẩn kiểm tra trong CLAUDE.",
+        "C": "Cách tiếp cận tốt nhất là Ghi lại các tiêu chuẩn kiểm tra trong CLAUDE.md bao gồm các tiêu chí kiểm tra có giá trị, các nội dung cố định sẵn có với các trường hợp sử dụng dự định và các ví dụ phân biệt các kiểm tra hành vi có ý nghĩa với các xác nhận tầm thường. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó thực hiện “Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers”, nhưng không giải quyết trực tiếp yêu cầu: which strategy best ensures that high-quality, meaningful tests are generated in the first place. “Implement a two-phase generation where a second Claude call scores each test against quality criteria, filtering out low-scoring tests before presenting results to developers” không làm được điều đó: Cách tiếp cận tốt nhất là Ghi lại các tiêu chuẩn kiểm tra trong CLAUDE."
+      },
+      "context": "Đây là quyết định về Which strategy best ensures that high-quality, meaningful tests are generated in the first place? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Ghi lại các tiêu chuẩn kiểm tra trong CLAUDE.md bao gồm các tiêu chí kiểm tra có giá trị, các nội dung cố định sẵn có với các trường hợp sử dụng dự định và các ví dụ phân biệt các kiểm tra hành vi có ý nghĩa với…",
+      "mnemonic": "Đọc requirement trước → chọn C: Document testing standards in CLAUDE.md including valuable test criteria, available fixtures with intended use cases, and examples distinguishing meaningful behavioral tests from trivial assertions. ---"
+    },
+    {
+      "id": 41,
+      "question": "Your music discovery assistant should consistently maintain an enthusiastic tone, explain its reasoning for each recommendation, and ask clarifying questions to better understand user preferences. You want this behavior to persist reliably across all user interactions.\n\nWhere should you define these behavioral guidelines?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "In the first assistant message, instructing Claude to follow these guidelines going forward"
+        },
+        {
+          "key": "B",
+          "text": "Prepended to each user message before sending to the API"
+        },
+        {
+          "key": "C",
+          "text": "In the system prompt"
+        },
+        {
+          "key": "D",
+          "text": "In environmental variables that your application passes to the API client"
+        }
+      ],
+      "correct": "C",
+      "explanation": "Cách tiếp cận tốt nhất là Trong dấu nhắc hệ thống. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Nó thực hiện “In the first assistant message, instructing Claude to follow these guidelines going forward”, nhưng không giải quyết trực tiếp yêu cầu: where should you define these behavioral guidelines. “In the first assistant message, instructing Claude to follow these guidelines going forward” không làm được điều đó: Cách tiếp cận tốt nhất là Trong dấu nhắc hệ thống.",
+        "B": "Nó thực hiện “Prepended to each user message before sending to the API”, nhưng không giải quyết trực tiếp yêu cầu: where should you define these behavioral guidelines. “Prepended to each user message before sending to the API” không làm được điều đó: Cách tiếp cận tốt nhất là Trong dấu nhắc hệ thống.",
+        "C": "Cách tiếp cận tốt nhất là Trong dấu nhắc hệ thống. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "D": "Nó thực hiện “In environmental variables that your application passes to the API client”, nhưng không giải quyết trực tiếp yêu cầu: where should you define these behavioral guidelines. “In environmental variables that your application passes to the API client” không làm được điều đó: Cách tiếp cận tốt nhất là Trong dấu nhắc hệ thống."
+      },
+      "context": "Đây là quyết định về Where should you define these behavioral guidelines? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Trong dấu nhắc hệ thống. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "mnemonic": "Đọc requirement trước → chọn C: In the system prompt ---"
+    },
+    {
+      "id": 42,
+      "question": "Your team is configuring MCP servers in Claude Code. You want to add a shared venue lookup server that all team members should have access to, and you personally want to add an experimental music playlist server that only you are testing.\n\nWhich configuration approach correctly applies MCP server scopes?",
+      "type": "single",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add venue server to .mcp.json and playlist server to ~/.claude.json"
+        },
+        {
+          "key": "B",
+          "text": "Add both servers to the project-level .mcp.json file"
+        },
+        {
+          "key": "C",
+          "text": "Add venue server to ~/.claude.json and playlist server to .mcp.json"
+        },
+        {
+          "key": "D",
+          "text": "Add both servers to your local ~/.claude.json"
+        }
+      ],
+      "correct": "A",
+      "explanation": "Cách tiếp cận tốt nhất là Thêm máy chủ địa điểm vào .mcp.json và máy chủ danh sách phát vào ~/.claude.json. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+      "optExp": {
+        "A": "Cách tiếp cận tốt nhất là Thêm máy chủ địa điểm vào .mcp.json và máy chủ danh sách phát vào ~/.claude.json. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế yếu hơn, mơ hồ hơn.",
+        "B": "Nó thực hiện “Add both servers to the project-level .mcp.json file”, nhưng không giải quyết trực tiếp yêu cầu: which configuration approach correctly applies mcp server scopes. “Add both servers to the project-level .mcp.json file” không làm được điều đó: json và máy chủ danh sách phát vào ~/.",
+        "C": "Nó thực hiện “Add venue server to ~/.claude.json and playlist server to .mcp.json”, nhưng không giải quyết trực tiếp yêu cầu: which configuration approach correctly applies mcp server scopes. “Add venue server to ~/.claude.json and playlist server to .mcp.json” không làm được điều đó: json và máy chủ danh sách phát vào ~/.",
+        "D": "Nó thực hiện “Add both servers to your local ~/.claude.json”, nhưng không giải quyết trực tiếp yêu cầu: which configuration approach correctly applies mcp server scopes. “Add both servers to your local ~/.claude.json” không làm được điều đó: json và máy chủ danh sách phát vào ~/."
+      },
+      "context": "Đây là quyết định về Which configuration approach correctly applies MCP server scopes? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Cách tiếp cận tốt nhất là Thêm máy chủ địa điểm vào .mcp.json và máy chủ danh sách phát vào ~/.claude.json. Điều này giải quyết trực tiếp nhất sự thất bại hoặc hạn chế được mô tả trong kịch bản và đáng tin cậy hơn các lựa chọn thay thế…",
+      "mnemonic": "Đọc requirement trước → chọn A: Add venue server to .mcp.json and playlist server to ~/.claude.json"
+    }
+  ]
+}
