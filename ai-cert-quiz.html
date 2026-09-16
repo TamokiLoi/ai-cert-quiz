@@ -692,6 +692,9 @@
   }
   .ri-save:hover { border-color: var(--amber); color: var(--amber); }
   .ri-save.on { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .review-item.ri-copyable { cursor: pointer; }
+  .review-item.ri-copyable:hover { border-color: var(--accent); }
+  .review-item.ri-copyable:active { background: var(--accent-bg, rgba(124,108,255,.08)); }
   .ri-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
   .ri-tags .tag { font-size: 10px; padding: 2px 7px; }
 
@@ -2632,11 +2635,10 @@ function finish(auto) {
     const on = isSaved(q.originId, q.originNo);
     return `<button class="ri-save${on ? ' on' : ''}" data-i="${i}">${on ? '★ Đã lưu' : '☆ Lưu'}</button>`;
   };
-
   $('review-list').innerHTML = S.quiz.map((q, i) => {
     const lab = (keys) => q.options.filter(o => keys.includes(o.key)).map(o => o.label).sort().join(', ') || '—';
     if (!q.result) {
-      return `<div class="review-item">
+      return `<div class="review-item ri-copyable" data-i="${i}" title="Bấm để copy nội dung câu này">
         <div class="ri-icon" style="color:var(--muted)">—</div>
         <div class="ri-body">
           <div class="ri-q"><span>${i + 1}. ${esc(q.question)}</span>${saveBtn(q, i)}</div>
@@ -2647,7 +2649,7 @@ function finish(auto) {
         </div></div>`;
     }
     const ok = q.result.isCorrect;
-    return `<div class="review-item ${ok ? 'ok' : 'bad'}">
+    return `<div class="review-item ri-copyable ${ok ? 'ok' : 'bad'}" data-i="${i}" title="Bấm để copy nội dung câu này">
       <div class="ri-icon" style="color:var(--${ok ? 'green' : 'red'})">${ok ? '✓' : '✗'}</div>
       <div class="ri-body">
         <div class="ri-q"><span>${i + 1}. ${esc(q.question)}</span>${saveBtn(q, i)}</div>
@@ -2661,8 +2663,16 @@ function finish(auto) {
     </div>`;
   }).join('');
 
+  $('review-list').querySelectorAll('.ri-copyable').forEach(el => {
+    el.onclick = (e) => {
+      if (e.target.closest('.ri-save')) return;
+      copyReviewItem(parseInt(el.dataset.i, 10));
+    };
+  });
+
   $('review-list').querySelectorAll('.ri-save').forEach(b => {
-    b.onclick = () => {
+    b.onclick = (e) => {
+      e.stopPropagation();
       const q = S.quiz[parseInt(b.dataset.i, 10)];
       const on = !isSaved(q.originId, q.originNo);
       setSaved(q.originId, q.originNo, on, 'manual');
@@ -2693,6 +2703,30 @@ function finish(auto) {
   delete SESSIONS[S.sessionKey];
   lsSet(LS.sessions, SESSIONS);
   show('results-screen');
+}
+
+/* --- Bấm vào 1 câu trong "Xem lại từng câu" để copy nội dung câu đó ra clipboard --- */
+function reviewItemText(q, i) {
+  const lines = ['Câu ' + (i + 1) + ': ' + q.question];
+  q.options.forEach(o => {
+    const tags = [];
+    if (q.correct.includes(o.key)) tags.push('đáp án đúng');
+    if (q.result && q.result.picked.includes(o.key)) tags.push('bạn chọn');
+    lines.push('  ' + o.label + '. ' + o.text + (tags.length ? '  [' + tags.join(', ') + ']' : ''));
+  });
+  if (q.explanation) lines.push('Giải thích: ' + q.explanation);
+  lines.push('Nguồn: ' + q.origin + ' #' + q.originNo);
+  return lines.join('\n');
+}
+async function copyReviewItem(i) {
+  const q = S.quiz[i];
+  if (!q) return;
+  try {
+    await navigator.clipboard.writeText(reviewItemText(q, i));
+    toast('📋 Đã copy câu ' + (i + 1) + ' vào clipboard');
+  } catch (e) {
+    toast('Không copy được: trình duyệt chặn clipboard');
+  }
 }
 
 /* --- Chia sẻ kết quả --- */
