@@ -124,8 +124,9 @@
     transition: border-color .15s ease, background .15s ease, transform .1s ease;
     display: flex; flex-direction: column; gap: 6px;
   }
-  .exam-card:hover { border-color: var(--accent); background: var(--panel-3); }
+  .exam-card:hover:not(:disabled) { border-color: var(--accent); background: var(--panel-3); }
   .exam-card.active { border-color: var(--accent); background: var(--panel-3); box-shadow: 0 0 0 3px rgba(124,108,255,.12) inset; }
+  .exam-card:disabled { opacity: .55; cursor: not-allowed; }
   .exam-card .ec-title { font-size: 15px; font-weight: 800; }
   .exam-card .ec-sub { font-size: 12px; color: var(--muted); line-height: 1.45; }
   .exam-card .ec-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
@@ -835,6 +836,11 @@
 
       <!-- ===== Thi thử ===== -->
       <div id="exam-panel" style="display:none">
+        <div id="claude-exam-picker" style="display:none">
+          <div class="section-label">Chọn bộ đề Claude để thi thử <span class="lbl-hint">rút ngẫu nhiên 60 câu từ bộ đã chọn</span></div>
+          <div class="exam-grid" id="claude-exam-grid"></div>
+          <div class="cat-warn" id="claude-exam-warn"></div>
+        </div>
         <div class="exam-intro">
           <h3 id="exam-title">Thi thử</h3>
           <div class="exam-spec">
@@ -1058,7 +1064,7 @@ const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','
 // Cấu hình đề thi thử cho từng nhánh
 const EXAM_SPEC = {
   GHC:    { count: 70, minutes: 100, pass: 70, label: 'GH-300 — thi thử' },
-  Claude: { count: 90, minutes: 120, pass: 70, label: 'CCA-F — thi thử' },
+  Claude: { count: 60, minutes: 120, pass: 70, label: 'CCA-F — thi thử' },
 };
 const MAX_SESSIONS = 8;      // số lượt làm dở giữ lại nhiều nhất
 const MAX_HISTORY = 60;      // số lượt đã hoàn thành lưu trong lịch sử
@@ -1071,7 +1077,8 @@ const NO_CAT = ' (chưa phân loại)';
 const S = {
   track: 'GHC',
   mode: 'practice',      // 'practice' | 'exam'
-  examId: null,          // id đề, hoặc 'MIX:<track>' / 'MIX:ALL' / 'MIX:CUSTOM' / 'SAVED:<track>' / 'WEAK:<track>'
+  examId: null,          // id đề luyện tập, hoặc pool MIX/SAVED/WEAK
+  examSetId: null,       // id bộ câu hỏi nguồn cho thi thử Claude
   categories: [],        // [] = tất cả; chọn được nhiều; NO_CAT = nhóm chưa phân loại
   mixExamIds: [],        // các id đề được chọn cho pool 'MIX:CUSTOM'
   count: 20,             // 0 = tất cả
@@ -1268,7 +1275,7 @@ function pushHistory(rec) {
 }
 
 /* --- Tuỳ chọn --- */
-const PREF_KEYS = ['track', 'mode', 'examId', 'categories', 'count', 'mixExamIds',
+const PREF_KEYS = ['track', 'mode', 'examId', 'examSetId', 'categories', 'count', 'mixExamIds',
   'shuffleQ', 'shuffleO', 'instant', 'autoNext', 'resume', 'requireAnswerNext',
   'navOpen', 'histOpen', 'reportOpen', 'helpOpen', 'theme'];
 function savePrefs() {
@@ -1443,6 +1450,51 @@ function renderTracks() {
   });
 }
 
+function claudeExamSets() {
+  return examsOf('Claude').map(exam => ({
+    exam,
+    count: poolQuestions(exam.id, []).length,
+  }));
+}
+
+function selectedClaudeExamSet() {
+  const sets = claudeExamSets();
+  let selected = sets.find(x => x.exam.id === S.examSetId && x.count >= EXAM_SPEC.Claude.count);
+  if (!selected) selected = sets.find(x => x.count >= EXAM_SPEC.Claude.count) || null;
+  S.examSetId = selected ? selected.exam.id : null;
+  return selected;
+}
+
+function renderClaudeExamPicker() {
+  const picker = $('claude-exam-picker');
+  const active = S.mode === 'exam' && S.track === 'Claude';
+  picker.style.display = active ? 'block' : 'none';
+  if (!active) return null;
+
+  const sets = claudeExamSets();
+  const selected = selectedClaudeExamSet();
+  $('claude-exam-grid').innerHTML = sets.map(({ exam, count }) => {
+    const eligible = count >= EXAM_SPEC.Claude.count;
+    const chosen = selected && selected.exam.id === exam.id;
+    return `<button class="exam-card ${chosen ? 'active' : ''}" data-id="${esc(exam.id)}" ${eligible ? '' : 'disabled'}>
+      <div class="ec-title">${esc(exam.title)}</div>
+      <div class="ec-sub">${esc(exam.subtitle || 'Bộ câu hỏi Claude')}</div>
+      <div class="ec-meta">
+        <span class="tag count">${count} câu khả dụng</span>
+        ${eligible ? '<span class="tag explain">thi thử 60 câu</span>' : '<span class="tag">cần tối thiểu 60 câu</span>'}
+      </div>
+    </button>`;
+  }).join('');
+  $('claude-exam-grid').querySelectorAll('.exam-card:not(:disabled)').forEach(b => {
+    b.onclick = () => { S.examSetId = b.dataset.id; renderHome(); savePrefs(); };
+  });
+  $('claude-exam-warn').textContent = selected
+    ? ''
+    : 'Chưa có bộ Claude nào đủ 60 câu để thi thử.';
+  $('claude-exam-warn').classList.toggle('show', !selected);
+  return selected;
+}
+
 function renderModeTabs() {
   ['practice', 'exam'].forEach(m => {
     $('mode-' + m).classList.toggle('active', S.mode === m);
@@ -1450,26 +1502,35 @@ function renderModeTabs() {
   $('practice-panel').style.display = S.mode === 'practice' ? 'block' : 'none';
   $('exam-panel').style.display = S.mode === 'exam' ? 'block' : 'none';
   $('start-btn').textContent = S.mode === 'exam' ? 'Vào phòng thi ⏱' : 'Bắt đầu làm bài';
+  $('start-btn').disabled = false;
 
   if (S.mode === 'exam') {
     const spec = EXAM_SPEC[S.track];
-    const pool = poolQuestions('EXAM:' + S.track, []);
+    const selectedSet = S.track === 'Claude' ? renderClaudeExamPicker() : null;
+    const pool = S.track === 'Claude'
+      ? (selectedSet ? poolQuestions(selectedSet.exam.id, []) : [])
+      : poolQuestions('EXAM:' + S.track, []);
+    $('start-btn').disabled = S.track === 'Claude' && !selectedSet;
     $('exam-title').textContent = spec.label;
-    $('es-count').textContent = Math.min(spec.count, pool.length);
+    $('es-count').textContent = spec.count;
     $('es-mins').textContent = spec.minutes;
     $('es-pass').textContent = spec.pass + '%';
     $('es-pool').textContent = pool.length;
     const multi = pool.filter(x => x.q.type === 'multiple').length;
     const notes = [
-      'Đề được rút ngẫu nhiên từ ' + pool.length + ' câu (đã loại trùng), đáp án cũng được trộn.',
+      S.track === 'Claude'
+        ? 'Rút ngẫu nhiên 60 câu từ bộ “' + (selectedSet ? selectedSet.exam.title : 'chưa chọn') + '” (' + pool.length + ' câu khả dụng).'
+        : 'Đề được rút ngẫu nhiên từ ' + pool.length + ' câu (đã loại trùng), đáp án cũng được trộn.',
       'Không chấm ngay và không hiện giải thích cho tới khi nộp bài. Lưới câu chỉ hiện đã làm / chưa làm.',
       'Hết giờ tự động nộp. Đồng hồ vẫn đúng nếu bạn F5 giữa lúc thi.',
     ];
-    if (!multi) notes.push('⚠ Kho câu nhánh này hiện không có câu multi-choice, nên đề thi thử sẽ toàn câu chọn 1 đáp án — có thể khác đề thật.');
-    if (pool.length < spec.count) notes.push('⚠ Kho câu (' + pool.length + ') ít hơn số câu đề thi (' + spec.count + '), sẽ thi với ' + pool.length + ' câu.');
+    if (!multi && pool.length) notes.push('⚠ Kho câu đã chọn hiện không có câu multi-choice, nên đề thi thử sẽ toàn câu chọn 1 đáp án — có thể khác đề thật.');
+    if (pool.length < spec.count && S.track !== 'Claude') notes.push('⚠ Kho câu (' + pool.length + ') ít hơn số câu đề thi (' + spec.count + '), sẽ thi với ' + pool.length + ' câu.');
     const pc = estimatePassChance();
     if (pc) notes.unshift('📈 Ước tính khả năng đậu hiện tại: ~' + pc.chance + '% (dựa trên ' + pc.n + ' lượt gần đây, điểm TB ' + pc.avg + '%)');
     $('exam-note').innerHTML = notes.map(n => '• ' + esc(n)).join('<br>');
+  } else {
+    $('claude-exam-picker').style.display = 'none';
   }
 }
 
@@ -1904,7 +1965,10 @@ function labelOptions(q, opts) {
 
 function collectQuestions() {
   const isExam = S.mode === 'exam';
-  const poolId = isExam ? 'EXAM:' + S.track : S.examId;
+  const poolId = isExam
+    ? (S.track === 'Claude' ? S.examSetId : 'EXAM:' + S.track)
+    : S.examId;
+  if (isExam && S.track === 'Claude' && !poolId) return [];
   const cats = isExam ? [] : S.categories;
   let src = poolQuestions(poolId, cats);
 
@@ -1926,7 +1990,8 @@ function collectQuestions() {
    5b. Lưu / phục hồi nhiều lượt
    ========================================================= */
 function sessionKeyFor() {
-  return (S.mode === 'exam' ? 'EXAM:' : 'P:') + (S.mode === 'exam' ? S.track : S.examId) +
+  const examSource = S.track === 'Claude' ? (S.examSetId || S.track) : S.track;
+  return (S.mode === 'exam' ? 'EXAM:' + examSource : 'P:' + S.examId) +
     (S.mode === 'practice' && S.categories.length ? '|' + S.categories.slice().sort().join(',') : '');
 }
 
@@ -1938,6 +2003,7 @@ function saveSession() {
     mode: S.mode,
     track: S.track,
     examId: S.examId,
+    examSetId: S.examSetId,
     categories: S.categories.slice(),
     title: currentTitle(),
     idx: S.idx,
@@ -1985,6 +2051,7 @@ function resumeSession(key) {
   S.mode = sess.mode || 'practice';
   S.track = sess.track || S.track;
   S.examId = sess.examId || S.examId;
+  S.examSetId = sess.examSetId || S.examSetId;
   S.categories = Array.isArray(sess.categories) ? sess.categories.slice() : [];
   document.body.dataset.track = S.track;
   if (typeof sess.instant === 'boolean') { S.instant = sess.instant; $('opt-instant').checked = S.instant; }
@@ -2044,7 +2111,12 @@ function tally() {
 }
 
 function currentTitle() {
-  if (S.mode === 'exam') return EXAM_SPEC[S.track].label;
+  if (S.mode === 'exam') {
+    const label = EXAM_SPEC[S.track].label;
+    if (S.track !== 'Claude' || !S.examSetId) return label;
+    const set = DATA.exams.find(e => e.id === S.examSetId);
+    return label + (set ? ' · ' + set.title : '');
+  }
   const p = pools().find(x => x.id === S.examId);
   return (p ? p.title : S.examId) + (S.categories.length ? ' · ' + S.categories.map(labelCat).join(' + ') : '');
 }
@@ -2112,7 +2184,8 @@ function startQuiz() {
   if (!S.quiz.length) { toast('Bộ đề này chưa có câu nào'); return; }
   if (S.mode === 'exam' && !confirm(
     'Vào phòng thi: ' + S.quiz.length + ' câu / ' + EXAM_SPEC[S.track].minutes +
-    ' phút.\nKhông chấm ngay, hết giờ tự nộp. Bắt đầu?')) return;
+    ' phút' + (S.track === 'Claude' && S.examSetId ? ' · bộ ' + (DATA.exams.find(e => e.id === S.examSetId)?.title || '') : '') +
+    '.\nKhông chấm ngay, hết giờ tự nộp. Bắt đầu?')) return;
 
   S.idx = 0;
   S.finished = false;
