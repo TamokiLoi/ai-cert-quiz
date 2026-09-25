@@ -1,0 +1,1613 @@
+{
+  "models": {
+    "gemini-3.6-flash": 30,
+    "gemini-3.5-flash": 12,
+    "gemini-3.1-flash-lite": 116,
+    "gemini-3.5-flash-lite": 4
+  },
+  "checked": 162,
+  "total": 162,
+  "results": [
+    {
+      "key": "index1#1",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Điều tra lỗi yêu cầu chiến lược linh hoạt (dynamic adaptation) dựa trên phát hiện ở từng bước thay biệt lập hoạch cố định."
+    },
+    {
+      "key": "index1#2",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Khi công cụ Edit không thể định vị old_string duy nhất do cấu trúc trùng lặp, việc Read toàn bộ tệp rồi Write lại là phương pháp đáng tin cậy nhất."
+    },
+    {
+      "key": "index1#3",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Cờ --resume trong Claude Code cho phép khôi phục phiên làm việc cụ thể theo tên hoặc ID đã lưu."
+    },
+    {
+      "key": "index1#4",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Tiếp tục phiên làm việc cũ và bổ sung thông tin thay đổi giúp tận dụng lại 30 phút ngữ cảnh đã tích lũy mà không gây xung đột kiến thức."
+    },
+    {
+      "key": "index1#5",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Tóm tắt thông tin quan trọng và khởi tạo sub-agent mới giúp giải phóng ngữ cảnh bị suy giảm (context degradation) trong khi vẫn bảo toàn thông tin cốt lõi."
+    },
+    {
+      "key": "index1#6",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Đọc các wrapper module để thu thập danh sách tất cả các bí danh (aliases) trước khi Grep đảm bảo không bỏ sót caller nào."
+    },
+    {
+      "key": "index1#7",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Duy trì một scratchpad file là best practice được khuyến nghị bởi Anthropic để lưu trữ thông tin quan trọng trong các phiên làm việc dài, tránh việc trôi ngữ cảnh (context drift)."
+    },
+    {
+      "key": "index1#8",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Claude quyết định chọn công cụ dựa trên mô tả hệ thống (tool definitions). Việc cải thiện mô tả chi tiết, rõ ràng về mục đích sử dụng sẽ giúp mô hình chọn đúng công cụ thay vì dùng các lệnh cơ bản."
+    },
+    {
+      "key": "index1#9",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng subagent với ngữ cảnh được tóm tắt là mô hình kiến trúc agent hiệu quả để xử lý các tác vụ lớn vượt quá cửa sổ ngữ cảnh hiệu dụng của một agent đơn lẻ."
+    },
+    {
+      "key": "index1#10",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "fork_session là tính năng lý tưởng để rẽ nhánh một phiên làm việc hiện tại thành hai hướng độc lập mà không làm ô nhiễm ngữ cảnh của nhau."
+    },
+    {
+      "key": "index1#11",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Tương tự câu trước, fork_session giúp giữ nguyên bối cảnh phân tích đồ sộ trước đó (23 files) và rẽ nhánh thử nghiệm hai chiến lược độc lập một cách hiệu quả nhất."
+    },
+    {
+      "key": "index1#12",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Khôi phục phiên cũ và chỉ ra các file thay đổi giúp tối ưu hóa chi phí/thời gian (không cần đọc lại toàn bộ 12 file) trong khi vẫn đảm bảo tính chính xác của thông tin."
+    },
+    {
+      "key": "index1#13",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Phương pháp phân tích cấu trúc lớp và đọc file base class trước là tối ưu nhất để hiểu kiến trúc mà không bị quá tải ngữ cảnh (context window)."
+    },
+    {
+      "key": "index1#14",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Với codebase lớn (800+ files), việc đi từ entry points và lần theo imports/calls (incremental exploration) là best practice của Claude Code/Agent để tránh tràn context."
+    },
+    {
+      "key": "index1#15",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Mở rộng mô tả công cụ (tool definitions/descriptions) giúp LLM hiểu rõ khả năng của công cụ MCP và chọn đúng thay vì dùng các công cụ chung chung như Grep."
+    },
+    {
+      "key": "index1#16",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Thay đổi schema để lưu trữ cả giá trị gốc và các sửa đổi kèm siêu dữ liệu (ngày hiệu lực, vị trí) là cách tiếp cận an toàn và giữ toàn vẹn thông tin nhất."
+    },
+    {
+      "key": "index1#17",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng điểm tin cậy (confidence scores) ở cấp độ trường và thiết lập ngưỡng (threshold) dựa trên tập validation là cách khoa học nhất để tối ưu hóa 20% tài nguyên kiểm thử thủ công."
+    },
+    {
+      "key": "index1#18",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Yêu cầu mô hình tự tính toán tổng và so sánh với tổng trích xuất, sau đó gắn cờ (boolean flag) giúp phát hiện không nhất quán ngay lập tức để chuyển cho con người kiểm duyệt."
+    },
+    {
+      "key": "index1#19",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng tool_choice với type='tool' và name='extract_metadata' đảm bảo 100% Claude phải gọi đúng công cụ này ở lượt đầu tiên."
+    },
+    {
+      "key": "index1#20",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Lỗi context_length_exceeded là do prompt/tài liệu vượt quá giới hạn ngữ cảnh đầu vào. Tối ưu chi phí nhất là chỉ chia nhỏ (chunk) và gửi lại 300 tài liệu bị lỗi."
+    },
+    {
+      "key": "index1#21",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Few-shot examples là cách tốt nhất để chuẩn hóa định dạng trích xuất dữ liệu không đồng nhất."
+    },
+    {
+      "key": "index1#22",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Thêm hướng dẫn trong prompt yêu cầu trả về null khi không có thông tin trong bài viết sẽ hạn chế việc mô hình tự bịa đặt giá trị."
+    },
+    {
+      "key": "index1#23",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Few-shot examples minh họa các cấu trúc tài liệu đa dạng sẽ giúp mô hình nhận biết thông tin ở nhiều vị trí/định dạng khác nhau."
+    },
+    {
+      "key": "index1#24",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Retry không thể khắc phục được thông tin không tồn tại trong tài liệu đầu vào."
+    },
+    {
+      "key": "index1#25",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng JSON schema nghiêm ngặt kết hợp với quy tắc chuẩn hóa định dạng trong prompt là phương pháp đáng tin cậy và tối ưu nhất."
+    },
+    {
+      "key": "index1#26",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Thêm giá trị 'other' và trường thông tin chi tiết 'property_type_detail' giúp hệ thống linh hoạt với các loại bất động sản mới phát sinh mà không làm vỡ enum validation."
+    },
+    {
+      "key": "index1#27",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Phân tích độ chính xác theo từng loại tài liệu và trường dữ liệu là bước quan trọng nhất để phát hiện lỗi ẩn trong các phân đoạn cụ thể trước khi tự động hóa."
+    },
+    {
+      "key": "index1#28",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Gửi batch mỗi 4 giờ đảm bảo tổng thời gian tối đa (4 giờ chờ + 24 giờ xử lý) = 28 giờ, nằm an toàn trong giới hạn SLA 30 giờ."
+    },
+    {
+      "key": "index1#29",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Cung cấp few-shot examples thể hiện rõ cách xử lý cụm từ ghép, kỹ năng trực tiếp/ngụ ý và độ chi tiết giúp định hướng Claude giải quyết hiệu quả cả 3 vấn đề."
+    },
+    {
+      "key": "index1#30",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Phân luồng tài liệu chuẩn vào Batch API (tiết kiệm 50% chi phí) và tài liệu khẩn cấp vào Real-time API (đáp ứng trễ <30 phút) là kiến trúc chuẩn xác nhất."
+    },
+    {
+      "key": "index1#31",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Chia công cụ chung thành các công cụ chuyên biệt với input/output contract rõ ràng là best practice chuẩn nhất của Claude API/MCP để tránh nhầm lẫn và tăng độ tin cậy."
+    },
+    {
+      "key": "index1#32",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Cấu hình công cụ của Coordinator thiếu công cụ 'Task' (hoặc subagent invocation tool) khiến nó có thể sinh ra văn bản mô tả nhưng không thể kích hoạt/gọi agent phụ."
+    },
+    {
+      "key": "index1#33",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Yêu cầu output cấu trúc kèm timestamp/date giúp Synthesis Agent hiểu được dòng thời gian thay vì coi các con số ở thời điểm khác nhau là mâu thuẫn."
+    },
+    {
+      "key": "index1#34",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Lưu trữ báo cáo có cấu trúc vào vị trí xác định giúp Coordinator dễ dàng nạp lại trạng thái (resume) một cách gọn nhẹ và chính xác nhất."
+    },
+    {
+      "key": "index1#35",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Tách biệt các phát hiện đã xác nhận và phân tích còn tranh cãi là phương pháp hệ thống chuẩn để xử lý bất định mà không làm mất thông tin hoặc giảm tính hữu ích của báo cáo."
+    },
+    {
+      "key": "index1#36",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Giao việc theo mục tiêu (goal-oriented) và tiêu chí chất lượng thay vì quy trình từng bước cứng nhắc giúp subagent phát huy khả năng suy luận linh hoạt khi gặp tình huống bất ngờ."
+    },
+    {
+      "key": "index1#37",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Cập nhật tác nhân tổng hợp để render linh hoạt theo định dạng phù hợp (bảng cho dữ liệu số/tài chính, văn xuôi cho tin tức) là giải pháp trực tiếp và hiệu quả nhất."
+    },
+    {
+      "key": "index1#38",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Trong mô hình Coordinator-Subagent, các subagent không giao tiếp trực tiếp hay chia sẻ bộ nhớ tự động mà thông qua tác nhân điều phối (Coordinator)."
+    },
+    {
+      "key": "index1#39",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Mỗi cuộc gọi đến subagent là độc lập. Nếu Coordinator không truyền kết quả của các subagent trước vào prompt của synthesis agent, agent đó sẽ không có ngữ cảnh."
+    },
+    {
+      "key": "index1#40",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng structured output (claim-source mapping) xuyên suốt từ subagent đến synthesis agent giúp duy trì chính xác nguồn trích dẫn mà không lo bị thất lạc thông tin."
+    },
+    {
+      "key": "index1#41",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Coordinator đã có sẵn ngữ cảnh tóm tắt trong bộ nhớ, việc tự trả lời câu hỏi tóm tắt đơn giản sẽ loại bỏ thời gian trễ và chi phí gọi subagent mới."
+    },
+    {
+      "key": "index1#42",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Chuyển bản nháp (3K tokens) kèm chỉ mục ánh xạ nguồn trích dẫn giúp cân bằng tối ưu giữa việc tiết kiệm context window và giữ trích dẫn đầy đủ, chính xác."
+    },
+    {
+      "key": "index1#43",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Mô hình Coordinator-Worker (phẳng) là best practice của Anthropic để duy trì khả năng quan sát (observability) và gỡ lỗi (debugging). Việc song song hóa tại tầng Coordinator giúp giảm độ trễ mà không làm phức tạp hóa luồng điều khiển như các phương án đệ quy (A) hoặc hàng đợi (C)."
+    },
+    {
+      "key": "index1#44",
+      "agree": false,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Phương án B (bỏ qua subagents) là một 'hard-coded' shortcut không linh hoạt. Trong kiến trúc Agentic hiện đại, việc Coordinator phân tích truy vấn để định tuyến động (dynamic routing) dựa trên độ phức tạp là cách tiếp cận chuẩn để tối ưu hóa hiệu năng và chi phí, thay vì dựa vào các quy tắc cứng nhắc."
+    },
+    {
+      "key": "index1#45",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc tách biệt nội dung (content) và siêu dữ liệu (metadata) trong cấu trúc dữ liệu đầu ra của các agent là cách tiếp cận chuẩn (best practice) để đảm bảo tính toàn vẹn của thông tin (provenance) trong các hệ thống RAG hoặc multi-agent phức tạp."
+    },
+    {
+      "key": "index1#46",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Theo đặc tả của MCP (Model Context Protocol), khi một tool gặp lỗi, nó phải trả về một ToolResult với `isError: true` và thông báo lỗi trong nội dung. Điều này cho phép model hiểu được ngữ cảnh lỗi và tự phục hồi (self-correction) thay vì bị 'mù' bởi kết quả rỗng hoặc exception không được xử lý."
+    },
+    {
+      "key": "index1#47",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Khi con người không có quyền truy cập vào lịch sử trò chuyện, việc cung cấp một bản tóm tắt có cấu trúc là cách duy nhất để đảm bảo họ có đủ thông tin cần thiết để xử lý yêu cầu mà không bị quá tải bởi dữ liệu không liên quan."
+    },
+    {
+      "key": "index1#48",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc trích xuất các trường dữ liệu liên quan (data pruning) là kỹ thuật tối ưu nhất để quản lý cửa sổ ngữ cảnh (context window) mà vẫn giữ được tính chính xác của dữ liệu cấu trúc, tốt hơn so với việc chuyển sang văn bản tự do (C) hoặc thêm độ phức tạp hệ thống (D)."
+    },
+    {
+      "key": "index1#49",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc cố gắng giải quyết vấn đề ngay lập tức (nếu có thể) là ưu tiên hàng đầu. Việc đặt một câu hỏi mục tiêu giúp xác định vấn đề nhanh chóng, đồng thời thể hiện sự đồng cảm, giúp giảm bớt căng thẳng trước khi quyết định leo thang."
+    },
+    {
+      "key": "index1#50",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Cách tiếp cận dựa trên các tiêu chí nghiệp vụ rõ ràng (yêu cầu của khách hàng, ngoại lệ chính sách, bế tắc kỹ thuật) là phương pháp linh hoạt và đáng tin cậy nhất, tránh được sự cứng nhắc của quy tắc cố định hoặc sự thiếu chính xác của phân tích cảm xúc đơn thuần."
+    },
+    {
+      "key": "index1#51",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp ngữ cảnh đầy đủ (structured handoff) là nguyên tắc cốt lõi trong thiết kế agent để giảm tải cho con người và tránh việc khách hàng phải lặp lại thông tin."
+    },
+    {
+      "key": "index1#52",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Đây là ví dụ điển hình về 'graceful degradation' và minh bạch với người dùng, giúp duy trì trải nghiệm khách hàng tốt nhất khi hệ thống gặp sự cố."
+    },
+    {
+      "key": "index1#53",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Cấu trúc hóa phản hồi lỗi (structured error responses) là best practice trong MCP để agent có thể đưa ra quyết định logic (retry hay dừng lại) thay vì đoán mò dựa trên văn bản thuần túy."
+    },
+    {
+      "key": "index1#54",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Agentic loop của Claude dựa trên khả năng suy luận (reasoning) của LLM dựa trên ngữ cảnh hội thoại hiện tại, không phải dựa trên các cây quyết định cứng nhắc (hard-coded decision trees)."
+    },
+    {
+      "key": "index1#55",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Đây là best practice trong thiết kế agent: cân bằng giữa hiệu quả (giải quyết ngay) và trải nghiệm khách hàng (tôn trọng mong muốn được nói chuyện với người thật). Việc ép buộc xử lý (C) hoặc ép buộc leo thang (A) đều bỏ qua quyền tự quyết của khách hàng."
+    },
+    {
+      "key": "index1#56",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Trong các hệ thống tuân thủ (compliance), không bao giờ được dựa vào LLM (prompt engineering) để thực thi các quy tắc cứng. Việc chặn ở tầng hạ tầng (middleware/hook) là cách duy nhất đảm bảo 100% tuân thủ."
+    },
+    {
+      "key": "index1#57",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Tóm tắt lũy tiến (progressive summarization) là kỹ thuật tiêu chuẩn để quản lý context window trong các cuộc hội thoại dài, giúp giữ lại ngữ cảnh quan trọng mà không làm tràn bộ nhớ."
+    },
+    {
+      "key": "index1#58",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Claude là stateless. Nếu agent quên thông tin ngay lập tức, nguyên nhân kỹ thuật phổ biến nhất là lịch sử hội thoại (conversation history) không được gửi kèm trong payload của API request."
+    },
+    {
+      "key": "index1#59",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc trả về cấu trúc lỗi (structured error) là best practice trong thiết kế agent. Nó cho phép agent phân biệt rõ ràng giữa lỗi transient (cần retry) và lỗi business (cần dừng lại và thông báo người dùng), giúp tối ưu hóa token và trải nghiệm người dùng."
+    },
+    {
+      "key": "index1#60",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Sau 4 giờ, context cũ có thể chứa dữ liệu lỗi thời (stale data). Bắt đầu phiên mới với tóm tắt (summary) là cách tiếp cận chuẩn để cân bằng giữa việc giữ ngữ cảnh lịch sử và đảm bảo tính chính xác của dữ liệu hiện tại thông qua các tool call mới."
+    },
+    {
+      "key": "index2#1",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Đây là kỹ thuật 'Chain of Verification' hoặc 'Self-Consistency' cơ bản. Việc yêu cầu model tự tính toán và so sánh với giá trị gốc giúp phát hiện lỗi trích xuất/OCR một cách minh bạch, thay vì cố gắng sửa lỗi tự động (dễ gây sai lệch dữ liệu kế toán)."
+    },
+    {
+      "key": "index2#2",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Khi xử lý codebase lớn (45 files), việc sử dụng sub-agents (agentic workflow) giúp chia nhỏ bài toán, quản lý context window hiệu quả hơn và tránh tình trạng 'lost in the middle' hoặc suy giảm khả năng suy luận của model khi context quá tải."
+    },
+    {
+      "key": "index2#3",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Nếu coordinator không có tool 'Task' trong danh sách allowedTools, nó không thể thực thi việc gọi subagent, dù nó có thể 'nghĩ' về việc đó. Đây là nguyên nhân kỹ thuật trực tiếp nhất cho triệu chứng mô tả."
+    },
+    {
+      "key": "index2#4",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Trong kiến trúc agentic, việc để coordinator (LLM) tự quyết định dựa trên ngữ cảnh là cách tiếp cận linh hoạt và hiệu quả nhất cho các truy vấn đa dạng, thay vì hard-code logic (A, B) hoặc phụ thuộc vào mô hình phân loại riêng biệt (C) vốn khó bảo trì."
+    },
+    {
+      "key": "index2#5",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp metadata có cấu trúc (errorCategory, isRetryable) trực tiếp từ MCP tool là best practice để agent đưa ra quyết định thông minh thay vì đoán mò dựa trên text thuần túy."
+    },
+    {
+      "key": "index2#6",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Đây là mô hình 'iterative refinement' hoặc 'feedback loop'. Việc cho phép agent báo cáo khoảng trống và coordinator kích hoạt lại quy trình là cách giải quyết vấn đề 'pipeline cứng nhắc' hiệu quả nhất."
+    },
+    {
+      "key": "index2#7",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Tích hợp MCP server hiện có cho Jira là best practice chuẩn theo khuyến nghị của Anthropic để kết nối dữ liệu tiêu chuẩn bên thứ ba thay vì tự viết mới hay dùng bash/markdown thủ công."
+    },
+    {
+      "key": "index2#8",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Với lỗi sản xuất khẩn cấp có stack trace rõ ràng, việc thực thi trực tiếp để kiểm tra mã và sửa lỗi là cách nhanh nhất và hiệu quả nhất trước khi cần lập kế hoạch tổng thể."
+    },
+    {
+      "key": "index2#9",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Tách biệt giữa giai đoạn phát hiện lỗi (tối ưu recall) và giai đoạn lọc/ngưỡng (giữ precision) là kiến trúc agent chuẩn để giải quyết bài toán cân bằng giữa false positive và false negative."
+    },
+    {
+      "key": "index2#10",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Dùng pattern hai công cụ với token xác nhận sử dụng một lần từ bước preview là cách giải quyết mang tính kiến trúc phần mềm chắc chắn nhất để ép buộc quy trình an toàn."
+    },
+    {
+      "key": "index2#11",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc sử dụng cơ chế 'self-correction' (gửi lại lỗi cho model) là best practice của Anthropic để xử lý các lỗi ngữ nghĩa phức tạp mà các quy tắc cứng (hard-coded) hoặc schema constraints không thể bao quát hết."
+    },
+    {
+      "key": "index2#12",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Tool use (với JSON schema) là phương pháp chuẩn và đáng tin cậy nhất để ép buộc cấu trúc đầu ra (structured output) trong hệ sinh thái Claude, vượt trội hơn hẳn so với việc prompt engineering thuần túy."
+    },
+    {
+      "key": "index2#13",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Khi tổng số token (document + system prompt + tool definitions) tiến sát giới hạn context window, hiệu năng của model (đặc biệt là khả năng chú ý ở cuối tài liệu) sẽ suy giảm đáng kể do hiện tượng 'lost in the middle' hoặc tràn bộ nhớ ngữ cảnh."
+    },
+    {
+      "key": "index2#14",
+      "agree": false,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Phương án C (tool_choice: 'any') không đảm bảo model sẽ chọn đúng tool nếu có nhiều tool cùng lúc, và nó không giải quyết được vấn đề model vẫn có thể trả về văn bản hội thoại nếu không được ép buộc. Quy trình 2 bước (phân loại -> ép buộc tool) là cách duy nhất để đảm bảo độ chính xác cao nhất trong trường hợp này."
+    },
+    {
+      "key": "index2#15",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp phản hồi lỗi (error feedback loop) trực tiếp cho mô hình là kỹ thuật tiêu chuẩn để xử lý các lỗi định dạng (như Pydantic validation). Các phương án khác không giải quyết được vấn đề cốt lõi là mô hình đang hiểu sai định dạng đầu ra mong muốn."
+    },
+    {
+      "key": "index2#16",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Progressive summarization là phương pháp tốt nhất để duy trì ngữ cảnh dài hạn (long-term context) mà không làm mất đi các chi tiết quan trọng hoặc vượt quá giới hạn token, đồng thời giữ được tính liên tục của hội thoại."
+    },
+    {
+      "key": "index2#17",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Claude API là stateless (không lưu trạng thái). Nếu ứng dụng không gửi lại toàn bộ lịch sử hội thoại (messages array) trong mỗi request, Claude sẽ không có ngữ cảnh về các lượt trao đổi trước đó."
+    },
+    {
+      "key": "index2#18",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Đây là hiện tượng 'prompt dilution' hoặc 'attention drift'. Khi lịch sử hội thoại dài ra, các hướng dẫn trong system prompt có thể bị lu mờ bởi nội dung hội thoại gần đây. Giải pháp thường là nhắc lại các hướng dẫn quan trọng hoặc sử dụng kỹ thuật 'system prompt reinforcement'."
+    },
+    {
+      "key": "index2#19",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Phương pháp tóm tắt (summarization) là tiêu chuẩn vàng để duy trì ngữ cảnh dài hạn trong khi vẫn giữ được các chi tiết quan trọng, hiệu quả hơn nhiều so với việc chỉ tăng cửa sổ trượt hoặc tìm kiếm vector (vốn có thể làm mất đi tính liên tục của hội thoại)."
+    },
+    {
+      "key": "index2#20",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Hiện tượng 'prompt drift' trong các cuộc hội thoại dài là phổ biến. Việc nhắc lại (reinforcement) các chỉ dẫn quan trọng thông qua tin nhắn người dùng là kỹ thuật hiệu quả nhất để 'reset' sự chú ý của mô hình vào các ràng buộc hệ thống mà không làm gián đoạn trải nghiệm người dùng."
+    },
+    {
+      "key": "index2#21",
+      "agree": false,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc cập nhật system prompt liên tục là không tối ưu và có thể gây nhiễu. Cách tiếp cận tốt nhất là chèn thông tin vào ngữ cảnh ngay trước khi gọi API (thường là tiền tố vào tin nhắn người dùng tiếp theo) để đảm bảo mô hình có thông tin mới nhất ngay lập tức mà không làm thay đổi cấu trúc hệ thống."
+    },
+    {
+      "key": "index2#22",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Kỹ thuật 'pre-filling' (nối một phần tin nhắn trợ lý) là cách hiệu quả nhất để ép mô hình đi theo định dạng mong muốn và loại bỏ các câu chào hỏi sáo rỗng, vì nó trực tiếp định hướng đầu ra của mô hình ngay từ token đầu tiên."
+    },
+    {
+      "key": "index2#23",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Đây là best practice trong thiết kế UX cho AI (Human-in-the-loop). Việc đưa ra giả định (assumptions) giúp giảm ma sát (friction) trong khi vẫn cho phép người dùng điều chỉnh, thay vì bắt người dùng trả lời hàng loạt câu hỏi hoặc đưa ra kết quả sai hoàn toàn."
+    },
+    {
+      "key": "index2#24",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Few-shot prompting cực kỳ hiệu quả trong việc neo giữ hành vi của mô hình (in-context learning). Khi context dài, mô hình có xu hướng 'quên' các hướng dẫn trừu tượng (system prompt), nhưng các ví dụ cụ thể (few-shot) thường được mô hình chú ý tốt hơn và giúp duy trì phong cách/độ khó nhất quán."
+    },
+    {
+      "key": "index2#25",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Lấy mẫu ngẫu nhiên phân tầng (stratified random sampling) là tiêu chuẩn vàng trong kiểm soát chất lượng (QA) cho các hệ thống AI. Nó cho phép đo lường tỷ lệ lỗi thực tế (ground truth) một cách thống kê, từ đó đánh giá hiệu quả của các cải tiến hệ thống theo thời gian."
+    },
+    {
+      "key": "index2#26",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Đối với các dữ liệu có độ chính xác cao (numerical details), việc dựa vào tóm tắt (summarization) hoặc RAG văn bản thuần túy thường dẫn đến mất mát thông tin. Lưu trữ dữ liệu có cấu trúc (structured database) và truy xuất chính xác các giá trị này là cách tiếp cận đáng tin cậy nhất để đảm bảo độ chính xác tuyệt đối."
+    },
+    {
+      "key": "index2#27",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Refactoring 45 files with breaking changes requires a structured plan to avoid regression. Direct execution (A) is risky without mapping dependencies first. Plan mode allows Claude to analyze the scope and create a safe migration strategy."
+    },
+    {
+      "key": "index2#28",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "When UI/formatting issues are interdependent, iterative, incremental changes are the standard engineering practice. Fixing one variable at a time allows for verification and prevents 'cascading' bugs that make debugging harder."
+    },
+    {
+      "key": "index2#29",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Providing concrete examples via @references is the most effective way to ensure Claude adheres to specific coding patterns. It is more reliable than natural language descriptions (A) or asking Claude to 'explore' (C), which might miss nuances."
+    },
+    {
+      "key": "index2#30",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Using @imports in local CLAUDE.md files is the correct architectural pattern for modular configuration. It avoids duplication (the current problem) and allows maintainers to explicitly opt-in to relevant standards, which is cleaner than global overrides (C)."
+    },
+    {
+      "key": "index2#31",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng Tool Use với JSON Schema là phương pháp chuẩn (best practice) của Anthropic để ép buộc cấu trúc đầu ra (Structured Outputs), đảm bảo tính nhất quán và giảm thiểu lỗi phân tích cú pháp so với việc dựa vào prompt thuần túy."
+    },
+    {
+      "key": "index2#32",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp thông báo lỗi mang tính hướng dẫn (instructive error messages) giúp Claude hiểu ngữ cảnh lỗi để đưa ra quyết định thông minh (thử lại, đổi công cụ, hoặc leo thang) thay vì hành động mù quáng."
+    },
+    {
+      "key": "index2#33",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Cung cấp siêu dữ liệu có cấu trúc (structured metadata) trong phản hồi lỗi là cách hiệu quả nhất để agent phân loại lỗi và chọn chiến lược xử lý phù hợp (retry vs. escalate) một cách tự động."
+    },
+    {
+      "key": "index2#34",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Few-shot prompting là kỹ thuật mạnh mẽ nhất để dạy mô hình nhận diện các mẫu phức tạp như 'nhánh code chưa được test' mà không cần thay đổi kiến trúc pipeline phức tạp."
+    },
+    {
+      "key": "index2#35",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc ép buộc tool_choice cụ thể là cách duy nhất đảm bảo thứ tự thực thi trong một lượt gọi API. Các phương án khác (như reorder tools) không đảm bảo hành vi của mô hình."
+    },
+    {
+      "key": "index2#36",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Vấn đề cốt lõi là thiếu ngữ cảnh (context) về các tệp không thay đổi. Cách tiếp cận agentic cho phép mô hình chủ động truy vấn (search/read) các tệp liên quan, giải quyết triệt để vấn đề cross-file mà prompt tĩnh không thể làm được."
+    },
+    {
+      "key": "index2#37",
+      "agree": false,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc tự động retry (D) bên trong tool có thể gây ra độ trễ lớn (timeout) cho API call của Claude. Cách tốt nhất là trả về lỗi rõ ràng để mô hình (agent) tự quyết định chiến lược xử lý (ví dụ: thông báo cho người dùng hoặc thử lại sau), tuân thủ nguyên tắc 'fail fast' và minh bạch."
+    },
+    {
+      "key": "index2#38",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Việc tách tool (D) tận dụng schema để ép buộc kiểu dữ liệu (type safety) ngay từ cấp độ API, giúp mô hình không thể truyền sai tham số ngay từ đầu, hiệu quả hơn nhiều so với việc chỉ dựa vào mô tả (C) hoặc validation phía server (A)."
+    },
+    {
+      "key": "index2#39",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Claude API là stateless. Để duy trì ngữ cảnh, client phải gửi lại toàn bộ lịch sử hội thoại trong mảng 'messages'. Đây là nguyên tắc cơ bản nhất khi làm việc với LLM API."
+    },
+    {
+      "key": "index2#40",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Khi yêu cầu của người dùng mơ hồ (ambiguous) và có nhiều hướng xử lý khác nhau, việc hỏi làm rõ (clarification) là best practice để tránh thực hiện sai ý định người dùng (hallucination of intent)."
+    },
+    {
+      "key": "index2#41",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc hỏi dồn dập (như phương án A) gây mệt mỏi cho người dùng (friction). Phương án B (giả định thông minh + xác nhận) giúp duy trì luồng hội thoại tự nhiên và giảm tỷ lệ bỏ cuộc."
+    },
+    {
+      "key": "index2#42",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Với các thay đổi nhỏ, cục bộ và rõ ràng (thêm validation vào 1 hàm), việc sử dụng 'direct execution' là hiệu quả nhất, tránh lãng phí tài nguyên cho các bước lập kế hoạch phức tạp không cần thiết."
+    },
+    {
+      "key": "index2#43",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc dựa vào prompt (CLAUDE.md) để ép buộc định dạng code là không đáng tin cậy vì LLM có thể 'quên' hoặc bỏ qua. Sử dụng hook Post ToolUse (như Prettier) là giải pháp kỹ thuật chắc chắn nhất (deterministic) để đảm bảo code luôn đúng chuẩn sau khi được ghi vào file."
+    },
+    {
+      "key": "index2#44",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Khi người dùng thiếu kinh nghiệm về một chủ đề phức tạp (caching), việc để Claude đóng vai trò chuyên gia tư vấn/phỏng vấn là cách tốt nhất để xác định các yêu cầu kỹ thuật quan trọng (invalidation, consistency, etc.) trước khi bắt đầu viết code, giúp tránh sai lầm kiến trúc ngay từ đầu."
+    },
+    {
+      "key": "index2#45",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Cung cấp test case cụ thể (input/output) là phương pháp 'few-shot' hoặc 'test-driven' hiệu quả nhất để sửa lỗi logic. Nó cung cấp ngữ cảnh rõ ràng và tiêu chuẩn kiểm chứng cho Claude, thay vì chỉ mô tả bằng ngôn ngữ tự nhiên vốn dễ gây hiểu lầm."
+    },
+    {
+      "key": "index2#46",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Claude (và các LLM nói chung) có khả năng phát ra nhiều tool calls trong một lượt phản hồi duy nhất. Đây là cách chuẩn nhất để thực hiện song song (parallel execution) các tác vụ độc lập mà không cần thay đổi kiến trúc hệ thống phức tạp."
+    },
+    {
+      "key": "index2#47",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Chia nhỏ tác vụ (chunking) là phương pháp tiêu chuẩn để xử lý giới hạn token khi làm việc với các tập dữ liệu lớn, đảm bảo tính toàn vẹn của cấu trúc JSON và tránh lỗi parser."
+    },
+    {
+      "key": "index2#48",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Grep là công cụ hiệu quả nhất để định vị mã nguồn dựa trên các chuỗi lỗi cụ thể (error strings), giúp thu hẹp phạm vi tìm kiếm ngay lập tức thay vì đoán mò theo cấu trúc thư mục."
+    },
+    {
+      "key": "index2#49",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Cách tiếp cận dựa trên việc lập bản đồ (mapping) và ưu tiên các khu vực có tác động cao (high-impact) là phương pháp tối ưu để quản lý ngữ cảnh và tài nguyên khi đối mặt với codebase lớn."
+    },
+    {
+      "key": "index2#50",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "MCP Resources được thiết kế để cung cấp khả năng hiển thị dữ liệu (data visibility) mà không cần thực hiện các lệnh gọi công cụ (tool calls) tốn kém, giúp giảm thiểu số lượng vòng lặp API và tiết kiệm ngữ cảnh."
+    },
+    {
+      "key": "index2#51",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Đây là mô hình 'Human-in-the-loop' hoặc 'Agentic Loop' chuẩn mực. Việc để Coordinator kiểm soát vòng lặp phản hồi (feedback loop) giúp đảm bảo chất lượng đầu ra thay vì chỉ tăng độ rộng truy vấn (B) hoặc chấp nhận thất bại (C)."
+    },
+    {
+      "key": "index2#52",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Dữ liệu có cấu trúc (Structured data) với ID là cách duy nhất để đảm bảo tính xác thực (deterministic) khi gọi các công cụ tiếp theo, tránh sự mơ hồ của văn bản thuần túy hoặc URL."
+    },
+    {
+      "key": "index2#53",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Việc giảm không gian tìm kiếm (search space) bằng cách chỉ hiển thị các công cụ liên quan (dynamic tool injection) là best practice để giảm nhiễu và tăng độ chính xác cho LLM khi số lượng công cụ quá lớn."
+    },
+    {
+      "key": "index2#54",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Đây là nguyên tắc 'Separation of Concerns' chuẩn mực: Công cụ xử lý các lỗi hạ tầng (transient) để giảm tải cho Agent, trong khi các lỗi logic (non-transient) cần được báo cáo để Agent có thể điều chỉnh hành vi hoặc thông báo cho người dùng."
+    },
+    {
+      "key": "index2#55",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Atomic operations are the standard architectural pattern to solve race conditions (TOCTOU - Time-of-check to time-of-use). Combining the check and booking into a single transaction ensures consistency."
+    },
+    {
+      "key": "index2#56",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Encapsulating transient error handling (retries) within the tool improves agent efficiency and reduces unnecessary context window usage, while surfacing validation errors immediately allows the agent to correct user input."
+    },
+    {
+      "key": "index2#57",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Providing a clear, deterministic 'requires_review' flag based on pre-tested thresholds reduces the cognitive load on the LLM and minimizes both false positives and false negatives in human-in-the-loop workflows."
+    },
+    {
+      "key": "index2#58",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Using a unique identifier (game_id) obtained via a search tool is the most robust way to handle ambiguity (rematches, nicknames, date formats). Relying on string matching for entities is prone to failure; ID-based lookups are the standard best practice."
+    },
+    {
+      "key": "index2#59",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp quá nhiều công cụ (tool bloat) làm giảm độ chính xác của mô hình trong việc chọn công cụ phù hợp (tool selection accuracy). Giới hạn số lượng công cụ cho mỗi subagent là best practice để giảm nhiễu và tăng hiệu suất."
+    },
+    {
+      "key": "index2#60",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Khi Claude Code hoạt động không nhất quán, bước đầu tiên luôn là kiểm tra xem ngữ cảnh (context) đã được nạp đúng chưa. /memory là lệnh chuẩn để kiểm tra các tệp cấu hình (như CLAUDE.md) đã được hệ thống nhận diện và áp dụng hay chưa."
+    },
+    {
+      "key": "index3#1",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Message Batches API có đặc điểm kỹ thuật là độ trễ không đảm bảo (lên tới 24h). Vì quy trình là 'non-blocking' (không chặn), yếu tố quan trọng nhất là liệu độ trễ này có làm hỏng quy trình làm việc hay không."
+    },
+    {
+      "key": "index3#2",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Đây là phương pháp tối ưu nhất (Hybrid approach): giữ lại các thông tin quan trọng (structured data) để tránh mất mát ngữ cảnh (hallucination/forgetting), tóm tắt phần thảo luận chung để tiết kiệm token, và giữ lại các trao đổi gần đây để duy trì luồng hội thoại tự nhiên."
+    },
+    {
+      "key": "index3#3",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp dữ liệu có cấu trúc (cost, project, etc.) ngay trước khi người dùng xác nhận là cách tốt nhất để đảm bảo 'Human-in-the-loop' có đầy đủ thông tin để ra quyết định, thay vì chỉ là một thông báo xác nhận đơn thuần."
+    },
+    {
+      "key": "index3#4",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Đây là pattern chuẩn trong thiết kế API/Tool để xử lý dữ liệu lớn: trả về metadata (tổng số) và con trỏ (cursor/pagination token) để agent có thể quyết định có cần fetch tiếp hay không, tránh việc tự động fetch tất cả gây trễ."
+    },
+    {
+      "key": "index3#5",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Lỗi 1 (malformed request) là lỗi client-side (gọi sai tool), nên là JSON-RPC error. Lỗi 2 (404) và 3 (503) là lỗi runtime của tool (business logic/external service), nên được trả về dưới dạng tool result với isError: true để agent có thể xử lý logic (ví dụ: retry với 503)."
+    },
+    {
+      "key": "index3#6",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Few-shot prompting là kỹ thuật hiệu quả nhất và nhanh nhất để điều chỉnh hành vi của LLM đối với các trường hợp biên (edge cases) như đo lường không chính thức, trước khi cân nhắc đến các giải pháp phức tạp hơn như fine-tuning."
+    },
+    {
+      "key": "index3#7",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Trong Claude Code/Claude API workflow, việc sử dụng fork_session là cách chuẩn để thử nghiệm các hướng tiếp cận khác nhau mà không làm mất ngữ cảnh của phiên làm việc gốc hoặc phải bắt đầu lại từ đầu."
+    },
+    {
+      "key": "index3#8",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Đây là kỹ thuật 'Prompt Decomposition' hoặc 'Task Splitting' kinh điển. Khi một prompt quá tải (overloaded) dẫn đến suy giảm hiệu suất ở một số tác vụ (attention dilution), việc tách biệt các mối quan tâm (separation of concerns) là giải pháp tối ưu."
+    },
+    {
+      "key": "index3#9",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Quy trình làm việc cố định, tuần tự và có cấu trúc rõ ràng (style -> security -> docs) là trường hợp sử dụng hoàn hảo cho Prompt Chaining. Orchestrator-workers (D) là quá mức cần thiết (overkill) cho quy trình không thay đổi."
+    },
+    {
+      "key": "index3#10",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc sử dụng shared memory/state store để truyền dữ liệu giữa các agent là best practice để tránh context window bloat và đảm bảo tính nhất quán của dữ liệu trong các hệ thống multi-agent phức tạp."
+    },
+    {
+      "key": "index3#11",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Grep (hoặc ripgrep) là công cụ tiêu chuẩn để tìm kiếm nội dung văn bản bên trong tệp tin. Các phương án khác (Bash find, Glob) chỉ tìm kiếm dựa trên tên tệp/đường dẫn, không phải nội dung import bên trong tệp."
+    },
+    {
+      "key": "index3#12",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Trong kiến trúc MCP, mô tả công cụ (tool description) là yếu tố quan trọng nhất để LLM quyết định chọn công cụ nào. Việc làm rõ ngữ cảnh sử dụng trực tiếp giúp giảm thiểu sai sót ngay tại bước suy luận của agent."
+    },
+    {
+      "key": "index3#13",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Phương án A giải quyết trực tiếp vấn đề 'nhầm lẫn bản ghi' (ambiguity) bằng cách yêu cầu xác nhận dựa trên dữ liệu cụ thể, đồng thời giữ được sự tiện lợi (single-click) thay vì quy trình phức tạp hoặc thay đổi hoàn toàn workflow."
+    },
+    {
+      "key": "index3#14",
+      "agree": false,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Phương án B không hiệu quả về chi phí và thời gian vì gửi 50.000 tài liệu ngay lập tức khi tỷ lệ lỗi 18% là lãng phí token và thời gian chờ đợi. Phương án D tối ưu hơn: dùng mẫu nhỏ để tinh chỉnh prompt (tăng độ chính xác) trước khi chạy batch lớn, giúp giảm thiểu số lượng tài liệu phải xử lý lại."
+    },
+    {
+      "key": "index3#15",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc versioning system prompt là best practice để đảm bảo tính nhất quán (consistency) cho các cuộc hội thoại đang diễn ra. Thay đổi prompt giữa chừng cho các session cũ sẽ gây ra hiện tượng 'drift' hoặc mâu thuẫn như mô tả."
+    },
+    {
+      "key": "index3#16",
+      "agree": false,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Việc chia nhỏ (chunking) và merge kết quả (phương án B) thường làm mất ngữ cảnh toàn cục (global context) và các mối liên hệ xuyên suốt trong các cuộc họp dài. Phương án D (tóm tắt trước khi trích xuất) giúp mô hình nắm bắt được cấu trúc và các điểm chính trước khi đi vào chi tiết, đây là kỹ thuật 'Chain-of-Thought' hoặc 'Summarization-first' hiệu quả hơn cho các tài liệu phức tạp."
+    },
+    {
+      "key": "index3#17",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Test-Driven Development (TDD) kết hợp với LLM là cách tiếp cận chuẩn mực nhất để đảm bảo tính chính xác cho các thuật toán phức tạp. Việc cung cấp lỗi cụ thể từ test suite giúp Claude sửa lỗi một cách có mục tiêu thay vì dựa vào phản hồi định tính mơ hồ."
+    },
+    {
+      "key": "index3#18",
+      "agree": true,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Sử dụng .claude/rules/ với path-scoping là tính năng chính thức của Claude Code/Claude Desktop để tối ưu hóa context window bằng cách chỉ load các quy tắc liên quan đến file đang được chỉnh sửa, vượt trội hơn so với việc chia nhỏ file thủ công."
+    },
+    {
+      "key": "index3#19",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Hợp nhất các công cụ chồng chéo (semantic overlap) là phương pháp tốt nhất để giảm không gian tìm kiếm và loại bỏ sự mơ hồ trong việc lựa chọn công cụ (tool selection ambiguity), giúp mô hình đưa ra quyết định chính xác hơn."
+    },
+    {
+      "key": "index3#20",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Tương tự câu 19, việc hợp nhất các công cụ có chức năng chồng chéo là giải pháp cấu trúc (structural) hiệu quả nhất để loại bỏ sự nhầm lẫn của mô hình khi chọn công cụ, thay vì chỉ dựa vào few-shot prompting."
+    },
+    {
+      "key": "index3#21",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc chia nhỏ các công cụ (tool decomposition) dựa trên các tham số bắt buộc khác nhau là best practice trong thiết kế API cho LLM. Điều này giúp schema của từng công cụ trở nên rõ ràng, giảm thiểu lỗi thiếu tham số hoặc thừa tham số không liên quan."
+    },
+    {
+      "key": "index3#22",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc dựa vào các điều kiện cứng nhắc (hard-coded conditionals) thường khiến mô hình bị 'overfit' vào các từ khóa cụ thể và bỏ lỡ ngữ cảnh. Chuyển sang nguyên tắc hướng dẫn (general principle) giúp mô hình linh hoạt hơn trong việc suy luận (reasoning) dựa trên ngữ cảnh thực tế của người dùng."
+    },
+    {
+      "key": "index3#23",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Grep (hoặc ripgrep) là công cụ tiêu chuẩn để tìm kiếm nội dung văn bản trong tệp tin trên codebase lớn. Các phương án khác hoặc chỉ tìm tên tệp (Glob, ls) hoặc không hiệu quả/không đảm bảo phạm vi (đọc file entry)."
+    },
+    {
+      "key": "index3#24",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc cung cấp ngữ cảnh (context) thông qua CLAUDE.md là phương pháp tốt nhất để định hướng hành vi của LLM ngay từ đầu (upstream), thay vì cố gắng sửa lỗi ở hạ nguồn (downstream) bằng cách lọc kết quả."
+    },
+    {
+      "key": "index3#25",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Đây là nguyên tắc 'Security by Design'. Việc thực thi logic nghiệp vụ (business logic) bên trong công cụ (server-side) là cách duy nhất đảm bảo tính toàn vẹn, vì nó không phụ thuộc vào việc agent có tuân thủ prompt hay không."
+    },
+    {
+      "key": "index3#26",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Lợi ích cốt lõi của structured output (JSON) là tính khả lập trình (programmatic access). Nó loại bỏ nhu cầu phân tích cú pháp văn bản tự do (parsing), giúp giảm thiểu lỗi logic khi agent cần sử dụng dữ liệu đó cho các bước tiếp theo."
+    },
+    {
+      "key": "index3#27",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc tích lũy tất cả kết quả RAG vào ngữ cảnh là anti-pattern gây tràn context. Sliding window (cửa sổ trượt) là kỹ thuật tiêu chuẩn để cân bằng giữa việc giữ ngữ cảnh hội thoại và thông tin truy xuất gần nhất."
+    },
+    {
+      "key": "index3#28",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Claude Code hỗ trợ các kỹ năng (skills) được định nghĩa trong thư mục .claude/skills/ tại gốc dự án. Việc commit vào version control đảm bảo tính nhất quán cho toàn bộ team, đúng với best practice của Claude Code."
+    },
+    {
+      "key": "index3#29",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc cho phép mảng trống (empty arrays) là cách chuẩn để xử lý dữ liệu thiếu (thay vì ép buộc mô hình bịa đặt), và thêm 'unclear' vào enum giải quyết trực tiếp vấn đề phân loại cảm xúc mơ hồ."
+    },
+    {
+      "key": "index3#30",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Đây là cách tiếp cận 'fail-safe' (an toàn khi thất bại) tốt nhất. Dựa vào system prompt (C) không đảm bảo 100% vì mô hình có thể vẫn bị kẹt hoặc quên, trong khi kiểm tra ở lớp điều phối (orchestration layer) đảm bảo tính toàn vẹn của quy trình kinh doanh."
+    },
+    {
+      "key": "index3#31",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Đây là hiện tượng 'confirmation bias' (thiên kiến xác nhận) phổ biến trong các mô hình ngôn ngữ lớn khi tự đánh giá lại công việc của chính mình trong cùng một ngữ cảnh hội thoại."
+    },
+    {
+      "key": "index3#32",
+      "agree": true,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Kiến trúc MCP (Model Context Protocol) hoạt động bằng cách tổng hợp các công cụ từ tất cả các máy chủ được kết nối vào một không gian công cụ thống nhất mà mô hình có thể truy cập đồng thời."
+    },
+    {
+      "key": "index3#33",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Yêu cầu A mang tính chất cơ học (refactoring đơn giản), trong khi yêu cầu B mang tính chất thiết kế và logic phức tạp, đòi hỏi tư duy đa bước để đảm bảo tính toàn vẹn của hệ thống."
+    },
+    {
+      "key": "index3#34",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Claude Code hỗ trợ trực tiếp các flag `--max-turns` và `--max-budget-usd` để kiểm soát chi phí và vòng lặp tác nhân ngay tại cấp độ thực thi của công cụ."
+    },
+    {
+      "key": "index3#35",
+      "agree": false,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Trong kiến trúc LLM hiện đại, JSON Schema (C) là cơ chế kỹ thuật mạnh mẽ nhất để ép buộc cấu trúc đầu ra của tool. Mô tả văn bản (A) chỉ là gợi ý, trong khi JSON Schema cung cấp ràng buộc thực thi (enforcement) giúp Claude hiểu rõ cấu trúc dữ liệu bắt buộc."
+    },
+    {
+      "key": "index3#36",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc tách biệt 'System Prompt/Story Bible' (A) là best practice để duy trì tính nhất quán (grounding) cho các yếu tố cốt lõi, trong khi các phần hội thoại ephemeral có thể được quản lý bằng các kỹ thuật context window khác."
+    },
+    {
+      "key": "index3#37",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Việc duy trì một 'State Object' (A) là cách tiếp cận chuẩn (State Management) để giải quyết vấn đề 'drift' trong các cuộc hội thoại dài, đảm bảo mô hình luôn có nguồn sự thật (source of truth) cập nhật nhất thay vì phải suy luận từ lịch sử hội thoại."
+    },
+    {
+      "key": "index3#38",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Few-shot prompting (A) là phương pháp hiệu quả nhất để dạy mô hình về các sắc thái (nuance) và logic đánh giá phức tạp mà các quy tắc cứng (hard-coded rules) hoặc hướng dẫn văn bản (system prompt) không thể bao quát hết."
+    },
+    {
+      "key": "index3#39",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Claude Code's --system-prompt flag overrides the default system prompt. Since the default prompt contains the essential instructions for tool usage (file reading, navigation), replacing it entirely disables these capabilities. Using --append-system-prompt preserves the default instructions while adding the custom review guidelines."
+    },
+    {
+      "key": "index3#40",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "CLAUDE.md is the standard mechanism for providing persistent, project-specific context and behavioral guidelines to Claude Code. It is the most effective way to influence the agent's decision-making process regarding code quality and testing standards without adding architectural complexity."
+    },
+    {
+      "key": "index3#41",
+      "agree": true,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "The system prompt is the architecturally correct place for defining persistent behavioral guidelines, tone, and interaction patterns for an LLM, as it sets the 'rules of engagement' for the entire session."
+    },
+    {
+      "key": "index3#42",
+      "agree": true,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Project-level configuration (e.g., .mcp.json in the repo) is appropriate for shared team resources, while user-level configuration (~/.claude.json or similar global config) is appropriate for personal, experimental, or machine-specific tools."
+    }
+  ],
+  "disagreements": [
+    {
+      "key": "index1#44",
+      "agree": false,
+      "should_be": [
+        "A"
+      ],
+      "confidence": "high",
+      "reason": "Phương án B (bỏ qua subagents) là một 'hard-coded' shortcut không linh hoạt. Trong kiến trúc Agentic hiện đại, việc Coordinator phân tích truy vấn để định tuyến động (dynamic routing) dựa trên độ phức tạp là cách tiếp cận chuẩn để tối ưu hóa hiệu năng và chi phí, thay vì dựa vào các quy tắc cứng nhắc."
+    },
+    {
+      "key": "index2#14",
+      "agree": false,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Phương án C (tool_choice: 'any') không đảm bảo model sẽ chọn đúng tool nếu có nhiều tool cùng lúc, và nó không giải quyết được vấn đề model vẫn có thể trả về văn bản hội thoại nếu không được ép buộc. Quy trình 2 bước (phân loại -> ép buộc tool) là cách duy nhất để đảm bảo độ chính xác cao nhất trong trường hợp này."
+    },
+    {
+      "key": "index2#21",
+      "agree": false,
+      "should_be": [
+        "B"
+      ],
+      "confidence": "high",
+      "reason": "Việc cập nhật system prompt liên tục là không tối ưu và có thể gây nhiễu. Cách tiếp cận tốt nhất là chèn thông tin vào ngữ cảnh ngay trước khi gọi API (thường là tiền tố vào tin nhắn người dùng tiếp theo) để đảm bảo mô hình có thông tin mới nhất ngay lập tức mà không làm thay đổi cấu trúc hệ thống."
+    },
+    {
+      "key": "index2#37",
+      "agree": false,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Việc tự động retry (D) bên trong tool có thể gây ra độ trễ lớn (timeout) cho API call của Claude. Cách tốt nhất là trả về lỗi rõ ràng để mô hình (agent) tự quyết định chiến lược xử lý (ví dụ: thông báo cho người dùng hoặc thử lại sau), tuân thủ nguyên tắc 'fail fast' và minh bạch."
+    },
+    {
+      "key": "index3#14",
+      "agree": false,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Phương án B không hiệu quả về chi phí và thời gian vì gửi 50.000 tài liệu ngay lập tức khi tỷ lệ lỗi 18% là lãng phí token và thời gian chờ đợi. Phương án D tối ưu hơn: dùng mẫu nhỏ để tinh chỉnh prompt (tăng độ chính xác) trước khi chạy batch lớn, giúp giảm thiểu số lượng tài liệu phải xử lý lại."
+    },
+    {
+      "key": "index3#16",
+      "agree": false,
+      "should_be": [
+        "D"
+      ],
+      "confidence": "high",
+      "reason": "Việc chia nhỏ (chunking) và merge kết quả (phương án B) thường làm mất ngữ cảnh toàn cục (global context) và các mối liên hệ xuyên suốt trong các cuộc họp dài. Phương án D (tóm tắt trước khi trích xuất) giúp mô hình nắm bắt được cấu trúc và các điểm chính trước khi đi vào chi tiết, đây là kỹ thuật 'Chain-of-Thought' hoặc 'Summarization-first' hiệu quả hơn cho các tài liệu phức tạp."
+    },
+    {
+      "key": "index3#35",
+      "agree": false,
+      "should_be": [
+        "C"
+      ],
+      "confidence": "high",
+      "reason": "Trong kiến trúc LLM hiện đại, JSON Schema (C) là cơ chế kỹ thuật mạnh mẽ nhất để ép buộc cấu trúc đầu ra của tool. Mô tả văn bản (A) chỉ là gợi ý, trong khi JSON Schema cung cấp ràng buộc thực thi (enforcement) giúp Claude hiểu rõ cấu trúc dữ liệu bắt buộc."
+    }
+  ],
+  "reviewNotes": {
+    "inputSnapshot": "The initial Gemini sweep checked all 162 source questions in data/claude/index1-3.json before reconciling their keys with the live merged exam in data.json.",
+    "liveExam": "data.json -> claude-index162",
+    "confirmedFixes": [
+      {
+        "source": "index2#14",
+        "liveQuestion": 74,
+        "from": "C",
+        "to": "D",
+        "reason": "The two-step classify-then-force strategy is the explanation’s intended answer; tool_choice:any forces some tool, but does not ensure the type-matched extractor. The duplicate claude-interactive#43 was synchronized to D as well."
+      },
+      {
+        "source": "index1#57",
+        "liveQuestion": 57,
+        "from": "D",
+        "to": "C",
+        "reason": "Two fresh Gemini models independently selected structured per-issue state over narrative summarization for this scenario."
+      }
+    ],
+    "sourceLiveSync": [
+      {
+        "source": "index1#44",
+        "from": "B",
+        "liveKey": "A",
+        "reason": "The live exam was already corrected to A; synced source JSON/HTML and refreshed its stale explanation/mnemonic."
+      },
+      {
+        "source": "index1#49",
+        "from": "A",
+        "liveKey": "C",
+        "reason": "The live exam was already corrected to C; the customer explicitly asks for a human immediately, so synced source JSON/HTML and refreshed its stale explanation/mnemonic."
+      }
+    ],
+    "question57": {
+      "finalKey": "C",
+      "decision": "Updated to C after two fresh, unmarked Gemini checks (gemini-3.6-flash and gemini-3.1-flash-lite), both selecting structured issue state. Earlier Gemini runs and local duplicate variants disagreed; those local quiz keys are not authoritative, so the fresh independent Gemini checks were used as requested."
+    },
+    "remainingFirstPassFlags": [
+      {
+        "key": "index2#21",
+        "suggested": "B",
+        "decision": "Not changed; the live/canonical duplicate and its rationale support D."
+      },
+      {
+        "key": "index2#37",
+        "suggested": "C",
+        "decision": "Not changed; the live/canonical duplicate and transient-503 retry rationale support D."
+      },
+      {
+        "key": "index3#14",
+        "suggested": "D",
+        "decision": "Not changed; the live/canonical duplicate and its rationale support B."
+      },
+      {
+        "key": "index3#16",
+        "suggested": "D",
+        "decision": "Not changed; the live/canonical duplicate and its rationale support B."
+      },
+      {
+        "key": "index3#35",
+        "suggested": "C",
+        "decision": "Not changed; the live/canonical duplicate supports A; its parameter description provides the expected UUID format."
+      }
+    ],
+    "auditCaveat": "Gemini’s broad sweep is a triage aid, not an authoritative source. The flagged candidates were cross-checked against the live app keys, duplicate variants, and answer explanations before edits."
+  },
+  "followUpChecks": [
+    {
+      "key": "index1#57",
+      "model": "gemini-3.6-flash",
+      "answer": "C"
+    },
+    {
+      "key": "index1#57",
+      "model": "gemini-3.1-flash-lite",
+      "answer": "C"
+    }
+  ]
+}

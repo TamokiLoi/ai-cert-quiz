@@ -458,16 +458,16 @@
           "text": "Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool."
         }
       ],
-      "correct": "C",
-      "explanation": "Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: phân loại trước, sau đó buộc tool_choice vào trình trích xuất chính xác. Việc để lựa chọn ở chế độ tự động vẫn cho phép phản hồi bằng cuộc trò chuyện, trong khi việc thu gọn mọi thứ thành một lược đồ khổng lồ thường làm ảnh hưởng đến độ chính xác.",
+      "correct": "D",
+      "explanation": "Khi cần đầu ra có cấu trúc đúng với loại tài liệu, hãy phân loại tài liệu trước rồi buộc lượt gọi tiếp theo dùng đúng extractor/schema. tool_choice: \"any\" chỉ buộc gọi một tool trong số các tool có sẵn; nó không bảo đảm chọn đúng extractor cho hóa đơn, hợp đồng hay biên lai.",
       "optExp": {
-        "A": "Nó thực hiện “Consolidate all document types into a single unified-schema extraction tool and force that tool”, nhưng không giải quyết trực tiếp yêu cầu: what 's the most effective approach. “Consolidate all document types into a single unified-schema extraction tool and force that tool” không làm được điều đó: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: p.",
-        "B": "Nó thực hiện “Keep tool_choice: \"auto \"with system prompt instructions requiring tool use”, nhưng không giải quyết trực tiếp yêu cầu: what 's the most effective approach. “Keep tool_choice: \"auto \"with system prompt instructions requiring tool use” không làm được điều đó: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: p.",
-        "C": "Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: phân loại trước, sau đó buộc tool_choice vào trình trích xuất chính xác. Việc để lựa chọn ở chế độ tự động vẫn cho phép phản hồi bằng cuộc trò chuyện, trong khi việc thu gọn mọi thứ thành một lược đồ khổng lồ thường làm ảnh hưởng đến độ chính xác.",
-        "D": "Nó thực hiện “Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool”, nhưng không giải quyết trực tiếp yêu cầu: what 's the most effective approach. “Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool” không làm được điều đó: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: p."
+        "A": "Một schema tổng hợp quá rộng có thể làm giảm độ chính xác so với các schema chuyên biệt cho từng loại tài liệu.",
+        "B": "tool_choice: \"auto\" vẫn cho phép Claude trả lời bằng văn bản thường; chỉ dẫn trong prompt không bảo đảm tool sẽ được gọi.",
+        "C": "tool_choice: \"any\" ngăn phản hồi thuần văn bản bằng cách buộc gọi một tool, nhưng không bảo đảm tool được chọn là extractor/schema phù hợp với loại tài liệu.",
+        "D": "Khi cần đầu ra có cấu trúc đúng với loại tài liệu, hãy phân loại tài liệu trước rồi buộc lượt gọi tiếp theo dùng đúng extractor/schema. tool_choice: \"any\" chỉ buộc gọi một tool trong số các tool có sẵn; nó không bảo đảm chọn đúng extractor cho hóa đơn, hợp đồng hay biên lai."
       },
-      "context": "Đây là quyết định về What 's the most effective approach? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: phân loại trước, sau đó buộc tool_choice vào trình trích xuất chính xác. Việc để lựa chọn…",
-      "mnemonic": "Đọc requirement trước → chọn C: Set tool_choice: \"any \" with all extraction tools defined. ---"
+      "context": "Vấn đề không chỉ là buộc Claude gọi một tool, mà còn phải chọn đúng schema cho loại tài liệu chưa biết trước. Phân loại trước rồi buộc tool_choice vào extractor tương ứng vừa tránh phản hồi văn bản thường, vừa căn chỉnh đầu ra với schema chuyên biệt.",
+      "mnemonic": "Đọc requirement trước → chọn D: Classify the document, then force the matching extraction tool. ---"
     },
     {
       "id": 15,

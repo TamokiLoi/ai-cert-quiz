@@ -1448,16 +1448,16 @@
           "text": "Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination."
         }
       ],
-      "correct": "B",
-      "explanation": "Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định tuyến các truy vấn phân tích thông qua quy trình đầy đủ. Phương pháp này làm giảm độ trễ và chi phí cho phần lớn các truy vấn.",
+      "correct": "A",
+      "explanation": "Per Anthropic's own \"Building Effective Agents\" guidance: workflows (static, predefined routing) suit well-defined, stable tasks, while agents (dynamic, model-driven decisions) are needed when flexibility is required. The scenario explicitly says the query distribution is \"uneven and evolving as users discover new applications\" -- a hardcoded fast-track rule, classifier, or pattern map will go stale as new query types emerge. Only a coordinator that dynamically analyzes each query adapts to that drift.",
       "optExp": {
-        "A": "Nó thực hiện “Have the coordinator analyze each query dynamically and selectively route subagents based on the query 's complexity and routing characteristics”, nhưng không giải quyết trực tiếp yêu cầu: what 's the most effective approach to optimize for query complexity. “Have the coordinator analyze each query dynamically and selectively route subagents based on the query 's complexity and routing characteristics” không làm được điều đó: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định.",
-        "B": "Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định tuyến các truy vấn phân tích thông qua quy trình đầy đủ. Phương pháp này làm giảm độ trễ và chi phí cho phần lớn các truy vấn.",
-        "C": "Nó thực hiện “Train a query complexity classifier based on labeled historical data to predict optimal subagent combination”, nhưng không giải quyết trực tiếp yêu cầu: what 's the most effective approach to optimize for query complexity. “Train a query complexity classifier based on labeled historical data to predict optimal subagent combination” không làm được điều đó: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định.",
-        "D": "Nó thực hiện “Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination”, nhưng không giải quyết trực tiếp yêu cầu: what 's the most effective approach to optimize for query complexity. “Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination” không làm được điều đó: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định."
+        "A": "CORRECT. Dynamic, per-query analysis by the coordinator adapts as query patterns evolve, matching Anthropic's guidance that agentic (model-driven) routing is needed when task patterns aren't well-defined or stable.",
+        "B": "INCORRECT. A fixed fast-track/full-pipeline split is a static heuristic -- it will misclassify new query types as usage patterns evolve, exactly the failure mode described in the scenario.",
+        "C": "INCORRECT. A classifier trained on historical labels encodes today's patterns; it degrades as users discover new applications the training data never saw.",
+        "D": "INCORRECT. Predefined category-to-subagent maps are static, so they can't adapt to new query patterns that don't fit the predefined categories."
       },
-      "context": "Đây là quyết định về What 's the most effective approach to optimize for query complexity? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định tuyến các truy vấn phân tích thông qua quy trình đầy đủ. Phương pháp này làm giảm độ…",
-      "mnemonic": "Đọc requirement trước → chọn B: Create a fast-track path for factual questions that bypasses subagents entirely, routing only analytical queries through the complete pipeline. ---"
+      "context": "The query distribution is uneven and evolving. Since fixed rules and classifiers can go stale as usage changes, the coordinator should analyze each query dynamically and route it according to its complexity.",
+      "mnemonic": "Đọc requirement trước → chọn A: Have the coordinator analyze each query dynamically and selectively route subagents based on the query's complexity and routing characteristics. ---"
     },
     {
       "id": 45,
@@ -1613,16 +1613,16 @@
           "text": "First call get_customer and lookup_order to gather account context, then escalate to a human agent."
         }
       ],
-      "correct": "A",
-      "explanation": "Khách hàng nói 'hai lần ' nhưng bạn chưa có ngữ cảnh. Một câu hỏi mang tính đồng cảm, nhằm giúp bạn có cơ hội giải quyết vấn đề đó ngay lần đầu tiên mà không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy ra.",
+      "correct": "C",
+      "explanation": "The customer made an explicit, unambiguous request for a human (\"I want to talk to a real person NOW\"), not just an expression of frustration. The standard CCA-F guidance distinguishes the two: frustration is an emotional state the agent responds to with empathy and a resolution offer, but an explicit request for a human is a stated preference the agent honours immediately by escalating -- asking another question (even a well-intentioned one) overrides that stated preference and signals it doesn't count.",
       "optExp": {
-        "A": "Khách hàng nói 'hai lần ' nhưng bạn chưa có ngữ cảnh. Một câu hỏi mang tính đồng cảm, nhằm giúp bạn có cơ hội giải quyết vấn đề đó ngay lần đầu tiên mà không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy ra.",
-        "B": "Nó thực hiện “Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request”, nhưng không giải quyết trực tiếp yêu cầu: what should the agent do. “Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request” không làm được điều đó: Khách hàng nói 'hai lần 'nhưng bạn chưa có ngữ cảnh.",
-        "C": "Nó thực hiện “Immediately call escalate_to_human with the conversation history”, nhưng không giải quyết trực tiếp yêu cầu: what should the agent do. “Immediately call escalate_to_human with the conversation history” không làm được điều đó: Khách hàng nói 'hai lần 'nhưng bạn chưa có ngữ cảnh.",
-        "D": "Nó thực hiện “First call get_customer and lookup_order to gather account context, then escalate to a human agent”, nhưng không giải quyết trực tiếp yêu cầu: what should the agent do. “First call get_customer and lookup_order to gather account context, then escalate to a human agent” không làm được điều đó: Khách hàng nói 'hai lần 'nhưng bạn chưa có ngữ cảnh."
+        "A": "INCORRECT. Asking a targeted question overrides an explicit, already-stated request for a human -- appropriate for ambiguous frustration signals, not for a clear \"I want a real person NOW\" request.",
+        "B": "INCORRECT. Offering to resolve it yourself is the right move for pure frustration with a solvable problem, but here the customer already explicitly asked for a human -- countering that request adds friction instead of honoring it.",
+        "C": "CORRECT. An explicit request for a human is a stated preference honoured immediately, with no loop, no counter-offer, no extra question -- escalate now with the conversation history for context.",
+        "D": "INCORRECT. Silently gathering account context first still delays honoring an explicit, already-stated escalation request; the history alone gives the human agent enough to start."
       },
-      "context": "Đây là quyết định về What should the agent do? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Khách hàng nói 'hai lần 'nhưng bạn chưa có ngữ cảnh. Một câu hỏi mang tính đồng cảm, nhằm giúp bạn có cơ hội giải quyết vấn đề đó ngay lần đầu tiên mà không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy ra.",
-      "mnemonic": "Đọc requirement trước → chọn A: Acknowledge the frustration and ask one targeted question to understand the specific issue before escalating. ---"
+      "context": "The customer explicitly and unambiguously asks to speak to a human now. Honor that request immediately; do not ask another question, offer another chance to resolve it, or delay escalation to gather account details.",
+      "mnemonic": "Đọc requirement trước → chọn C: Immediately call escalate_to_human with the conversation history. ---"
     },
     {
       "id": 50,
@@ -1877,16 +1877,16 @@
           "text": "Summarize earlier turns into a narrative description, preserving full message history only for the active issue."
         }
       ],
-      "correct": "D",
-      "explanation": "Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các cuộc trò chuyện dài về nhiều vấn đề sắp đạt đến giới hạn ngữ cảnh.",
+      "correct": "C",
+      "explanation": "Lưu dữ liệu có cấu trúc riêng cho từng vấn đề giúp bảo toàn chính xác các chi tiết như mã đơn hàng, số tiền và trạng thái khi lịch sử hội thoại bị rút gọn. Khi khách quay lại hỏi về khoản hoàn tiền, agent có thể truy xuất trạng thái đã lưu; bản tóm tắt tường thuật hữu ích nhưng có thể bỏ sót các dữ kiện chính xác.",
       "optExp": {
-        "A": "Nó thực hiện “Implement sliding window context that retains the most recent 30 turns”, nhưng không giải quyết trực tiếp yêu cầu: what strategy best maintains the agent 's ability to address all issues throughout the session. “Implement sliding window context that retains the most recent 30 turns” không làm được điều đó: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các c.",
-        "B": "Nó thực hiện “Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues”, nhưng không giải quyết trực tiếp yêu cầu: what strategy best maintains the agent 's ability to address all issues throughout the session. “Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues” không làm được điều đó: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các c.",
-        "C": "Nó thực hiện “Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer”, nhưng không giải quyết trực tiếp yêu cầu: what strategy best maintains the agent 's ability to address all issues throughout the session. “Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer” không làm được điều đó: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các c.",
-        "D": "Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các cuộc trò chuyện dài về nhiều vấn đề sắp đạt đến giới hạn ngữ cảnh."
+        "A": "Cửa sổ 30 lượt gần nhất có thể loại bỏ phần hỏi về hoàn tiền ở turns 1–15 trước khi khách nhắc lại.",
+        "B": "MCP là cơ chế kết nối công cụ, không tự lưu trạng thái hội thoại; chỉ có thể lấy lại dữ liệu nếu một hệ thống bên ngoài đã lưu và cung cấp dữ liệu đó.",
+        "C": "Lưu dữ liệu có cấu trúc riêng cho từng vấn đề giúp bảo toàn chính xác các chi tiết như mã đơn hàng, số tiền và trạng thái khi lịch sử hội thoại bị rút gọn. Khi khách quay lại hỏi về khoản hoàn tiền, agent có thể truy xuất trạng thái đã lưu; bản tóm tắt tường thuật hữu ích nhưng có thể bỏ sót các dữ kiện chính xác.",
+        "D": "Tóm tắt tường thuật giúp nén lịch sử nhưng có thể bỏ sót mã đơn, số tiền hoặc trạng thái. Giữ nguyên văn chỉ cho issue đang hoạt động cũng không bảo đảm lưu đủ dữ liệu chính xác của các issue khác."
       },
-      "context": "Đây là quyết định về What strategy best maintains the agent 's ability to address all issues throughout the session? . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các cuộc trò chuyện dài về nhiều vấn đề sắp đạt đến giới hạn ngữ cảnh.",
-      "mnemonic": "Đọc requirement trước → chọn D: Summarize earlier turns into a narrative description, preserving full message history only for the active issue. ---"
+      "context": "Hội thoại có nhiều vấn đề và đang gần giới hạn ngữ cảnh. Lớp dữ liệu có cấu trúc riêng cho từng vấn đề giữ lại chính xác ID, số tiền và trạng thái để agent truy xuất khi khách quay lại hỏi về một vấn đề cũ.",
+      "mnemonic": "Đọc requirement trước → chọn C: Persist structured issue data for each issue in a separate context layer. ---"
     },
     {
       "id": 58,

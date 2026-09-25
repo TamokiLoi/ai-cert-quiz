@@ -1303,7 +1303,7 @@ what is the most likely cause? ccarf-prompt-output" data-answer-status="" data-h
                                     </form>
                                     <form class="exam-os-question-card" tabindex="-1" hidden data-question-index="13" data-question-search="the extraction pipeline receives documents of varying types—some are invoices, others are contracts, and some are receipts. you&#039;ve defined separate extraction tools, each with its own schema tailored to the document type. during testing, you observe that with tool_choice: &quot;auto&quot;, claude sometimes returns conversational text instead of calling an extraction tool, causing downstream parsing failures. you need guaranteed structured output without knowing the document type in advance.
 
-what&#039;s the most effective approach? ccarf-prompt-output" data-answer-status="" data-highlighted="0" data-correct-labels="C" data-required-selection-count="1" data-study-feedback-id="study-feedback-221">
+what&#039;s the most effective approach? ccarf-prompt-output" data-answer-status="" data-highlighted="0" data-correct-labels="D" data-required-selection-count="1" data-study-feedback-id="study-feedback-221">
                                         <header>
                                             <span>Câu 14 / 60</span>
                                         </header>
@@ -4747,69 +4747,37 @@ what&#039;s the most efficient first diagnostic step? ccarf-claude-code" data-an
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-221" data-study-feedback hidden aria-live="polite">
+                                                                        <div id="study-feedback-221" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
                                                 <strong data-study-feedback-title hidden></strong>
-                                                <ul>
-                                                    <li>
-                                                        <p>Set tool_choice: &#34;any &#34; with all extraction tools defined.</p>
-                                                    </li>
-                                                </ul>
+                                                <ul><li><p>Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool.</p></li></ul>
                                                 <span>
                                                     <h4>1. Chuyện gì đang xảy ra?</h4>
-                                                    <p>
-                                                        Đây là quyết định về <strong>What &#039;s the most effective approach?</strong>
-                                                        . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: phân loại trước, sau đó buộc tool_choice vào trình trích xuất chính xác. Việc để lựa chọn…
-                                                    </p>
+                                                    <p>tool_choice: auto đôi khi cho phép trả lời bằng văn bản thường. Ngoài việc buộc gọi tool, pipeline còn phải chọn đúng schema chuyên biệt cho hóa đơn, hợp đồng hoặc biên lai.</p>
                                                     <h4>2. Đề thực sự muốn gì?</h4>
                                                     <ul>
-                                                        <li>
-                                                            <strong>Keyword/ràng buộc cần khoanh:</strong>
-                                                            <code>Set tool_choice: &#34;any &#34; with all extraction tools defined. · không biết trước loại tài liệu</code>
-                                                        </li>
-                                                        <li>
-                                                            <strong>Đề đang kiểm tra:</strong>
-                                                            Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: phân loại trước, sau đó buộc tool_choice vào trình trích xuất chính…
-                                                        </li>
+                                                        <li><strong>Keyword/ràng buộc cần khoanh:</strong> <code>guaranteed structured output · document type unknown · separate schemas</code></li>
+                                                        <li><strong>Đề đang kiểm tra:</strong> Phân loại loại tài liệu trước, sau đó buộc tool_choice vào extractor phù hợp.</li>
                                                     </ul>
                                                     <h4>3. Đáp án</h4>
-                                                    <ul>
-                                                        <li>
-                                                            <strong>C.</strong>
-                                                            Set tool_choice: &#34;any &#34;with all extraction tools defined.
-                                                        </li>
-                                                    </ul>
+                                                    <ul><li><strong>D.</strong> Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool.</li></ul>
                                                     <h4>4. Vì sao đúng?</h4>
-                                                    <p>Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: phân loại trước, sau đó buộc tool_choice vào trình trích xuất chính xác. Việc để lựa chọn ở chế độ tự động vẫn cho phép phản hồi bằng cuộc trò chuyện, trong khi việc thu gọn mọi thứ thành một lược đồ khổng lồ thường làm ảnh hưởng đến độ chính xác.</p>
+                                                    <p>Khi cần đầu ra có cấu trúc đúng với loại tài liệu, hãy phân loại tài liệu trước rồi buộc lượt gọi tiếp theo dùng đúng extractor/schema. tool_choice: "any" chỉ buộc gọi một tool trong số các tool có sẵn; nó không bảo đảm chọn đúng extractor cho hóa đơn, hợp đồng hay biên lai.</p>
                                                     <h4>5. Vì sao các phương án khác sai?</h4>
                                                     <ul>
-                                                        <li>
-                                                            <strong>A. Consolidate all document types into a single unified-schema extraction tool and force that tool.:</strong>
-                                                            Nó thực hiện “Consolidate all document types into a single unified-schema extraction tool and force that tool”, nhưng không giải quyết trực tiếp yêu cầu:  what &#039;s the most effective approach. “Consolidate all document types into a single unified-schema extraction tool and force that tool” không làm được điều đó: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: p.
-                                                        </li>
-                                                        <li>
-                                                            <strong>B. Keep tool_choice: &#34;auto &#34; with system prompt instructions requiring tool use.:</strong>
-                                                            Nó thực hiện “Keep tool_choice: &#34;auto &#34;with system prompt instructions requiring tool use”, nhưng không giải quyết trực tiếp yêu cầu:  what &#039;s the most effective approach. “Keep tool_choice: &#34;auto &#34;with system prompt instructions requiring tool use” không làm được điều đó: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: p.
-                                                        </li>
-                                                        <li>
-                                                            <strong>D. Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool.:</strong>
-                                                            Nó thực hiện “Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool”, nhưng không giải quyết trực tiếp yêu cầu:  what &#039;s the most effective approach. “Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool” không làm được điều đó: Khi bạn cần kết quả đầu ra có cấu trúc được đảm bảo nhưng không biết trước loại tài liệu, cách tiếp cận đáng tin cậy nhất là quy trình gồm hai bước: p.
-                                                        </li>
+                                                        <li><strong>A. Consolidate all document types into a single unified-schema extraction tool and force that tool.:</strong> Một schema tổng hợp quá rộng có thể làm giảm độ chính xác so với các schema chuyên biệt.</li>
+                                                        <li><strong>B. Keep tool_choice: "auto" with system prompt instructions requiring tool use.:</strong> Chế độ auto vẫn cho phép trả lời bằng văn bản thường; prompt không bảo đảm tool được gọi.</li>
+                                                        <li><strong>C. Set tool_choice: "any" with all extraction tools defined.:</strong> any buộc gọi một tool, nhưng không bảo đảm chọn đúng extractor/schema cho loại tài liệu.</li>
                                                     </ul>
                                                     <h4>6. Câu thần chú</h4>
-                                                    <p>
-                                                        <em>Đọc requirement trước → chọn C: Set tool_choice: &#34;any &#34; with all extraction tools defined.
-
-
----</em>
-                                                    </p>
+                                                    <p><em>Đọc requirement trước → chọn D: Classify the document, then force the matching extraction tool. ---</em></p>
                                                 </span>
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-222" data-study-feedback hidden aria-live="polite">
+<div id="study-feedback-222" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>

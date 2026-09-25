@@ -2976,7 +2976,7 @@ what&#039;s the most effective way to reduce this latency while preserving the c
                                     </form>
                                     <form class="exam-os-question-card" tabindex="-1" hidden data-question-index="43" data-question-search="in production, you&#039;re distributing complex queries to specialized subagents. the query distribution is uneven and evolving as users discover new applications.
 
-what&#039;s the most effective approach to optimize for query complexity? ccarf-architecture" data-answer-status="" data-highlighted="0" data-correct-labels="B" data-required-selection-count="1" data-study-feedback-id="study-feedback-191">
+what&#039;s the most effective approach to optimize for query complexity? ccarf-architecture" data-answer-status="" data-highlighted="0" data-correct-labels="A" data-required-selection-count="1" data-study-feedback-id="study-feedback-191">
                                         <header>
                                             <span>Câu 44 / 60</span>
                                         </header>
@@ -3256,7 +3256,7 @@ what&#039;s the most effective approach before making additional lookups? ccarf-
                                     </form>
                                     <form class="exam-os-question-card" tabindex="-1" hidden data-question-index="48" data-question-search="a customer sends: &quot;this is frustrating. i&#039;ve explained my issue twice and nothing is being resolved. i want to talk to a real person now.&quot; the agent has not yet called any tools to investigate their account.
 
-what should the agent do? ccarf-context-reliability" data-answer-status="" data-highlighted="0" data-correct-labels="A" data-required-selection-count="1" data-study-feedback-id="study-feedback-196">
+what should the agent do? ccarf-context-reliability" data-answer-status="" data-highlighted="0" data-correct-labels="C" data-required-selection-count="1" data-study-feedback-id="study-feedback-196">
                                         <header>
                                             <span>Câu 49 / 60</span>
                                         </header>
@@ -3701,7 +3701,7 @@ how should you achieve guaranteed compliance? ccarf-context-reliability" data-an
                                     </form>
                                     <form class="exam-os-question-card" tabindex="-1" hidden data-question-index="56" data-question-search="a customer raises three separate issues during one session: a refund inquiry (turns 1-15), a subscription question (turns 16-30), and a payment method update (turns 31-45). at turn 48, the customer asks &quot;what happened with my refund?&quot; the conversation is approaching context limits.
 
-what strategy best maintains the agent&#039;s ability to address all issues throughout the session? ccarf-context-reliability" data-answer-status="" data-highlighted="0" data-correct-labels="D" data-required-selection-count="1" data-study-feedback-id="study-feedback-204">
+what strategy best maintains the agent&#039;s ability to address all issues throughout the session? ccarf-context-reliability" data-answer-status="" data-highlighted="0" data-correct-labels="C" data-required-selection-count="1" data-study-feedback-id="study-feedback-204">
                                         <header>
                                             <span>Câu 57 / 60</span>
                                         </header>
@@ -6596,69 +6596,33 @@ what approach most reliably handles returning customers? ccarf-context-reliabili
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-191" data-study-feedback hidden aria-live="polite">
+                                                                        <div id="study-feedback-191" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
                                                 <strong data-study-feedback-title hidden></strong>
-                                                <ul>
-                                                    <li>
-                                                        <p>Create a fast-track path for factual questions that bypasses subagents entirely, routing only analytical queries through the complete pipeline.</p>
-                                                    </li>
-                                                </ul>
+                                                <ul><li><p>Have the coordinator analyze each query dynamically and selectively route subagents based on the query &#039;s complexity and routing characteristics.</p></li></ul>
                                                 <span>
                                                     <h4>1. Chuyện gì đang xảy ra?</h4>
-                                                    <p>
-                                                        Đây là quyết định về <strong>What &#039;s the most effective approach to optimize for query complexity?</strong>
-                                                        . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định tuyến các truy vấn phân tích thông qua quy trình đầy đủ. Phương pháp này làm giảm độ…
-                                                    </p>
+                                                    <p>The query distribution is uneven and evolving. Since fixed rules and classifiers can go stale as usage changes, the coordinator should analyze each query dynamically and route it according to its complexity.</p>
                                                     <h4>2. Đề thực sự muốn gì?</h4>
                                                     <ul>
-                                                        <li>
-                                                            <strong>Keyword/ràng buộc cần khoanh:</strong>
-                                                            <code>Create a fast-track path for factual questions that bypasses…</code>
-                                                        </li>
-                                                        <li>
-                                                            <strong>Đề đang kiểm tra:</strong>
-                                                            Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định tuyến các truy vấn phân tích thông qua quy trình đầy đủ. Phương…
-                                                        </li>
+                                                        <li><strong>Keyword/ràng buộc cần khoanh:</strong> <code>Have the coordinator analyze each query dynamically and selectively route subagents based on the query &#039;s complexity and routing characteristics.</code></li>
+                                                        <li><strong>Đề đang kiểm tra:</strong> The query distribution is uneven and evolving. Since fixed rules and classifiers can go stale as usage changes, the coordinator should analyze each query dynamically and route it according to its complexity.</li>
                                                     </ul>
                                                     <h4>3. Đáp án</h4>
-                                                    <ul>
-                                                        <li>
-                                                            <strong>B.</strong>
-                                                            Create a fast-track path for factual questions that bypasses subagents entirely, routing only analytical queries through the complete pipeline.
-                                                        </li>
-                                                    </ul>
+                                                    <ul><li><strong>A.</strong> Have the coordinator analyze each query dynamically and selectively route subagents based on the query &#039;s complexity and routing characteristics.</li></ul>
                                                     <h4>4. Vì sao đúng?</h4>
-                                                    <p>Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định tuyến các truy vấn phân tích thông qua quy trình đầy đủ. Phương pháp này làm giảm độ trễ và chi phí cho phần lớn các truy vấn.</p>
+                                                    <p>Per Anthropic&#039;s own &quot;Building Effective Agents&quot; guidance: workflows (static, predefined routing) suit well-defined, stable tasks, while agents (dynamic, model-driven decisions) are needed when flexibility is required. The scenario explicitly says the query distribution is &quot;uneven and evolving as users discover new applications&quot; -- a hardcoded fast-track rule, classifier, or pattern map will go stale as new query types emerge. Only a coordinator that dynamically analyzes each query adapts to that drift.</p>
                                                     <h4>5. Vì sao các phương án khác sai?</h4>
-                                                    <ul>
-                                                        <li>
-                                                            <strong>A. Have the coordinator analyze each query dynamically and selectively route subagents based on the query &#039;s complexity and routing characteristics.:</strong>
-                                                            Nó thực hiện “Have the coordinator analyze each query dynamically and selectively route subagents based on the query &#039;s complexity and routing characteristics”, nhưng không giải quyết trực tiếp yêu cầu:  what &#039;s the most effective approach to optimize for query complexity. “Have the coordinator analyze each query dynamically and selectively route subagents based on the query &#039;s complexity and routing characteristics” không làm được điều đó: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định.
-                                                        </li>
-                                                        <li>
-                                                            <strong>C. Train a query complexity classifier based on labeled historical data to predict optimal subagent combination.:</strong>
-                                                            Nó thực hiện “Train a query complexity classifier based on labeled historical data to predict optimal subagent combination”, nhưng không giải quyết trực tiếp yêu cầu:  what &#039;s the most effective approach to optimize for query complexity. “Train a query complexity classifier based on labeled historical data to predict optimal subagent combination” không làm được điều đó: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định.
-                                                        </li>
-                                                        <li>
-                                                            <strong>D. Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination.:</strong>
-                                                            Nó thực hiện “Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination”, nhưng không giải quyết trực tiếp yêu cầu:  what &#039;s the most effective approach to optimize for query complexity. “Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination” không làm được điều đó: Đối với các truy vấn phân phối hầu hết là thực tế/đơn giản, hãy tạo các tác nhân phụ bỏ qua đường dẫn nhanh cho các câu hỏi thực tế đơn giản, chỉ định.
-                                                        </li>
-                                                    </ul>
+                                                    <ul><li><strong>B. Create a fast-track path for factual questions that bypasses subagents entirely, routing only analytical queries through the complete pipeline.:</strong> INCORRECT. A fixed fast-track/full-pipeline split is a static heuristic -- it will misclassify new query types as usage patterns evolve, exactly the failure mode described in the scenario.</li><li><strong>C. Train a query complexity classifier based on labeled historical data to predict optimal subagent combination.:</strong> INCORRECT. A classifier trained on historical labels encodes today&#039;s patterns; it degrades as users discover new applications the training data never saw.</li><li><strong>D. Implement pattern-based routing that categorizes queries based on factual vs analytical patterns and maps each to a predefined subagent combination.:</strong> INCORRECT. Predefined category-to-subagent maps are static, so they can&#039;t adapt to new query patterns that don&#039;t fit the predefined categories.</li></ul>
                                                     <h4>6. Câu thần chú</h4>
-                                                    <p>
-                                                        <em>Đọc requirement trước → chọn B: Create a fast-track path for factual questions that bypasses subagents entirely, routing only analytical queries through the complete pipeline.
-
-
----</em>
-                                                    </p>
+                                                    <p><em>Đọc requirement trước → chọn A: Have the coordinator analyze each query dynamically and selectively route subagents based on the query&#039;s complexity and routing characteristics. ---</em></p>
                                                 </span>
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-192" data-study-feedback hidden aria-live="polite">
+<div id="study-feedback-192" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
@@ -6906,69 +6870,33 @@ what approach most reliably handles returning customers? ccarf-context-reliabili
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-196" data-study-feedback hidden aria-live="polite">
+                                                                        <div id="study-feedback-196" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
                                                 <strong data-study-feedback-title hidden></strong>
-                                                <ul>
-                                                    <li>
-                                                        <p>Acknowledge the frustration and ask one targeted question to understand the specific issue before escalating.</p>
-                                                    </li>
-                                                </ul>
+                                                <ul><li><p>Immediately call escalate_to_human with the conversation history.</p></li></ul>
                                                 <span>
                                                     <h4>1. Chuyện gì đang xảy ra?</h4>
-                                                    <p>
-                                                        Đây là quyết định về <strong>What should the agent do?</strong>
-                                                        . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Khách hàng nói &#039;hai lần &#039;nhưng bạn chưa có ngữ cảnh. Một câu hỏi mang tính đồng cảm, nhằm giúp bạn có cơ hội giải quyết vấn đề đó ngay lần đầu tiên mà không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy ra.
-                                                    </p>
+                                                    <p>The customer explicitly and unambiguously asks to speak to a human now. Honor that request immediately; do not ask another question, offer another chance to resolve it, or delay escalation to gather account details.</p>
                                                     <h4>2. Đề thực sự muốn gì?</h4>
                                                     <ul>
-                                                        <li>
-                                                            <strong>Keyword/ràng buộc cần khoanh:</strong>
-                                                            <code>Acknowledge the frustration · ask one targeted question to understand the specific issue before… · không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy ra</code>
-                                                        </li>
-                                                        <li>
-                                                            <strong>Đề đang kiểm tra:</strong>
-                                                            Khách hàng nói &#039;hai lần &#039;nhưng bạn chưa có ngữ cảnh. Một câu hỏi mang tính đồng cảm, nhằm giúp bạn có cơ hội giải quyết vấn đề đó ngay lần đầu tiên mà không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy…
-                                                        </li>
+                                                        <li><strong>Keyword/ràng buộc cần khoanh:</strong> <code>Immediately call escalate_to_human with the conversation history.</code></li>
+                                                        <li><strong>Đề đang kiểm tra:</strong> The customer explicitly and unambiguously asks to speak to a human now. Honor that request immediately; do not ask another question, offer another chance to resolve it, or delay escalation to gather account details.</li>
                                                     </ul>
                                                     <h4>3. Đáp án</h4>
-                                                    <ul>
-                                                        <li>
-                                                            <strong>A.</strong>
-                                                            Acknowledge the frustration and ask one targeted question to understand the specific issue before escalating.
-                                                        </li>
-                                                    </ul>
+                                                    <ul><li><strong>C.</strong> Immediately call escalate_to_human with the conversation history.</li></ul>
                                                     <h4>4. Vì sao đúng?</h4>
-                                                    <p>Khách hàng nói &#039;hai lần &#039; nhưng bạn chưa có ngữ cảnh. Một câu hỏi mang tính đồng cảm, nhằm giúp bạn có cơ hội giải quyết vấn đề đó ngay lần đầu tiên mà không gây ra sự thất vọng hoặc trì hoãn việc chuyển giao có thể xảy ra.</p>
+                                                    <p>The customer made an explicit, unambiguous request for a human (&quot;I want to talk to a real person NOW&quot;), not just an expression of frustration. The standard CCA-F guidance distinguishes the two: frustration is an emotional state the agent responds to with empathy and a resolution offer, but an explicit request for a human is a stated preference the agent honours immediately by escalating -- asking another question (even a well-intentioned one) overrides that stated preference and signals it doesn&#039;t count.</p>
                                                     <h4>5. Vì sao các phương án khác sai?</h4>
-                                                    <ul>
-                                                        <li>
-                                                            <strong>B. Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request.:</strong>
-                                                            Nó thực hiện “Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request”, nhưng không giải quyết trực tiếp yêu cầu:  what should the agent do. “Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request” không làm được điều đó: Khách hàng nói &#039;hai lần &#039;nhưng bạn chưa có ngữ cảnh.
-                                                        </li>
-                                                        <li>
-                                                            <strong>C. Immediately call escalate_to_human with the conversation history.:</strong>
-                                                            Nó thực hiện “Immediately call escalate_to_human with the conversation history”, nhưng không giải quyết trực tiếp yêu cầu:  what should the agent do. “Immediately call escalate_to_human with the conversation history” không làm được điều đó: Khách hàng nói &#039;hai lần &#039;nhưng bạn chưa có ngữ cảnh.
-                                                        </li>
-                                                        <li>
-                                                            <strong>D. First call get_customer and lookup_order to gather account context, then escalate to a human agent.:</strong>
-                                                            Nó thực hiện “First call get_customer and lookup_order to gather account context, then escalate to a human agent”, nhưng không giải quyết trực tiếp yêu cầu:  what should the agent do. “First call get_customer and lookup_order to gather account context, then escalate to a human agent” không làm được điều đó: Khách hàng nói &#039;hai lần &#039;nhưng bạn chưa có ngữ cảnh.
-                                                        </li>
-                                                    </ul>
+                                                    <ul><li><strong>A. Acknowledge the frustration and ask one targeted question to understand the specific issue before escalating.:</strong> INCORRECT. Asking a targeted question overrides an explicit, already-stated request for a human -- appropriate for ambiguous frustration signals, not for a clear &quot;I want a real person NOW&quot; request.</li><li><strong>B. Briefly explain what the agent can help with and offer to resolve the issue quickly, escalating only if the customer repeats their request.:</strong> INCORRECT. Offering to resolve it yourself is the right move for pure frustration with a solvable problem, but here the customer already explicitly asked for a human -- countering that request adds friction instead of honoring it.</li><li><strong>D. First call get_customer and lookup_order to gather account context, then escalate to a human agent.:</strong> INCORRECT. Silently gathering account context first still delays honoring an explicit, already-stated escalation request; the history alone gives the human agent enough to start.</li></ul>
                                                     <h4>6. Câu thần chú</h4>
-                                                    <p>
-                                                        <em>Đọc requirement trước → chọn A: Acknowledge the frustration and ask one targeted question to understand the specific issue before escalating.
-
-
----</em>
-                                                    </p>
+                                                    <p><em>Đọc requirement trước → chọn C: Immediately call escalate_to_human with the conversation history. ---</em></p>
                                                 </span>
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-197" data-study-feedback hidden aria-live="polite">
+<div id="study-feedback-197" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
@@ -7403,69 +7331,37 @@ what approach most reliably handles returning customers? ccarf-context-reliabili
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-204" data-study-feedback hidden aria-live="polite">
+                                                                                                            <div id="study-feedback-204" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
                                                 <strong data-study-feedback-title hidden></strong>
-                                                <ul>
-                                                    <li>
-                                                        <p>Summarize earlier turns into a narrative description, preserving full message history only for the active issue.</p>
-                                                    </li>
-                                                </ul>
+                                                <ul><li><p>Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer.</p></li></ul>
                                                 <span>
                                                     <h4>1. Chuyện gì đang xảy ra?</h4>
-                                                    <p>
-                                                        Đây là quyết định về <strong>What strategy best maintains the agent &#039;s ability to address all issues throughout the session?</strong>
-                                                        . Điểm cần phân biệt không nằm ở câu chữ “chọn gì”, mà ở cơ chế tạo ra kết quả: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các cuộc trò chuyện dài về nhiều vấn đề sắp đạt đến giới hạn ngữ cảnh.
-                                                    </p>
+                                                    <p>Khách đã nêu nhiều vấn đề, hội thoại sắp chạm giới hạn ngữ cảnh, rồi quay lại hỏi về khoản hoàn tiền. Agent cần giữ lại chính xác dữ liệu của từng vấn đề qua các lần rút gọn lịch sử.</p>
                                                     <h4>2. Đề thực sự muốn gì?</h4>
                                                     <ul>
-                                                        <li>
-                                                            <strong>Keyword/ràng buộc cần khoanh:</strong>
-                                                            <code>Summarize earlier turns into a narrative description, preserving…</code>
-                                                        </li>
-                                                        <li>
-                                                            <strong>Đề đang kiểm tra:</strong>
-                                                            Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các cuộc trò chuyện dài về nhiều vấn đề sắp đạt đến giới hạn ngữ cảnh.
-                                                        </li>
+                                                        <li><strong>Keyword/ràng buộc cần khoanh:</strong> <code>per-issue structured state · context limit</code></li>
+                                                        <li><strong>Đề đang kiểm tra:</strong> Lưu các dữ kiện như mã đơn, số tiền và trạng thái trong lớp ngữ cảnh riêng để có thể truy xuất về sau.</li>
                                                     </ul>
                                                     <h4>3. Đáp án</h4>
-                                                    <ul>
-                                                        <li>
-                                                            <strong>D.</strong>
-                                                            Summarize earlier turns into a narrative description, preserving full message history only for the active issue.
-                                                        </li>
-                                                    </ul>
+                                                    <ul><li><strong>C.</strong> Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer.</li></ul>
                                                     <h4>4. Vì sao đúng?</h4>
-                                                    <p>Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các cuộc trò chuyện dài về nhiều vấn đề sắp đạt đến giới hạn ngữ cảnh.</p>
+                                                    <p>Lưu dữ liệu có cấu trúc riêng cho từng vấn đề giúp bảo toàn chính xác các chi tiết như mã đơn hàng, số tiền và trạng thái khi lịch sử hội thoại bị rút gọn. Khi khách quay lại hỏi về khoản hoàn tiền, agent có thể truy xuất trạng thái đã lưu; bản tóm tắt tường thuật hữu ích nhưng có thể bỏ sót các dữ kiện chính xác.</p>
                                                     <h4>5. Vì sao các phương án khác sai?</h4>
                                                     <ul>
-                                                        <li>
-                                                            <strong>A. Implement sliding window context that retains the most recent 30 turns.:</strong>
-                                                            Nó thực hiện “Implement sliding window context that retains the most recent 30 turns”, nhưng không giải quyết trực tiếp yêu cầu:  what strategy best maintains the agent &#039;s ability to address all issues throughout the session. “Implement sliding window context that retains the most recent 30 turns” không làm được điều đó: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các c.
-                                                        </li>
-                                                        <li>
-                                                            <strong>B. Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues.:</strong>
-                                                            Nó thực hiện “Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues”, nhưng không giải quyết trực tiếp yêu cầu:  what strategy best maintains the agent &#039;s ability to address all issues throughout the session. “Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues” không làm được điều đó: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các c.
-                                                        </li>
-                                                        <li>
-                                                            <strong>C. Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer.:</strong>
-                                                            Nó thực hiện “Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer”, nhưng không giải quyết trực tiếp yêu cầu:  what strategy best maintains the agent &#039;s ability to address all issues throughout the session. “Extract and persist structured issue data (order IDs, amounts, statuses) into a separate context layer” không làm được điều đó: Tính năng tóm tắt lũy tiến sẽ nén các chủ đề đã được giải quyết trong khi vẫn giữ nguyên nguyên văn của chuỗi hoạt động – đây là mẫu cổ điển cho các c.
-                                                        </li>
+                                                        <li><strong>A. Implement sliding window context that retains the most recent 30 turns.:</strong> Cửa sổ này có thể bỏ các lượt 1–15 về khoản hoàn tiền.</li>
+                                                        <li><strong>B. Rely on MCP tools to re-fetch relevant information on demand when the customer references earlier issues.:</strong> MCP không tự lưu trạng thái; cần có nguồn ngoài đã lưu dữ liệu và tool truy xuất tương ứng.</li>
+                                                        <li><strong>D. Summarize earlier turns into a narrative description, preserving full message history only for the active issue.:</strong> Tóm tắt có thể làm mất dữ kiện chính xác, còn lưu nguyên văn chỉ cho issue đang hoạt động không bảo đảm giữ đủ dữ liệu cho các issue khác.</li>
                                                     </ul>
                                                     <h4>6. Câu thần chú</h4>
-                                                    <p>
-                                                        <em>Đọc requirement trước → chọn D: Summarize earlier turns into a narrative description, preserving full message history only for the active issue.
-
-
----</em>
-                                                    </p>
+                                                    <p><em>Đọc requirement trước → chọn C: Persist structured issue data for each issue in a separate context layer. ---</em></p>
                                                 </span>
                                             </div>
                                         </section>
                                     </div>
-                                    <div id="study-feedback-205" data-study-feedback hidden aria-live="polite">
+<div id="study-feedback-205" data-study-feedback hidden aria-live="polite">
                                         <section class="exam-os-feedback-panel" data-is-correct="0" data-correct-feedback-title="Đúng — hãy ghi nhớ cách nhận biết.">
                                             <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
                                             <div>
