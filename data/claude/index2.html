@@ -4764,7 +4764,7 @@ what&#039;s the most efficient first diagnostic step? ccarf-claude-code" data-an
                                                     <h4>3. Đáp án</h4>
                                                     <ul><li><strong>D.</strong> Add a preliminary classification call, then make a second call with tool_choice forced to the identified extraction tool.</li></ul>
                                                     <h4>4. Vì sao đúng?</h4>
-                                                    <p>Khi cần đầu ra có cấu trúc đúng với loại tài liệu, hãy phân loại tài liệu trước rồi buộc lượt gọi tiếp theo dùng đúng extractor/schema. tool_choice: "any" chỉ buộc gọi một tool trong số các tool có sẵn; nó không bảo đảm chọn đúng extractor cho hóa đơn, hợp đồng hay biên lai.</p>
+                                                    <p>Để vừa tránh phản hồi bằng văn bản thường vừa dùng đúng schema, hãy phân loại tài liệu trước rồi gọi extractor tương ứng trong lượt thứ hai bằng tool_choice bị buộc. tool_choice: "any" chỉ buộc Claude gọi một tool trong danh sách, không bảo đảm tool đó khớp loại tài liệu; còn "auto" vẫn có thể không gọi tool.</p>
                                                     <h4>5. Vì sao các phương án khác sai?</h4>
                                                     <ul>
                                                         <li><strong>A. Consolidate all document types into a single unified-schema extraction tool and force that tool.:</strong> Một schema tổng hợp quá rộng có thể làm giảm độ chính xác so với các schema chuyên biệt.</li>

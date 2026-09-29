@@ -32,6 +32,17 @@
     --red-bg: rgba(239,68,68,0.14);
     --amber: #f59e0b;
     --amber-bg: rgba(245,158,11,0.14);
+    --tag-bg: #2a2f47;
+    --qnav-cell-bg: #20243a;
+    --qnav-answered-bg: #3a4060;
+    --qnav-answered-border: #4a5480;
+    --qnav-correct-bg: rgba(34,197,94,.22);
+    --qnav-correct-text: #7ff0a8;
+    --qnav-wrong-bg: rgba(239,68,68,.22);
+    --qnav-wrong-text: #ff9d9d;
+    --qnav-partial-bg: rgba(245,158,11,.22);
+    --qnav-partial-text: #ffd27f;
+    --option-letter-bg: #2a2f47;
     --radius: 14px;
   }
   /* Màu nhấn đổi theo track đang chọn */
@@ -50,11 +61,27 @@
     --green-bg: rgba(34,197,94,0.10);
     --red-bg: rgba(239,68,68,0.10);
     --amber-bg: rgba(245,158,11,0.10);
+    --tag-bg: #e7e9f5;
+    --qnav-cell-bg: #e8eaf2;
+    --qnav-answered-bg: #dce1ed;
+    --qnav-answered-border: #bbc2d6;
+    --qnav-correct-bg: rgba(34,197,94,.16);
+    --qnav-correct-text: #166534;
+    --qnav-wrong-bg: rgba(239,68,68,.12);
+    --qnav-wrong-text: #b42318;
+    --qnav-partial-bg: rgba(245,158,11,.17);
+    --qnav-partial-text: #854d0e;
+    --option-letter-bg: #e7e9f5;
   }
-  body[data-theme="light"] html,
+  html[data-theme="light"] {
+    color-scheme: light;
+    background: radial-gradient(1200px 800px at 10% -10%, #dfe2f5 0%, #eef0f7 55%);
+  }
   body[data-theme="light"] {
+    color-scheme: light;
     background: radial-gradient(1200px 800px at 10% -10%, #dfe2f5 0%, var(--bg) 55%);
   }
+  html[data-theme="dark"], body[data-theme="dark"] { color-scheme: dark; }
   body[data-theme="light"] .card { box-shadow: 0 8px 24px rgba(30,30,60,.08); }
 
   .theme-toggle {
@@ -133,7 +160,7 @@
   .tag {
     font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
     padding: 3px 8px; border-radius: 999px; border: 1px solid var(--border);
-    background: #2a2f47; color: var(--muted);
+    background: var(--tag-bg); color: var(--muted);
   }
   .tag.count { color: var(--accent); border-color: var(--accent); background: transparent; }
   .tag.explain { color: var(--green); border-color: rgba(34,197,94,.45); background: var(--green-bg); }
@@ -205,17 +232,17 @@
     aspect-ratio: 1; min-width: 0;
     display: flex; align-items: center; justify-content: center;
     border-radius: 7px; border: 1px solid var(--border);
-    background: #20243a; color: var(--muted);
+    background: var(--qnav-cell-bg); color: var(--muted);
     font-size: 12px; font-weight: 700; cursor: pointer;
     transition: transform .08s ease, box-shadow .12s ease;
     padding: 0; font-family: inherit; line-height: 1;
   }
   .qnav-cell:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,.35); }
-  .qnav-cell.correct { background: rgba(34,197,94,.22); border-color: var(--green); color: #7ff0a8; }
-  .qnav-cell.wrong   { background: rgba(239,68,68,.22); border-color: var(--red);   color: #ff9d9d; }
-  .qnav-cell.partial { background: rgba(245,158,11,.22); border-color: var(--amber); color: #ffd27f; }
+  .qnav-cell.correct { background: var(--qnav-correct-bg); border-color: var(--green); color: var(--qnav-correct-text); }
+  .qnav-cell.wrong   { background: var(--qnav-wrong-bg); border-color: var(--red);   color: var(--qnav-wrong-text); }
+  .qnav-cell.partial { background: var(--qnav-partial-bg); border-color: var(--amber); color: var(--qnav-partial-text); }
   /* Chế độ thi: chỉ cho biết đã làm, không tiết lộ đúng/sai */
-  .qnav-cell.answered { background: #3a4060; border-color: #4a5480; color: var(--text); }
+  .qnav-cell.answered { background: var(--qnav-answered-bg); border-color: var(--qnav-answered-border); color: var(--text); }
   .qnav-cell.saved::after {
     content: '★'; position: absolute; transform: translate(11px, -11px);
     font-size: 9px; color: var(--amber); line-height: 1;
@@ -246,7 +273,7 @@
   }
   .qnav-legend .lg-correct i { background: rgba(34,197,94,.5); border-color: var(--green); }
   .qnav-legend .lg-wrong i   { background: rgba(239,68,68,.5); border-color: var(--red); }
-  .qnav-legend .lg-todo i    { background: #20243a; }
+  .qnav-legend .lg-todo i    { background: var(--qnav-cell-bg); }
 
   /* ---------- Nút lưu câu hỏi ---------- */
   .bookmark-btn {
@@ -500,6 +527,32 @@
   }
   .hist-row .hr-mode.exam { color: var(--red); border-color: rgba(239,68,68,.4); }
 
+  /* ---------- Question Release Notes ---------- */
+  .qrn-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-bottom: 12px; }
+  .qrn-controls label { color: var(--muted); font-size: 12px; font-weight: 700; }
+  .qrn-controls select {
+    display: block; width: 100%; margin-top: 5px; min-height: 42px;
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--text); padding: 8px 10px; font: inherit;
+  }
+  .qrn-coverage, .qrn-empty { color: var(--muted); font-size: 12px; line-height: 1.55; margin: 0 0 11px; }
+  .qrn-groups { display: flex; flex-direction: column; gap: 14px; }
+  .qrn-group-title { font-size: 13px; margin: 0 0 7px; color: var(--text); overflow-wrap: anywhere; }
+  .qrn-group-title small { color: var(--muted); font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .qrn-group-list { display: flex; flex-direction: column; gap: 8px; }
+  .qrn-entry { min-width: 0; background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
+  .qrn-entry-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 7px; }
+  .qrn-badge { font-size: 10px; font-weight: 800; border: 1px solid var(--border); border-radius: 999px; padding: 3px 8px; color: var(--accent); }
+  .qrn-code { font-size: 12px; font-weight: 800; color: var(--text); }
+  .qrn-date, .qrn-version { color: var(--muted); font-size: 10.5px; overflow-wrap: anywhere; }
+  .qrn-reason { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 0 0 8px; overflow-wrap: anywhere; }
+  .qrn-reason b { color: var(--text); }
+  .qrn-values { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .qrn-value { min-width: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); padding: 7px 8px; }
+  .qrn-value summary { color: var(--muted); font-size: 10.5px; font-weight: 800; cursor: pointer; }
+  .qrn-value pre { max-height: 220px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; color: var(--text); font: 11px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 7px 0 0; }
+  .qrn-missing { color: var(--amber); background: var(--amber-bg); border: 1px solid rgba(245,158,11,.35); border-radius: 7px; padding: 6px 8px; margin-top: 8px; font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+
   /* ---------- Export / import ---------- */
   .io-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
   .io-row button {
@@ -590,7 +643,7 @@
   .option:hover:not(.disabled) { border-color: var(--accent); background: var(--panel-3); }
   .option:active:not(.disabled) { transform: scale(.995); }
   .option .letter {
-    flex: 0 0 auto; width: 26px; height: 26px; background: #2a2f47;
+    flex: 0 0 auto; width: 26px; height: 26px; background: var(--option-letter-bg);
     display: flex; align-items: center; justify-content: center;
     font-weight: 800; font-size: 12.5px; color: var(--muted);
     border-radius: 50%;
@@ -716,6 +769,8 @@
     .qnav-legend .lg-hint { display: none; }
     .qnav-head { flex-wrap: wrap; }
     .qnav-head .qh-stats { margin-left: 0; width: 100%; justify-content: flex-start; }
+    .qrn-values { grid-template-columns: minmax(0, 1fr); }
+    .qrn-entry { padding: 9px; }
 
     /* Cố định cụm điều hướng câu ở chân màn hình khi làm bài trên mobile */
     #quiz-screen { padding-bottom: 148px; }
@@ -904,6 +959,26 @@
         </div>
       </div>
 
+      <!-- Release history stays alongside the home-page statistics. -->
+      <div class="qnav-panel qrn-panel" id="question-release-panel" style="margin-top:14px">
+        <button class="qnav-head" id="question-release-head" type="button" aria-expanded="false" aria-controls="question-release-body">
+          <span class="caret">▶</span>
+          <span>Question Release Notes</span>
+          <span class="qh-stats" id="question-release-summary"></span>
+        </button>
+        <div class="qnav-body" id="question-release-body">
+          <p class="qrn-coverage" id="question-release-coverage"></p>
+          <div class="qrn-controls">
+            <label for="question-release-filter">Bộ đề
+              <select id="question-release-filter">
+                <option value="ALL">Tất cả bộ đề</option>
+              </select>
+            </label>
+          </div>
+          <div id="question-release-list" aria-live="polite"></div>
+        </div>
+      </div>
+
       <div class="io-row">
         <button id="export-btn">⭳ Xuất tiến độ (.json)</button>
         <button id="import-btn">⭱ Nạp tiến độ</button>
@@ -1018,6 +1093,7 @@
 
 <script>// Quiz data is loaded from ./data.json by loadData().
 </script>
+<script src="./question-release-notes.js"></script>
 <script>
 /* =========================================================
    1. Nạp dữ liệu: ưu tiên fetch data.json, fallback data.js
@@ -1163,8 +1239,11 @@ let CONFUSE  = lsGet(LS.confuse, {});
 /* --- Chế độ sáng/tối: áp ngay trước khi render để không bị nháy sai theme --- */
 S.theme = (lsGet(LS.prefs, {}).theme === 'light') ? 'light' : 'dark';
 function applyTheme() {
+  document.documentElement.dataset.theme = S.theme;
   document.body.dataset.theme = S.theme;
   $('theme-toggle').textContent = S.theme === 'light' ? '🌙 Tối' : '☀️ Sáng';
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (themeColor) themeColor.content = S.theme === 'light' ? '#eef0f7' : '#0f1220';
 }
 applyTheme();
 
@@ -1870,6 +1949,113 @@ function renderReport() {
   }
 }
 
+function releaseChangeTypeLabel(type) {
+  return ({
+    question_added: 'Thêm câu hỏi',
+    question_removed: 'Xóa câu hỏi',
+    question_text: 'Sửa nội dung câu hỏi',
+    options: 'Sửa lựa chọn',
+    answer_key: 'Sửa đáp án đúng',
+    explanation: 'Sửa giải thích',
+    option_explanations: 'Sửa giải thích đáp án',
+    context: 'Sửa ghi chú ngữ cảnh',
+    mnemonic: 'Sửa mẹo ghi nhớ',
+    dispute_metadata: 'Sửa thông tin đáp án tranh luận',
+    answer_metadata: 'Sửa metadata đáp án',
+  })[type] || (type ? String(type) : 'Loại thay đổi chưa xác minh');
+}
+
+function releaseValueMarkup(note, field, label) {
+  if (!QuestionReleaseNotes.hasValue(note, field)) {
+    return `<div class="qrn-value"><strong>${esc(label)}</strong><pre>Chưa ghi nhận giá trị trong lịch sử nguồn.</pre></div>`;
+  }
+  const value = note[field];
+  const nullText = field === 'oldValue' && note.changeType === 'question_added'
+    ? 'Câu hỏi chưa tồn tại trước phiên bản này.'
+    : field === 'newValue' && note.changeType === 'question_removed'
+      ? 'Câu hỏi bị xóa ở phiên bản này.'
+      : 'Không có giá trị trong snapshot nguồn.';
+  const text = value === null ? nullText : (typeof value === 'string' ? value : JSON.stringify(value, null, 2));
+  const preview = text.replace(/\\s+/g, ' ').slice(0, 100);
+  const open = text.length <= 220 ? ' open' : '';
+  return `<details class="qrn-value"${open}>
+    <summary>${esc(label)}${text.length > 0 ? ' · ' + esc(preview) + (text.length > 100 ? '…' : '') : ''}</summary>
+    <pre>${esc(text)}</pre>
+  </details>`;
+}
+
+function renderQuestionReleaseNotes() {
+  const allNotes = Array.isArray(DATA.questionReleaseNotes) ? DATA.questionReleaseNotes : [];
+  const knownIds = new Set(DATA.exams.map(e => String(e.id)));
+  const select = $('question-release-filter');
+  const currentFilter = select.value || 'ALL';
+  const noteSetIds = [...new Set(allNotes.map(n => n && n.examSetId).filter(Boolean).map(String))];
+  const unknownSetNotes = allNotes.some(n => QuestionReleaseNotes.missingFields(n, knownIds)
+    .some(field => field === 'record' || field === 'examSetId' || field === 'examSetId (unknown set)'));
+  const options = [
+    '<option value="ALL">Tất cả bộ đề</option>',
+    ...DATA.exams.map(e => `<option value="${esc(e.id)}">${esc(e.title || e.id)}</option>`),
+  ];
+  if (unknownSetNotes) options.push('<option value="__UNVERIFIED__">Bộ đề chưa xác minh</option>');
+  select.innerHTML = options.join('');
+  select.value = (currentFilter === '__UNVERIFIED__' && unknownSetNotes) ||
+    (currentFilter !== 'ALL' && (knownIds.has(currentFilter) || noteSetIds.includes(currentFilter)))
+    ? currentFilter : 'ALL';
+
+  const setCount = new Set(noteSetIds).size;
+  const incompleteCount = allNotes.filter(n => QuestionReleaseNotes.missingFields(n, knownIds).length).length;
+  $('question-release-summary').innerHTML = `<span>${allNotes.length} ghi chú</span><span>${setCount} bộ đề</span>` +
+    (incompleteCount ? `<span>${incompleteCount} thiếu dữ liệu</span>` : '');
+
+  const coverage = DATA.questionReleaseNotesCoverage;
+  $('question-release-coverage').innerHTML = coverage
+    ? `<b>Phạm vi đã đối chiếu:</b> ${esc(coverage.fromCommit || 'chưa rõ')} → ${esc(coverage.throughCommit || 'chưa rõ')}. ${esc(coverage.note || '')}`
+    : 'Chưa có mốc lịch sử đã xác minh. Không suy đoán nội dung cũ từ dữ liệu hiện tại.';
+
+  const filtered = QuestionReleaseNotes.filterNotes(allNotes, select.value, knownIds)
+    .slice().sort((a, b) => String(b.committedAt || b.date || '').localeCompare(String(a.committedAt || a.date || '')));
+  const groups = QuestionReleaseNotes.groupNotes(filtered);
+  if (!allNotes.length) {
+    $('question-release-list').innerHTML = '<p class="qrn-empty">Chưa có lịch sử sửa câu hỏi được xác minh. Các thay đổi trước mốc lịch sử khả dụng chưa thể khôi phục từ dữ liệu hiện có.</p>';
+  } else if (!filtered.length) {
+    $('question-release-list').innerHTML = '<p class="qrn-empty">Bộ đề này chưa có ghi chú thay đổi trong phạm vi đã xác minh.</p>';
+  } else {
+    $('question-release-list').innerHTML = `<div class="qrn-groups">${groups.map(group => `
+      <section class="qrn-group" data-exam-set-id="${esc(group.examSetId || '')}">
+        <h3 class="qrn-group-title">${esc(group.examSetName)}<small>${group.notes.length} ghi chú${group.examSetId ? ' · ' + esc(group.examSetId) : ''}</small></h3>
+        <div class="qrn-group-list">${group.notes.map(rawNote => {
+          const note = rawNote && typeof rawNote === 'object' && !Array.isArray(rawNote) ? rawNote : {};
+          const missing = QuestionReleaseNotes.missingFields(rawNote, knownIds);
+          const questionCode = note.questionCode || 'Mã câu chưa xác minh';
+          const reason = note.reason || 'Chưa ghi nhận lý do trong lịch sử nguồn.';
+          return `<article class="qrn-entry" data-note-id="${esc(note.id || QuestionReleaseNotes.noteIdentity(rawNote))}">
+            <header class="qrn-entry-head">
+              <span class="qrn-badge">${esc(releaseChangeTypeLabel(note.changeType))}</span>
+              <span class="qrn-code">${esc(questionCode)}</span>
+              <span class="qrn-date">${esc(note.date || 'Ngày chưa xác minh')}</span>
+              <span class="qrn-version">${esc(note.version || 'Phiên bản chưa xác minh')}</span>
+            </header>
+            <p class="qrn-reason"><b>Lý do:</b> ${esc(reason)}</p>
+            <div class="qrn-values">
+              ${releaseValueMarkup(note, 'oldValue', 'Nội dung cũ')}
+              ${releaseValueMarkup(note, 'newValue', 'Nội dung mới')}
+            </div>
+            ${missing.length ? `<div class="qrn-missing">${esc(QuestionReleaseNotes.missingNotice(missing))}</div>` : ''}
+          </article>`;
+        }).join('')}</div>
+      </section>`).join('')}</div>`;
+  }
+
+  $('question-release-filter').onchange = renderQuestionReleaseNotes;
+  $('question-release-head').onclick = () => {
+    const body = $('question-release-body');
+    const open = !body.classList.contains('open');
+    body.classList.toggle('open', open);
+    $('question-release-head').classList.toggle('open', open);
+    $('question-release-head').setAttribute('aria-expanded', String(open));
+  };
+}
+
 function renderHome() {
   $('kicker').textContent = 'Multi-Cert AI Preparation';
   $('top-title').textContent = 'AI Cert Hub - Multi-Cert Practice';
@@ -1883,6 +2069,7 @@ function renderHome() {
   renderResumeList();
   renderHistory();
   renderReport();
+  renderQuestionReleaseNotes();
   renderStreak();
   $('help-head').classList.toggle('open', S.helpOpen);
   $('help-body').classList.toggle('open', S.helpOpen);

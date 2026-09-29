@@ -4,6 +4,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const QuestionReleaseNotes = require('../question-release-notes');
 
 const dataPath = process.argv[2] || path.join(__dirname, '..', 'data.json');
 
@@ -179,6 +180,30 @@ if (typeof data.totalQuestions === 'number' && data.totalQuestions !== totalQues
   warn(`data.totalQuestions khai báo (${data.totalQuestions}) != tổng số câu thực tế (${totalQuestions})`);
 }
 
+// Release notes được giữ ở cấp data.json nhưng luôn gắn với examSetId + questionId.
+if (data.questionReleaseNotes !== undefined && !Array.isArray(data.questionReleaseNotes)) {
+  err('data.questionReleaseNotes phải là mảng');
+} else if (Array.isArray(data.questionReleaseNotes)) {
+  const examById = new Map((data.exams || []).map((exam) => [String(exam.id), exam]));
+  data.questionReleaseNotes.forEach((note, ni) => {
+    const tag = `questionReleaseNotes[${ni}]${note && note.id ? ` (${note.id})` : ''}`;
+    const missing = QuestionReleaseNotes.missingFields(note, new Set(examById.keys()));
+    if (missing.length) warn(`${tag}: chưa xác minh đủ trường: ${missing.join(', ')}`);
+    if (!note || typeof note !== 'object' || Array.isArray(note)) return;
+    const exam = note.examSetId ? examById.get(String(note.examSetId)) : null;
+    if (exam && note.questionId !== undefined && note.questionId !== null &&
+        !exam.questions.some((q) => String(q.id) === String(note.questionId)) &&
+        note.changeType !== 'question_removed') {
+      warn(`${tag}: questionId=${note.questionId} không tồn tại trong examSetId="${note.examSetId}"; giữ nguyên ghi chú để kiểm tra thủ công`);
+    }
+  });
+} else {
+  warn('data.questionReleaseNotes chưa có; lịch sử câu hỏi sẽ không được hiển thị');
+}
+if (!data.questionReleaseNotesCoverage) {
+  warn('Thiếu data.questionReleaseNotesCoverage; phạm vi lịch sử chưa được nêu rõ');
+}
+
 // Câu hỏi trùng nội dung giữa các exam khác nhau (thường là dấu hiệu convert lỗi/duplicate)
 for (const [, locs] of seenQuestionText) {
   if (locs.length > 1) {
@@ -192,7 +217,8 @@ function printReportAndExit() {
 
 function report() {
   console.log(`\nKiểm tra: ${dataPath}`);
-  console.log(`Tổng số câu hỏi: ${totalQuestions}\n`);
+  console.log(`Tổng số câu hỏi: ${totalQuestions}`);
+  console.log(`Question Release Notes: ${Array.isArray(data.questionReleaseNotes) ? data.questionReleaseNotes.length : 0}\n`);
 
   if (errors.length) {
     console.log(`❌ ${errors.length} lỗi:`);
