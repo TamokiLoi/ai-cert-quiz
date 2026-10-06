@@ -142,6 +142,14 @@
   .track-tab.active .tt-sub { color: rgba(255,255,255,.8); }
   .track-tab[data-track="GHC"].active    { background: linear-gradient(135deg, var(--ghc-2), var(--ghc)); }
   .track-tab[data-track="Claude"].active { background: linear-gradient(135deg, var(--claude-2), var(--claude)); }
+  .claude-level-tabs { display: flex; gap: 8px; margin: -6px 0 18px; }
+  .claude-level-tab {
+    flex: 1; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--panel-2); color: var(--text); cursor: pointer;
+    font-size: 13px; font-weight: 700;
+  }
+  .claude-level-tab:hover { border-color: var(--accent); }
+  .claude-level-tab.active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); }
 
   /* ---------- Danh sách đề ---------- */
   .exam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
@@ -841,6 +849,7 @@
       </div>
 
       <div class="track-tabs" id="track-tabs"></div>
+      <div class="claude-level-tabs" id="claude-level-tabs" style="display:none" aria-label="Cấp độ Claude"></div>
 
       <div class="mode-tabs">
         <button class="mode-tab active" id="mode-practice" data-mode="practice">
@@ -892,7 +901,7 @@
       <!-- ===== Thi thử ===== -->
       <div id="exam-panel" style="display:none">
         <div id="claude-exam-picker" style="display:none">
-          <div class="section-label">Chọn bộ đề Claude để thi thử <span class="lbl-hint">rút ngẫu nhiên 60 câu từ bộ đã chọn</span></div>
+          <div class="section-label"><span id="claude-exam-label">Chọn bộ đề Claude để thi thử</span> <span class="lbl-hint">rút ngẫu nhiên 60 câu từ bộ đã chọn</span></div>
           <div class="exam-grid" id="claude-exam-grid"></div>
           <div class="cat-warn" id="claude-exam-warn"></div>
         </div>
@@ -1085,7 +1094,7 @@
     <div class="review-list" id="review-list" style="display:none;"></div>
   </div>
 
-  <div class="foot">Dữ liệu trích từ 6 file quiz HTML + 3 file JSON · <span id="foot-count">—</span> câu khác nhau
+  <div class="foot">Kho đề GHC, Claude Foundations và Claude Pro · <span id="foot-count">—</span> câu khác nhau
     · cập nhật <span id="foot-date">—</span> · chỉ dùng cho mục đích tự học</div>
 </div>
 <div class="toast" id="toast"></div>
@@ -1152,6 +1161,7 @@ const NO_CAT = ' (chưa phân loại)';
 
 const S = {
   track: 'GHC',
+  claudeLevel: 'foundations', // 'foundations' | 'pro'
   mode: 'practice',      // 'practice' | 'exam'
   examId: null,          // id đề luyện tập, hoặc pool MIX/SAVED/WEAK
   examSetId: null,       // id bộ câu hỏi nguồn cho thi thử Claude
@@ -1354,7 +1364,7 @@ function pushHistory(rec) {
 }
 
 /* --- Tuỳ chọn --- */
-const PREF_KEYS = ['track', 'mode', 'examId', 'examSetId', 'categories', 'count', 'mixExamIds',
+const PREF_KEYS = ['track', 'claudeLevel', 'mode', 'examId', 'examSetId', 'categories', 'count', 'mixExamIds',
   'shuffleQ', 'shuffleO', 'instant', 'autoNext', 'resume', 'requireAnswerNext',
   'navOpen', 'histOpen', 'reportOpen', 'helpOpen', 'theme'];
 function savePrefs() {
@@ -1366,6 +1376,7 @@ function loadPrefs() {
   const p = lsGet(LS.prefs, null);
   if (!p) return;
   PREF_KEYS.forEach(k => { if (p[k] !== undefined) S[k] = p[k]; });
+  if (!['foundations', 'pro'].includes(S.claudeLevel)) S.claudeLevel = 'foundations';
   // Prefs bản cũ lưu `category` là 1 chuỗi — chuyển sang mảng `categories`
   if (typeof p.category === 'string' && !Array.isArray(p.categories)) {
     S.categories = p.category ? [p.category] : [];
@@ -1398,6 +1409,11 @@ function dedupe(list) {
 }
 
 function examsOf(track) { return DATA.exams.filter(e => e.track === track); }
+function claudeLevelOf(exam) { return exam.certLevel === 'pro' ? 'pro' : 'foundations'; }
+function visibleTrackExams() {
+  const exams = examsOf(S.track);
+  return S.track === 'Claude' ? exams.filter(e => claudeLevelOf(e) === S.claudeLevel) : exams;
+}
 
 // Chủ đề của một câu, câu chưa gán thì vào nhóm NO_CAT
 const catOf = (q) => q.category || NO_CAT;
@@ -1406,29 +1422,35 @@ const catOf = (q) => q.category || NO_CAT;
 // `cats` là mảng; rỗng/không truyền = lấy tất cả chủ đề.
 function poolQuestions(poolId, cats) {
   let src = [];
-  if (poolId === 'MIX:ALL') {
-    DATA.exams.forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
-  } else if (poolId === 'MIX:CUSTOM') {
+  if (poolId === 'MIX:CUSTOM') {
     const want = new Set(S.mixExamIds);
     DATA.exams.filter(e => want.has(e.id)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('SAVED:')) {
     const tr = poolId.slice(6);
     Object.values(SAVED).forEach(s => {
       const e = DATA.exams.find(x => x.id === s.exam);
-      if (!e || (tr !== 'ALL' && e.track !== tr)) return;
+      if (!e || (tr !== 'ALL' && e.track !== tr) ||
+          (tr === 'Claude' && claudeLevelOf(e) !== S.claudeLevel)) return;
       const q = e.questions.find(x => String(x.id) === String(s.qid));
       if (q) src.push({ q, exam: e });
     });
   } else if (poolId.startsWith('WEAK:')) {
-    weakList(poolId.slice(5)).forEach(w => src.push({ q: w.q, exam: w.exam }));
+    const tr = poolId.slice(5);
+    weakList(tr).filter(w => tr !== 'Claude' || claudeLevelOf(w.exam) === S.claudeLevel)
+      .forEach(w => src.push({ q: w.q, exam: w.exam }));
   } else if (poolId.startsWith('CONFUSE:')) {
     const tr = poolId.slice(8);
     Object.values(CONFUSE).forEach(s => {
       const e = DATA.exams.find(x => x.id === s.exam);
-      if (!e || (tr !== 'ALL' && e.track !== tr)) return;
+      if (!e || (tr !== 'ALL' && e.track !== tr) ||
+          (tr === 'Claude' && claudeLevelOf(e) !== S.claudeLevel)) return;
       const q = e.questions.find(x => String(x.id) === String(s.qid));
       if (q) src.push({ q, exam: e });
     });
+  } else if (poolId.startsWith('MIX:CLAUDE_LEVEL:')) {
+    const level = poolId.slice('MIX:CLAUDE_LEVEL:'.length);
+    examsOf('Claude').filter(e => claudeLevelOf(e) === level)
+      .forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('MIX:')) {
     examsOf(poolId.slice(4)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('EXAM:')) {
@@ -1447,27 +1469,20 @@ function poolQuestions(poolId, cats) {
 
 function pools() {
   const list = [];
-  const inTrack = examsOf(S.track);
+  const inTrack = visibleTrackExams();
   inTrack.forEach(e => list.push({
     id: e.id, title: e.title, sub: e.subtitle,
     count: poolQuestions(e.id, S.categories).length, explain: e.hasExplanation,
   }));
   if (inTrack.length > 1) {
     list.push({
-      id: 'MIX:' + S.track,
-      title: 'Trộn tất cả đề ' + S.track,
+      id: S.track === 'Claude' ? 'MIX:CLAUDE_LEVEL:' + S.claudeLevel : 'MIX:' + S.track,
+      title: 'Trộn tất cả đề ' + (S.track === 'Claude' ? (S.claudeLevel === 'pro' ? 'Claude Pro' : 'Claude Foundations') : S.track),
       sub: 'Rút ngẫu nhiên từ ' + inTrack.length + ' đề, đã loại câu trùng',
-      count: poolQuestions('MIX:' + S.track, S.categories).length,
+      count: poolQuestions(S.track === 'Claude' ? 'MIX:CLAUDE_LEVEL:' + S.claudeLevel : 'MIX:' + S.track, S.categories).length,
       explain: true, mix: true,
     });
   }
-  list.push({
-    id: 'MIX:ALL',
-    title: 'Trộn toàn bộ (GHC + Claude)',
-    sub: 'Rút ngẫu nhiên từ cả ' + DATA.exams.length + ' đề, đã loại câu trùng',
-    count: poolQuestions('MIX:ALL', S.categories).length,
-    explain: true, mix: true,
-  });
   list.push({
     id: 'MIX:CUSTOM',
     title: '🎯 Trộn đề tuỳ chọn',
@@ -1529,8 +1544,27 @@ function renderTracks() {
   });
 }
 
+function renderClaudeLevelTabs() {
+  const wrap = $('claude-level-tabs');
+  wrap.style.display = S.track === 'Claude' ? 'flex' : 'none';
+  if (S.track !== 'Claude') return;
+  wrap.innerHTML = [
+    ['foundations', 'Foundations (CCA-F)'],
+    ['pro', 'Pro (CCAP)'],
+  ].map(([level, label]) => `<button type="button" class="claude-level-tab ${S.claudeLevel === level ? 'active' : ''}"
+    data-level="${level}" aria-pressed="${S.claudeLevel === level}">${label}</button>`).join('');
+  wrap.querySelectorAll('.claude-level-tab').forEach(button => {
+    button.onclick = () => {
+      if (S.claudeLevel === button.dataset.level) return;
+      S.claudeLevel = button.dataset.level;
+      S.examId = null; S.examSetId = null; S.categories = [];
+      renderHome(); savePrefs();
+    };
+  });
+}
+
 function claudeExamSets() {
-  return examsOf('Claude').map(exam => ({
+  return visibleTrackExams().map(exam => ({
     exam,
     count: poolQuestions(exam.id, []).length,
   }));
@@ -1549,6 +1583,9 @@ function renderClaudeExamPicker() {
   const active = S.mode === 'exam' && S.track === 'Claude';
   picker.style.display = active ? 'block' : 'none';
   if (!active) return null;
+  $('claude-exam-label').textContent = S.claudeLevel === 'pro'
+    ? 'Chọn bộ đề Claude Pro để thi thử'
+    : 'Chọn bộ đề Claude Foundations để thi thử';
 
   const sets = claudeExamSets();
   const selected = selectedClaudeExamSet();
@@ -1580,6 +1617,9 @@ function renderModeTabs() {
   });
   $('practice-panel').style.display = S.mode === 'practice' ? 'block' : 'none';
   $('exam-panel').style.display = S.mode === 'exam' ? 'block' : 'none';
+  $('mode-exam').querySelector('.mt-sub').textContent = S.track === 'Claude' && S.claudeLevel === 'pro'
+    ? 'Bấm giờ, chấm sau khi nộp; cấu hình luyện tập'
+    : 'Bấm giờ, không chấm ngay, giống đề thật';
   $('start-btn').textContent = S.mode === 'exam' ? 'Vào phòng thi ⏱' : 'Bắt đầu làm bài';
   $('start-btn').disabled = false;
 
@@ -1590,7 +1630,8 @@ function renderModeTabs() {
       ? (selectedSet ? poolQuestions(selectedSet.exam.id, []) : [])
       : poolQuestions('EXAM:' + S.track, []);
     $('start-btn').disabled = S.track === 'Claude' && !selectedSet;
-    $('exam-title').textContent = spec.label;
+    $('exam-title').textContent = S.track === 'Claude' && S.claudeLevel === 'pro'
+      ? 'Claude Pro (CCAP) — thi thử' : spec.label;
     $('es-count').textContent = spec.count;
     $('es-mins').textContent = spec.minutes;
     $('es-pass').textContent = spec.pass + '%';
@@ -1603,6 +1644,9 @@ function renderModeTabs() {
       'Không chấm ngay và không hiện giải thích cho tới khi nộp bài. Lưới câu chỉ hiện đã làm / chưa làm.',
       'Hết giờ tự động nộp. Đồng hồ vẫn đúng nếu bạn F5 giữa lúc thi.',
     ];
+    if (S.track === 'Claude' && S.claudeLevel === 'pro') {
+      notes.unshift('60 câu, 120 phút và ngưỡng 70% là cấu hình luyện tập của trang, chưa xác nhận là quy định thi CCAP.');
+    }
     if (!multi && pool.length) notes.push('⚠ Kho câu đã chọn hiện không có câu multi-choice, nên đề thi thử sẽ toàn câu chọn 1 đáp án — có thể khác đề thật.');
     if (pool.length < spec.count && S.track !== 'Claude') notes.push('⚠ Kho câu (' + pool.length + ') ít hơn số câu đề thi (' + spec.count + '), sẽ thi với ' + pool.length + ' câu.');
     const pc = estimatePassChance();
@@ -1686,7 +1730,7 @@ function renderCategories() {
 
   // Ngoài chủ đề có trong pool, vẫn liệt kê chủ đề của cả nhánh để thấy cái nào = 0
   const inTrack = new Set();
-  examsOf(S.track).forEach(e => e.questions.forEach(q => inTrack.add(catOf(q))));
+  visibleTrackExams().forEach(e => e.questions.forEach(q => inTrack.add(catOf(q))));
   const cats = [...new Set([...Object.keys(counts), ...inTrack])]
     .sort((a, b) => (a === NO_CAT ? 1 : b === NO_CAT ? -1 : a.localeCompare(b)));
 
@@ -2060,6 +2104,7 @@ function renderHome() {
   $('kicker').textContent = 'Multi-Cert AI Preparation';
   $('top-title').textContent = 'AI Cert Hub - Multi-Cert Practice';
   renderTracks();
+  renderClaudeLevelTabs();
   renderModeTabs();
   renderExams();
   renderMixPicker();
