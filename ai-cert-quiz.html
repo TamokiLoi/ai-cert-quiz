@@ -168,10 +168,13 @@
   .cert-card[data-provider="Claude"].active { border-color: var(--claude); box-shadow: 0 0 0 1px var(--claude) inset; }
   .cert-card[data-provider="GitHub"]:hover:not(:disabled) { border-color: var(--ghc); }
   .cert-card[data-provider="Claude"]:hover:not(:disabled) { border-color: var(--claude); }
+  .cert-card.locked { opacity: .7; }
+  .cert-card.locked:hover:not(:disabled) { border-color: var(--border); background: linear-gradient(155deg, var(--panel-2), var(--panel)); transform: none; }
   .cert-card:disabled { opacity: .68; cursor: pointer; }
   .cert-vendor { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 13px; }
   .cert-vendor-name { font-size: 10px; font-weight: 800; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
   .cert-status { font-size: 9px; font-weight: 800; color: var(--green); background: var(--green-bg); border-radius: 999px; padding: 4px 7px; white-space: nowrap; }
+  .cert-status.locked { color: var(--amber); background: var(--amber-bg); }
   .cert-status.empty { color: var(--muted); background: var(--tag-bg); }
   .cert-code { font-size: 19px; font-weight: 850; letter-spacing: -.02em; margin-bottom: 4px; }
   .cert-name { min-height: 30px; font-size: 11px; line-height: 1.45; color: var(--muted); }
@@ -399,7 +402,7 @@
   .scroll-top-btn:hover { box-shadow: 0 10px 24px rgba(0,0,0,.45); }
 
   /* ---------- Chọn chế độ: luyện tập / thi thử ---------- */
-  .mode-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
+  .mode-tabs { display: flex; gap: 10px; margin: 24px 0 16px; }
   .mode-tab {
     flex: 1; background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
     padding: 12px; border-radius: 11px; cursor: pointer; font-size: 13.5px; font-weight: 700;
@@ -1259,6 +1262,10 @@ const CERTIFICATIONS = [
   { id: 'CCAP', provider: 'Claude', vendor: 'Anthropic · Claude', name: 'Claude Certified Architect — Pro', track: 'Claude', level: 'pro', order: 4 },
 ];
 const certById = (id) => CERTIFICATIONS.find(c => c.id === id) || CERTIFICATIONS[0];
+const TEMPORARILY_DISABLED_CERT_IDS = new Set(['GH-600']);
+const TEMPORARILY_DISABLED_CERT_MESSAGE = 'Đã nạp lần đầu chưa?';
+const isCertTemporarilyDisabled = certId => TEMPORARILY_DISABLED_CERT_IDS.has(certId);
+function notifyTemporarilyDisabledCert() { window.alert(TEMPORARILY_DISABLED_CERT_MESSAGE); }
 let catalogProvider = 'all';
 let catalogQuery = '';
 const MAX_SESSIONS = 8;      // số lượt làm dở giữ lại nhiều nhất
@@ -1545,12 +1552,14 @@ function loadPrefs() {
   if (!p) return;
   S.theme = p.theme === 'light' ? 'light' : 'dark';
   // Nâng cấp tùy chọn cũ vào cert cuối cùng đã dùng; các cert khác bắt đầu độc lập.
-  let certId = CERTIFICATIONS.some(c => c.id === p.certId) ? p.certId : '';
+  let certId = CERTIFICATIONS.some(c => c.id === p.certId && !isCertTemporarilyDisabled(c.id)) ? p.certId : '';
   if (!certId) {
-    certId = p.track === 'Claude'
+    const legacyCertId = p.track === 'Claude'
       ? (p.claudeLevel === 'pro' ? 'CCAP' : 'CCAR-F')
       : 'GH-300';
+    certId = isCertTemporarilyDisabled(legacyCertId) ? '' : legacyCertId;
   }
+  if (!certId) certId = (CERTIFICATIONS.find(c => !isCertTemporarilyDisabled(c.id)) || CERTIFICATIONS[0]).id;
   const scoped = p.certPrefs && typeof p.certPrefs === 'object' ? p.certPrefs[certId] : null;
   applyCertPrefs(certId, scoped || (!p.certPrefs && p.certId === certId ? p : null));
   applyTheme();
@@ -1785,6 +1794,7 @@ function pools() {
 
 function selectCertification(certId) {
   const cert = certById(certId);
+  if (isCertTemporarilyDisabled(cert.id)) { notifyTemporarilyDisabledCert(); return; }
   if (S.certId === cert.id) return;
   savePrefs();
   const stored = lsGet(LS.prefs, {}) || {};
@@ -1812,7 +1822,7 @@ function renderCertCatalog() {
   $('provider-filters').querySelectorAll('.provider-filter').forEach(button => {
     button.onclick = () => {
       catalogProvider = button.dataset.provider;
-      const available = CERTIFICATIONS.filter(c => catalogProvider === 'all' || c.provider === catalogProvider);
+      const available = CERTIFICATIONS.filter(c => (catalogProvider === 'all' || c.provider === catalogProvider) && !isCertTemporarilyDisabled(c.id));
       if (available.length && !available.some(c => c.id === S.certId)) {
         const withQuestions = available.find(c => examsForCert(c.id).length);
         const next = withQuestions || available[0];
@@ -1843,14 +1853,18 @@ function renderCertCatalog() {
     const exams = examsForCert(cert.id);
     const questions = dedupe(exams.flatMap(e => e.questions.map(q => ({ q, exam: e })))).length;
     const ready = exams.length > 0;
-    return `<button type="button" class="cert-card ${S.certId === cert.id ? 'active' : ''}" data-cert="${esc(cert.id)}" data-provider="${esc(cert.provider)}" aria-pressed="${S.certId === cert.id}">
-      <div class="cert-vendor"><span class="cert-vendor-name">${esc(cert.vendor)}</span><span class="cert-status ${ready ? '' : 'empty'}">${ready ? 'CÓ BỘ ĐỀ' : 'SẮP CÓ'}</span></div>
+    const locked = isCertTemporarilyDisabled(cert.id);
+    return `<button type="button" class="cert-card ${S.certId === cert.id ? 'active' : ''}${locked ? ' locked' : ''}" data-cert="${esc(cert.id)}" data-provider="${esc(cert.provider)}" aria-disabled="${locked}" aria-pressed="${S.certId === cert.id}">
+      <div class="cert-vendor"><span class="cert-vendor-name">${esc(cert.vendor)}</span><span class="cert-status ${locked ? 'locked' : ready ? '' : 'empty'}">${locked ? 'TẠM KHOÁ' : ready ? 'CÓ BỘ ĐỀ' : 'SẮP CÓ'}</span></div>
       <div class="cert-code">${esc(cert.id)}</div><div class="cert-name">${esc(cert.name)}</div>
       <div class="cert-meta"><span><b>${exams.length}</b> ${exams.length === 1 ? 'bộ đề' : 'bộ đề'}</span><span><b>${questions || '—'}</b> ${questions ? 'câu' : 'câu'}</span></div>
     </button>`;
   }).join('');
   $('cert-grid').querySelectorAll('.cert-card').forEach(button => {
-    button.onclick = () => selectCertification(button.dataset.cert);
+    button.onclick = () => {
+      if (isCertTemporarilyDisabled(button.dataset.cert)) { notifyTemporarilyDisabledCert(); return; }
+      selectCertification(button.dataset.cert);
+    };
   });
   const cert = certById(S.certId);
   const certExams = examsForCert(cert.id);
@@ -2625,6 +2639,7 @@ function resumeSession(key) {
     toast('Không phục hồi được lượt đó'); renderHome(); return;
   }
   const targetCertId = sessionCertId(sess);
+  if (isCertTemporarilyDisabled(targetCertId)) { notifyTemporarilyDisabledCert(); renderHome(); return; }
   if (targetCertId && targetCertId !== S.certId) {
     savePrefs();
     const stored = lsGet(LS.prefs, {}) || {};
@@ -2762,6 +2777,7 @@ function scrollToQuestionArea() {
 }
 
 function startQuiz() {
+  if (isCertTemporarilyDisabled(S.certId)) { notifyTemporarilyDisabledCert(); return; }
   S.quiz = collectQuestions();
   if (!S.quiz.length) { toast('Bộ đề này chưa có câu nào'); return; }
   const spec = currentExamSpec();

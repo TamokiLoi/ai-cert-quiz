@@ -1,6 +1,6 @@
 // Service worker: cache app-shell để mở được khi mất mạng.
 // Đổi CACHE_NAME (vd v2, v3...) mỗi khi muốn ép trình duyệt nạp bản mới.
-const CACHE_NAME = 'aicert-cache-v8';
+const CACHE_NAME = 'aicert-cache-v9';
 const APP_SHELL = [
   './ai-cert-quiz.html',
   './question-release-notes.js',
