@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Cert Hub — Thư viện chứng chỉ (bản xem trước)</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0d1020;--panel:#151a2e;--panel2:#1b2138;--panel3:#222a45;
+  --line:#2b3453;--text:#f3f5ff;--muted:#a1aac6;--soft:#727e9f;
+  --accent:#9b8cff;--accent2:#7060ed;--green:#51d9a0;--amber:#ffc66d;
+  --shadow:0 18px 55px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(850px 500px at 90% -8%,#282453 0%,transparent 65%),var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input{font:inherit}
+button{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:26px 30px 70px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:56px}
+.brand{display:flex;align-items:center;gap:11px;font-size:14px;font-weight:850;letter-spacing:.06em}
+.brand-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#b29cff,#6e62ef);display:grid;place-items:center;box-shadow:0 7px 22px #8873ff44}
+.brand-mark svg{width:19px;height:19px}
+.top-actions{display:flex;align-items:center;gap:10px}
+.top-link,.theme{border:1px solid var(--line);background:rgba(24,29,51,.78);border-radius:10px;padding:9px 12px;color:var(--muted);font-size:12px;font-weight:700}
+.theme{cursor:pointer}
+.hero{max-width:770px;margin-bottom:28px}
+.eyebrow{color:#b5aaff;font-size:11px;font-weight:850;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:38px;line-height:1.13;letter-spacing:-.035em;margin:0 0 12px}
+.lead{font-size:15px;line-height:1.7;color:var(--muted);margin:0;max-width:660px}
+.toolbar{display:flex;gap:12px;align-items:center;margin:28px 0 22px}
+.search{position:relative;flex:1;max-width:460px}
+.search svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:17px;color:var(--soft)}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 15px 13px 43px;color:var(--text);outline:none;font-size:13px}
+.search input:focus{border-color:var(--accent)}
+.filters{display:flex;gap:7px;flex-wrap:wrap}
+.filter{border:1px solid transparent;background:transparent;color:var(--muted);border-radius:999px;padding:9px 13px;font-size:12px;font-weight:750;cursor:pointer}
+.filter:hover{background:var(--panel2);color:var(--text)}
+.filter.active{background:#9b8cff20;border-color:#9b8cff55;color:#c7bdff}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:24px 0 13px}
+.section-head h2{font-size:16px;margin:0;font-weight:800}
+.section-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.quiet{color:var(--soft);font-size:11px}
+.cert-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.cert-card{position:relative;min-height:157px;text-align:left;padding:16px;border:1px solid var(--line);background:linear-gradient(155deg,var(--panel2),var(--panel));border-radius:15px;cursor:pointer;transition:.18s;overflow:hidden}
+.cert-card:hover{transform:translateY(-2px);border-color:#8578db}
+.cert-card.active{border-color:#a697ff;box-shadow:0 0 0 1px #a697ff inset,0 10px 30px #5144af20;background:linear-gradient(150deg,#282748,var(--panel))}
+.cert-card.active:after{content:"";position:absolute;width:100px;height:100px;right:-42px;top:-45px;background:#9786ff18;border-radius:50%}
+.vendor{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.vendor-label{font-size:10px;font-weight:850;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.status{font-size:9px;font-weight:800;border-radius:999px;padding:4px 7px;background:#192f35;color:#69e2b0}
+.status.soon{background:#343047;color:#c0b5f1}
+.cert-code{font-size:20px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px}
+.cert-name{font-size:11px;color:var(--muted);line-height:1.45;min-height:31px}
+.cert-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-size:10px;color:var(--soft)}
+.cert-foot b{font-weight:800;color:#d8dcf0}
+.cert-detail{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:24px 0 12px;padding:0 1px}
+.cert-detail h2{font-size:17px;margin:0 6px 0 0}
+.detail-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 9px;color:var(--muted);font-size:10px;font-weight:700}
+.detail-chip b{color:var(--text)}
+.library-tools{display:flex;justify-content:space-between;align-items:center;margin:15px 0 11px}
+.library-tools strong{font-size:12px}
+.sort{border:1px solid var(--line);background:var(--panel);border-radius:9px;color:var(--muted);font-size:10px;padding:8px 10px}
+.exam-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.exam-card{border:1px solid var(--line);background:var(--panel);border-radius:13px;padding:15px;min-height:149px;display:flex;flex-direction:column;transition:.18s}
+.exam-card:hover{border-color:#8578db;background:var(--panel2)}
+.exam-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.exam-title{font-size:13px;font-weight:820;line-height:1.4}
+.exam-kind{font-size:9px;color:#c1b8ff;background:#9b8cff18;border:1px solid #9b8cff38;border-radius:999px;padding:4px 7px;white-space:nowrap}
+.exam-sub{font-size:10px;line-height:1.5;color:var(--muted);margin-top:7px}
+.exam-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
+.meta{border:1px solid var(--line);border-radius:6px;padding:4px 7px;color:var(--muted);font-size:9px;font-weight:700}
+.meta.good{border-color:#51d9a055;background:#51d9a012;color:#73e6b5}
+.card-action{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid #ffffff0b}
+.card-action span{font-size:9px;color:var(--soft)}
+.select-btn{border:0;background:transparent;color:#c5bbff;font-size:10px;font-weight:800;cursor:pointer;padding:3px}
+.empty{display:none;padding:36px 16px;text-align:center;border:1px dashed var(--line);border-radius:13px;color:var(--muted);font-size:12px}
+.practice-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;padding:15px 17px;border:1px solid var(--line);background:linear-gradient(110deg,#1a1d35,#171b2e);border-radius:13px}
+.pb-copy b{display:block;font-size:12px;margin-bottom:4px}
+.pb-copy span{font-size:10px;color:var(--muted)}
+.mode-buttons{display:flex;gap:8px}
+.mode-btn{border:1px solid var(--line);background:var(--panel2);border-radius:9px;padding:10px 13px;font-size:10px;font-weight:800;cursor:pointer}
+.mode-btn.primary{background:linear-gradient(135deg,#9b8cff,#7162ed);border:0;color:white;box-shadow:0 5px 17px #7162ed44}
+.demo-note{font-size:9px;color:var(--soft);text-align:right;margin-top:14px}
+.footer{margin-top:38px;padding-top:18px;border-top:1px solid #ffffff0b;display:flex;justify-content:space-between;color:var(--soft);font-size:9px}
+body.light{color-scheme:light;--bg:#f3f4fa;--panel:#fff;--panel2:#fff;--panel3:#edf0fa;--line:#dce0ee;--text:#20243a;--muted:#626b86;--soft:#828ba3;--shadow:0 18px 55px #23275312;background:radial-gradient(850px 500px at 90% -8%,#e3e0ff 0%,transparent 65%),var(--bg)}
+body.light .top-link,body.light .theme{background:#fff}
+body.light .cert-card{background:linear-gradient(155deg,#fff,#fafaff)}
+body.light .cert-card.active{background:linear-gradient(150deg,#f1efff,#fff)}
+body.light .practice-bar{background:linear-gradient(110deg,#fff,#f7f8ff)}
+body.light .exam-card:hover{background:#fafaff}
+@media(max-width:850px){.cert-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.exam-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:22px 22px 55px}.topbar{margin-bottom:42px}}
+@media(max-width:580px){.wrap{padding:17px 15px 40px}.topbar{margin-bottom:34px}.top-link{display:none}h1{font-size:30px}.lead{font-size:13px}.toolbar{align-items:stretch;flex-direction:column}.search{max-width:none}.filters{overflow:auto;flex-wrap:nowrap;padding-bottom:3px}.filter{white-space:nowrap}.cert-grid{gap:8px}.cert-card{padding:12px;min-height:155px}.cert-code{font-size:18px}.cert-name{font-size:10px}.exam-grid{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}.practice-bar{align-items:stretch;flex-direction:column}.mode-buttons{display:grid;grid-template-columns:1fr 1fr}.demo-note{text-align:left}.footer{gap:12px;flex-direction:column}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 17.5 12 4l7 13.5M8 13h8M4.5 20h15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span>AI CERT HUB</span>
+    </div>
+    <div class="top-actions">
+      <span class="top-link">Thư viện ôn tập</span>
+      <button class="theme" id="theme-toggle" type="button">☀ Sáng</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="eyebrow">Exam library · 4 certifications</div>
+    <h1>Chọn chứng chỉ<br>để bắt đầu ôn tập</h1>
+    <p class="lead">Tìm bộ đề phù hợp, xem nhanh số câu và chọn cách luyện. Tiến độ của bạn được lưu riêng theo từng chứng chỉ.</p>
+  </section>
+
+  <section class="toolbar" aria-label="Tìm và lọc chứng chỉ">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.3 4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="search" type="search" placeholder="Tìm chứng chỉ hoặc bộ đề…" autocomplete="off">
+    </label>
+    <div class="filters" role="group" aria-label="Lọc theo nhà cung cấp">
+      <button class="filter active" data-provider="all" type="button">Tất cả</button>
+      <button class="filter" data-provider="GitHub" type="button">GitHub</button>
+      <button class="filter" data-provider="Anthropic" type="button">Anthropic</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><h2>Chứng chỉ</h2><p>Chọn một chứng chỉ để xem các bộ đề tương ứng</p></div>
+      <span class="quiet">4 chứng chỉ</span>
+    </div>
+    <div class="cert-grid" id="cert-grid">
+      <button class="cert-card active" data-cert="GH-300" data-provider="GitHub" type="button">
+        <div class="vendor"><span class="vendor-label">GitHub</span><span class="status">ĐANG HỌC</span></div>
+        <div class="cert-code">GH-300</div><div class="cert-name">GitHub Copilot Certification</div>
+        <div class="cert-foot"><span><b>6</b> bộ đề</span><span><b>410</b> câu</span></div>
+      </button>
+      <button class="cert-card" data-cert="GH-600" data-provider="GitHub" type="button">
+        <div class="vendor"><span class="vendor-label">GitHub</span><span class="status soon">MỚI</span></div>
+        <div class="cert-code">GH-600</div><div class="cert-name">GitHub Advanced Security Certification</div>
+        <div class="cert-foot"><span><b>1</b> bộ đề mẫu</span><span><b>87</b> câu</span></div>
+      </button>
+      <button class="cert-card" data-cert="CCAR" data-provider="Anthropic" type="button">
+        <div class="vendor"><span class="vendor-label">Anthropic · Claude</span><span class="status soon">SẮP CÓ</span></div>
+        <div class="cert-code">CCAR</div><div class="cert-name">Claude certification · bộ đề minh họa</div>
+        <div class="cert-foot"><span><b>2</b> bộ đề mẫu</span><span><b>—</b> câu</span></div>
+      </button>
+      <button class="cert-card" data-cert="CCAP" data-provider="Anthropic" type="button">
+        <div class="vendor"><span class="vendor-label">Anthropic · Claude</span><span class="status">CÓ BỘ ĐỀ</span></div>
+        <div class="cert-code">CCAP</div><div class="cert-name">Claude Certified Architect · Pro</div>
+        <div class="cert-foot"><span><b>1</b> bộ đề</span><span><b>64</b> câu</span></div>
+      </button>
+    </div>
+  </section>
+
+  <section aria-live="polite">
+    <div class="cert-detail">
+      <h2 id="selected-title">Bộ đề GH-300</h2>
+      <span class="detail-chip">Nhà cung cấp <b id="selected-provider">GitHub</b></span>
+      <span class="detail-chip">Ngân hàng <b id="selected-count">410 câu</b></span>
+    </div>
+    <div class="library-tools">
+      <strong id="set-count">6 bộ đề</strong>
+      <span class="sort">Sắp xếp: đề xuất ▾</span>
+    </div>
+    <div class="exam-grid" id="exam-grid"></div>
+    <div class="empty" id="empty">Không tìm thấy bộ đề khớp với từ khóa này.</div>
+
+    <div class="practice-bar">
+      <div class="pb-copy"><b id="practice-title">Sẵn sàng ôn GH-300?</b><span>Chọn một bộ đề phía trên, rồi bắt đầu luyện tập hoặc thi thử.</span></div>
+      <div class="mode-buttons">
+        <button class="mode-btn" type="button" id="practice-btn">Luyện tập</button>
+        <button class="mode-btn primary" type="button" id="exam-btn">Thi thử&nbsp; →</button>
+      </div>
+    </div>
+    <div class="demo-note">Bản mẫu giao diện · Số liệu GH-300/CCAP lấy từ app hiện tại; GH-600/CCAR và tên bộ đề là dữ liệu minh họa.</div>
+  </section>
+
+  <footer class="footer"><span>AI CERT HUB · Thư viện chứng chỉ</span><span>Giao diện mẫu để duyệt bố cục</span></footer>
+</main>
+
+<script>
+(function(){
+  var catalogs = {
+    "GH-300": {
+      provider:"GitHub", count:"410 câu",
+      sets:[
+        ["GH-300 Exam 1","Bộ luyện thi tổng hợp · có giải thích từng đáp án","116 câu","Full exam","Có giải thích"],
+        ["GH-300 Exam 2","Bộ luyện thi tổng hợp · có giải thích từng đáp án","80 câu","Full exam","Có giải thích"],
+        ["GH-300 Practice 01","Luyện theo bộ câu hỏi GitHub Copilot","67 câu","Practice","Có giải thích"],
+        ["GH-300 Practice 02","Luyện theo bộ câu hỏi GitHub Copilot","74 câu","Practice","Có giải thích"],
+        ["GH-300 — Bộ Microsoft mới","Câu hỏi mới được bổ sung vào ngân hàng","60 câu","Bổ sung","Có giải thích"],
+        ["GH-300 — Câu hỏi bổ sung","Các câu đã lọc trùng từ nguồn bổ sung","13 câu","Bổ sung","Luyện nhanh"]
+      ]
+    },
+    "GH-600": {
+      provider:"GitHub", count:"87 câu mẫu",
+      sets:[
+        ["GH-600 — Bộ tham khảo","Bộ câu hỏi tham khảo để xem trước cách tổ chức theo domain","87 câu","Tham khảo","Dữ liệu mẫu"]
+      ]
+    },
+    "CCAR": {
+      provider:"Anthropic", count:"Bản xem trước",
+      sets:[
+        ["CCAR — Practice Set 01","Thẻ minh họa cho một bộ luyện tập theo chứng chỉ","Bộ mẫu","Practice","Dữ liệu mẫu"],
+        ["CCAR — Domain Review","Thẻ minh họa cho bộ luyện theo domain","Bộ mẫu","Theo domain","Dữ liệu mẫu"]
+      ]
+    },
+    "CCAP": {
+      provider:"Anthropic", count:"64 câu",
+      sets:[
+        ["Claude Pro (CCAP)","Bộ luyện tập CCAP · có giải thích cho từng câu","64 câu","Practice","Có giải thích"]
+      ]
+    }
+  };
+  var selected = "GH-300";
+  var providerFilter = "all";
+  var search = document.getElementById("search");
+  function renderSets(){
+    var catalog = catalogs[selected];
+    document.getElementById("selected-title").textContent = "Bộ đề " + selected;
+    document.getElementById("selected-provider").textContent = catalog.provider;
+    document.getElementById("selected-count").textContent = catalog.count;
+    document.getElementById("practice-title").textContent = "Sẵn sàng ôn " + selected + "?";
+    var query = search.value.trim().toLowerCase();
+    var rows = catalog.sets.filter(function(row){return row.join(" ").toLowerCase().indexOf(query) >= 0;});
+    document.getElementById("set-count").textContent = rows.length + (rows.length === 1 ? " bộ đề" : " bộ đề");
+    var grid = document.getElementById("exam-grid");
+    grid.innerHTML = rows.map(function(row,index){
+      return '<article class="exam-card"><div class="exam-top"><div class="exam-title">'+row[0]+'</div><span class="exam-kind">'+row[3]+'</span></div><div class="exam-sub">'+row[1]+'</div><div class="exam-meta"><span class="meta">'+row[2]+'</span><span class="meta good">'+row[4]+'</span></div><div class="card-action"><span>Bộ đề '+String(index+1).padStart(2,"0")+'</span><button class="select-btn" type="button">Chọn bộ đề&nbsp; →</button></div></article>';
+    }).join("");
+    document.getElementById("empty").style.display = rows.length ? "none" : "block";
+  }
+  function applyFilters(){
+    var query=search.value.trim().toLowerCase();
+    document.querySelectorAll(".cert-card").forEach(function(card){
+      var matchesProvider=providerFilter==="all"||card.getAttribute("data-provider")===providerFilter;
+      var matchesText=card.textContent.toLowerCase().indexOf(query)>=0;
+      card.style.display=matchesProvider&&matchesText?"":"none";
+    });
+  }
+  document.querySelectorAll(".cert-card").forEach(function(card){
+    card.addEventListener("click",function(){
+      selected=card.getAttribute("data-cert");
+      document.querySelectorAll(".cert-card").forEach(function(item){item.classList.toggle("active",item===card);});
+      renderSets();
+    });
+  });
+  document.querySelectorAll(".filter").forEach(function(button){
+    button.addEventListener("click",function(){
+      providerFilter=button.getAttribute("data-provider");
+      document.querySelectorAll(".filter").forEach(function(item){item.classList.toggle("active",item===button);});
+      applyFilters();
+    });
+  });
+  search.addEventListener("input",function(){applyFilters();renderSets();});
+  document.getElementById("theme-toggle").addEventListener("click",function(){
+    document.body.classList.toggle("light");
+    this.textContent=document.body.classList.contains("light")?"☾ Tối":"☀ Sáng";
+  });
+  renderSets();
+})();
+</script>
+</body>
+</html>

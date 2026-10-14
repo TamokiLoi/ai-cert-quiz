@@ -1,0 +1,31 @@
+AI Cert Quiz v1.0.0 — historical commit log through 2026-09-25
+Repository: TamokiLoi/ai-cert-quiz
+Previous GitHub releases/tags: none; this is the first retrospective release.
+
+1bf9e69  2026-08-09  Initial commit: AI Cert quiz
+85ea46e  2026-08-09  Them nhieu tinh nang: dich EN-VI, theme sang/toi, streak, ghi chu, tim kiem, danh dau hay nham, uoc tinh dau, chia se ket qua, huong dan tinh nang
+b94a1f3  2026-08-09  Them PWA: manifest, service worker cache offline, icon quiz
+bb562f0  2026-08-10  feat: improve mobile quiz UX, navigation flow, and multi-cert branding
+716109e  2026-08-12  [2026-08-12][LoiNLT] Update add feature remove question in weak when retry check true
+cd893b4  2026-08-17  feat: add answer key review and GH-300 data updates
+b3ac7a1  2026-08-20  fix: chuẩn hóa correct thành mảng và reset answerKeyOpen khi vào quiz mới
+30ebedf  2026-08-20  feat: add data.json validator, fix corrupted claude-extra title/subtitle
+5f13ad8  2026-08-20  chore: add data maintenance scripts for GH-300/data.json tooling
+a86f7cf  2026-08-25  fix: khôi phục dấu tiếng Việt bị hỏng trong explanation của exam ghc-new-microsoft
+53644da  2026-09-03  fix: chặn chọn thừa đáp án multiple, chặn né câu qua lưới, ẩn lượt dở khác track
+e1c2071  2026-09-08  fix: khôi phục dấu tiếng Việt còn sót và chuẩn hoá NFC cho bản dịch
+cb871db  2026-09-08  fix: data.json bị Service Worker cache cứng, không nhận bản cập nhật
+f708b5b  2026-09-08  fix: không Prev/xem lại được câu đã làm khi câu hiện tại chưa check
+e94da8f  2026-09-09  fix: dịch câu hỏi hay lỗi trên mạng di động do Google gtx bị rate-limit
+741fe0c  2026-09-10  feat: cho phép tự chọn đề muốn trộn thay vì chỉ trộn cố định theo nhánh
+62a1dcc  2026-09-14  fix: câu #54 GH-300 Exam 2 ghi thừa "(Choose 2)" dù là câu 1 đáp án
+12291aa  2026-09-14  feat: tuỳ chọn tự động qua câu tiếp theo khi chọn đúng
+0ca27b5  2026-09-16  feat: bổ sung đề Claude 162 câu (index1-3), đặt đầu danh sách chọn đề
+d072da9  2026-09-16  feat: bấm câu trong "Xem lại từng câu" để copy nội dung ra clipboard
+05f4899  2026-09-16  feat: thêm nút Copy câu ngay khi đang làm bài (kể cả xem lại qua Prev/lưới)
+9128c46  2026-09-16  fix: đồng bộ cách copy câu lúc đang làm bài giống màn xem lại
+6de9b1f  2026-09-17  fix: sửa đáp án sai của 2 câu GH-300 về nguyên nhân Copilot không gợi ý
+49d0944  2026-09-17  fix: đảo ngược fix sai trước đó + sửa thêm 2 lỗi đáp án GH-300 (verify bằng Gemini + docs GitHub)
+cffdf4b  2026-09-17  fix: bỏ nhắc index1-3 ở subtitle đề 162 câu + sửa 2 đáp án sai (verify bằng Gemini + docs Anthropic)
+63ef123  2026-09-25  Audit Claude quiz answers and sync data
+9ec8a2f  2026-09-25  Customize Claude mock exam selection

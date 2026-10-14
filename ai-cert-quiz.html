@@ -107,7 +107,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
   }
-  .app { max-width: 900px; margin: 0 auto; padding: 28px 18px 80px; }
+  .app { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
 
   header.top { text-align: center; margin-bottom: 22px; }
   header.top .kicker {
@@ -125,31 +125,67 @@
     box-shadow: 0 10px 30px rgba(0,0,0,.35);
   }
 
-  /* ---------- Tabs track ---------- */
-  .track-tabs { display: flex; gap: 10px; margin-bottom: 18px; }
-  .track-tab {
-    flex: 1; background: var(--panel-2); border: 1px solid var(--border);
-    color: var(--text); padding: 13px 12px; border-radius: 12px; cursor: pointer;
-    font-size: 14px; font-weight: 700; transition: all .15s ease; text-align: center;
+  /* ---------- Danh mục chứng chỉ ---------- */
+  .question-search { margin: 0 0 18px; }
+  .question-search summary {
+    color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer;
+    list-style: none; padding: 9px 0;
   }
-  .track-tab .tt-sub { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 3px; }
-  .track-tab:hover { border-color: var(--accent); background: var(--panel-3); }
-  .track-tab.active {
-    border-color: transparent;
-    background: linear-gradient(135deg, var(--accent-2), var(--accent));
-    color: #fff;
+  .question-search summary::-webkit-details-marker { display: none; }
+  .question-search summary::before { content: '＋'; display: inline-block; width: 19px; color: var(--accent); }
+  .question-search[open] summary::before { content: '−'; }
+  .question-search .search-block { margin: 4px 0 0; }
+  .catalog-toolbar { display: flex; gap: 12px; align-items: center; margin: 8px 0 19px; }
+  .catalog-search { flex: 1; min-width: 220px; position: relative; }
+  .catalog-search input {
+    width: 100%; padding: 12px 14px 12px 40px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+    font: inherit; font-size: 13px;
   }
-  .track-tab.active .tt-sub { color: rgba(255,255,255,.8); }
-  .track-tab[data-track="GHC"].active    { background: linear-gradient(135deg, var(--ghc-2), var(--ghc)); }
-  .track-tab[data-track="Claude"].active { background: linear-gradient(135deg, var(--claude-2), var(--claude)); }
-  .claude-level-tabs { display: flex; gap: 8px; margin: -6px 0 18px; }
-  .claude-level-tab {
-    flex: 1; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
-    background: var(--panel-2); color: var(--text); cursor: pointer;
-    font-size: 13px; font-weight: 700;
+  .catalog-search input:focus { outline: none; border-color: var(--accent); }
+  .catalog-search::before { content: '⌕'; position: absolute; left: 14px; top: 50%; transform: translateY(-53%); color: var(--muted); font-size: 20px; }
+  .provider-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .provider-filter {
+    border: 1px solid transparent; background: transparent; color: var(--muted);
+    border-radius: 999px; padding: 8px 12px; font: inherit; font-size: 12px;
+    font-weight: 700; cursor: pointer;
   }
-  .claude-level-tab:hover { border-color: var(--accent); }
-  .claude-level-tab.active { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); }
+  .provider-filter:hover { color: var(--text); background: var(--panel-2); }
+  .provider-filter.active { color: var(--text); border-color: var(--border); background: var(--panel-2); }
+  .catalog-heading { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin: 4px 0 11px; }
+  .catalog-heading .section-label { margin: 0; }
+  .catalog-hint { font-size: 11px; color: var(--muted); }
+  .cert-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .cert-card {
+    appearance: none; min-width: 0; text-align: left; cursor: pointer; color: var(--text);
+    background: linear-gradient(155deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--border); border-radius: 12px; padding: 14px 15px;
+    transition: border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .cert-card:hover:not(:disabled) { border-color: var(--accent); background: var(--panel-3); transform: translateY(-1px); }
+  .cert-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; background: var(--panel-3); }
+  .cert-card[data-provider="GitHub"].active { border-color: var(--ghc); box-shadow: 0 0 0 1px var(--ghc) inset; }
+  .cert-card[data-provider="Claude"].active { border-color: var(--claude); box-shadow: 0 0 0 1px var(--claude) inset; }
+  .cert-card[data-provider="GitHub"]:hover:not(:disabled) { border-color: var(--ghc); }
+  .cert-card[data-provider="Claude"]:hover:not(:disabled) { border-color: var(--claude); }
+  .cert-card:disabled { opacity: .68; cursor: pointer; }
+  .cert-vendor { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 13px; }
+  .cert-vendor-name { font-size: 10px; font-weight: 800; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+  .cert-status { font-size: 9px; font-weight: 800; color: var(--green); background: var(--green-bg); border-radius: 999px; padding: 4px 7px; white-space: nowrap; }
+  .cert-status.empty { color: var(--muted); background: var(--tag-bg); }
+  .cert-code { font-size: 19px; font-weight: 850; letter-spacing: -.02em; margin-bottom: 4px; }
+  .cert-name { min-height: 30px; font-size: 11px; line-height: 1.45; color: var(--muted); }
+  .cert-meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 11px; padding-top: 9px; border-top: 1px solid var(--border); font-size: 10px; color: var(--muted); }
+  .cert-meta b { color: var(--text); }
+  .catalog-selection { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 21px 0 10px; }
+  .catalog-selection h2 { font-size: 16px; margin: 0 5px 0 0; }
+  .catalog-badge { border: 1px solid var(--border); background: var(--panel-2); border-radius: 999px; padding: 5px 9px; color: var(--muted); font-size: 10px; }
+  .catalog-badge b { color: var(--text); }
+  .exam-library-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 14px 0 10px; }
+  .exam-library-head strong { font-size: 12px; }
+  .exam-library-empty { display: none; padding: 24px 16px; color: var(--muted); background: var(--panel-2); border: 1px dashed var(--border); border-radius: 11px; font-size: 12px; line-height: 1.6; }
+  .exam-library-empty.show { display: block; }
+  .exam-library-empty b { color: var(--text); }
 
   /* ---------- Danh sách đề ---------- */
   .exam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
@@ -371,6 +407,7 @@
   }
   .mode-tab .mt-sub { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 3px; }
   .mode-tab:hover { border-color: var(--accent); }
+  .mode-tab:disabled { cursor: not-allowed; }
   .mode-tab.active {
     border-color: transparent; color: #fff;
     background: linear-gradient(135deg, var(--accent-2), var(--accent));
@@ -670,6 +707,35 @@
   .option.faded { opacity: .5; }
   .opt-note { display: block; font-size: 12.5px; line-height: 1.55; color: var(--muted); margin-top: 6px; }
 
+  .special-interaction { display: flex; flex-direction: column; gap: 10px; }
+  .order-row, .match-row {
+    display: flex; align-items: center; gap: 10px; min-width: 0;
+    background: var(--panel-2); border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 11px 12px; color: var(--text); line-height: 1.5;
+  }
+  .order-row.is-correct, .match-row.is-correct { border-color: var(--green); background: var(--green-bg); }
+  .order-row.is-wrong, .match-row.is-wrong { border-color: var(--red); background: var(--red-bg); }
+  .order-index {
+    flex: 0 0 27px; height: 27px; display: grid; place-items: center; border-radius: 50%;
+    color: var(--accent); background: var(--panel-3); font-size: 12px; font-weight: 800;
+  }
+  .order-text, .match-left { flex: 1; min-width: 0; font-size: 14px; }
+  .order-actions { display: flex; gap: 5px; }
+  .order-move {
+    width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--panel-3); color: var(--text); cursor: pointer; font: inherit;
+  }
+  .order-move:disabled { opacity: .4; cursor: default; }
+  .blank-answer, .match-select {
+    width: 100%; min-width: 0; padding: 11px 12px; border-radius: 9px;
+    border: 1px solid var(--border); background: var(--panel); color: var(--text);
+    font: inherit; line-height: 1.45;
+  }
+  .blank-answer:focus, .match-select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .special-instruction { color: var(--muted); font-size: 12px; }
+  .match-select { flex: 1; }
+  .special-answer-key { display: block; flex-basis: 100%; color: var(--green); font-size: 12px; padding-left: 37px; }
+
   .feedback-banner {
     margin-top: 16px; padding: 13px 15px; border-radius: 10px;
     font-size: 14px; font-weight: 700; display: none; align-items: center; gap: 8px;
@@ -770,7 +836,19 @@
   .error-box code { background: var(--panel-2); border: 1px solid var(--border); padding: 2px 6px; border-radius: 5px; color: var(--text); }
 
   @media (max-width: 560px) {
-    .track-tabs { flex-direction: column; }
+    .app { padding: 22px 14px 70px; }
+    .match-row { align-items: stretch; flex-wrap: wrap; }
+    .match-select { flex-basis: 100%; }
+    .catalog-toolbar { align-items: stretch; flex-direction: column; }
+    .catalog-search { min-width: 0; }
+    .provider-filters { overflow-x: auto; flex-wrap: nowrap; }
+    .provider-filter { white-space: nowrap; }
+    .cert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .cert-card { padding: 11px; }
+    .cert-code { font-size: 17px; }
+    .cert-name { font-size: 10px; }
+    .cert-meta { font-size: 9px; }
+    .catalog-heading { align-items: flex-start; flex-direction: column; }
     .result-stats { grid-template-columns: repeat(2, 1fr); }
     header.top h1 { font-size: 22px; }
     /* Hẹp thì bỏ dòng gợi ý và gom số liệu xuống dòng cho khỏi chen nhau */
@@ -828,7 +906,7 @@
         </button>
         <div class="qnav-body" id="help-body">
           <ul class="help-list">
-            <li><b>🔍 Tìm kiếm</b> — tra cứu nhanh 1 câu bất kỳ trong toàn bộ ngân hàng câu hỏi.</li>
+            <li><b>🔍 Tìm kiếm</b> — tra cứu nhanh câu hỏi trong chứng chỉ đang chọn.</li>
             <li><b>☀️/🌙 nút góc trên phải</b> — đổi giao diện sáng/tối.</li>
             <li><b>🌐 Dịch</b> — dịch câu hỏi, đáp án, giải thích sang tiếng Việt ngay trong lúc làm bài.</li>
             <li><b>📝 Ghi chú</b> — ghi chú riêng cho từng câu, tự lưu trên trình duyệt.</li>
@@ -838,20 +916,45 @@
             <li><b>🔥 Streak</b> — số ngày học liên tiếp, hiện dưới tiêu đề trang.</li>
             <li><b>📈 Ước tính khả năng đậu</b> — hiện trong mục Thi thử sau khi có đủ vài lượt làm gần đây.</li>
             <li><b>📋/🖼 Chia sẻ kết quả</b> — copy tóm tắt hoặc tải ảnh kết quả sau khi làm xong 1 lượt.</li>
-            <li><b>⭳/⭱ Xuất · Nạp tiến độ</b> — sao lưu hoặc chuyển toàn bộ dữ liệu học sang máy/trình duyệt khác.</li>
+            <li><b>⭳/⭱ Xuất · Nạp tiến độ</b> — sao lưu hoặc chuyển dữ liệu của chứng chỉ đang chọn; cert khác được giữ riêng.</li>
           </ul>
         </div>
       </div>
 
-      <div class="search-block">
-        <input type="search" id="search-input" placeholder="🔍 Tìm câu hỏi theo từ khoá (tiếng Anh) trong toàn bộ ngân hàng…">
-        <div class="search-results" id="search-results"></div>
-      </div>
+      <details class="question-search">
+        <summary>Tra cứu câu hỏi trong chứng chỉ đang chọn</summary>
+        <div class="search-block">
+          <input type="search" id="search-input" placeholder="🔍 Tìm trong ngân hàng chứng chỉ đang chọn…">
+          <div class="search-results" id="search-results"></div>
+        </div>
+      </details>
 
-      <div class="track-tabs" id="track-tabs"></div>
-      <div class="claude-level-tabs" id="claude-level-tabs" style="display:none" aria-label="Cấp độ Claude"></div>
+      <section class="cert-catalog" aria-label="Thư viện chứng chỉ">
+        <div class="catalog-toolbar">
+          <label class="catalog-search">
+            <input type="search" id="catalog-search" placeholder="Tìm chứng chỉ hoặc bộ đề…" autocomplete="off">
+          </label>
+          <div class="provider-filters" id="provider-filters" role="group" aria-label="Lọc theo nhà cung cấp"></div>
+        </div>
+        <div class="catalog-heading">
+          <div class="section-label">Chứng chỉ</div>
+          <span class="catalog-hint">Chọn chứng chỉ để xem các bộ đề tương ứng</span>
+        </div>
+        <div class="cert-grid" id="cert-grid"></div>
+        <div class="catalog-selection">
+          <h2 id="selected-cert-title">Bộ đề GH-300</h2>
+          <span class="catalog-badge">Nhà cung cấp <b id="selected-cert-provider">GitHub</b></span>
+          <span class="catalog-badge">Ngân hàng <b id="selected-cert-count">—</b></span>
+        </div>
+        <div class="exam-library-head">
+          <strong id="exam-library-count">Bộ đề</strong>
+          <span class="catalog-hint">Chọn một bộ để luyện tập; thi thử dùng cấu hình chứng chỉ</span>
+        </div>
+        <div class="exam-grid" id="exam-grid"></div>
+        <div class="exam-library-empty" id="exam-library-empty"></div>
+      </section>
 
-      <div class="mode-tabs">
+      <div class="mode-tabs" id="mode-tabs">
         <button class="mode-tab active" id="mode-practice" data-mode="practice">
           Luyện tập<span class="mt-sub">Chấm ngay, xem giải thích, tự chọn số câu</span>
         </button>
@@ -862,11 +965,8 @@
 
       <!-- ===== Luyện tập ===== -->
       <div id="practice-panel">
-        <div class="section-label">Chọn đề</div>
-        <div class="exam-grid" id="exam-grid"></div>
-
         <div id="mix-block" style="display:none">
-          <div class="section-label">Chọn đề để trộn <span class="lbl-hint">chọn được nhiều đề, kể cả khác nhánh</span></div>
+          <div class="section-label">Chọn đề để trộn <span class="lbl-hint">chỉ các bộ đề của chứng chỉ đang chọn</span></div>
           <div class="cat-chips" id="mix-chips"></div>
           <div class="cat-warn" id="mix-warn"></div>
         </div>
@@ -900,11 +1000,6 @@
 
       <!-- ===== Thi thử ===== -->
       <div id="exam-panel" style="display:none">
-        <div id="claude-exam-picker" style="display:none">
-          <div class="section-label"><span id="claude-exam-label">Chọn bộ đề Claude để thi thử</span> <span class="lbl-hint">rút ngẫu nhiên 60 câu từ bộ đã chọn</span></div>
-          <div class="exam-grid" id="claude-exam-grid"></div>
-          <div class="cat-warn" id="claude-exam-warn"></div>
-        </div>
         <div class="exam-intro">
           <h3 id="exam-title">Thi thử</h3>
           <div class="exam-spec">
@@ -917,6 +1012,7 @@
         </div>
       </div>
 
+      <div id="quiz-config">
       <label class="switch-row">
         <input type="checkbox" id="opt-resume" checked>
         Nhớ lượt đang làm — F5 vào lại đúng chỗ cũ
@@ -932,6 +1028,7 @@
       </div>
 
       <button class="primary-btn" id="start-btn">Bắt đầu làm bài</button>
+      </div>
 
       <!-- ===== Lịch sử ===== -->
       <div id="hist-block" style="display:none">
@@ -1094,7 +1191,7 @@
     <div class="review-list" id="review-list" style="display:none;"></div>
   </div>
 
-  <div class="foot">Kho đề GHC, Claude Foundations và Claude Pro · <span id="foot-count">—</span> câu khác nhau
+  <div class="foot"><span id="foot-desc">Thư viện chứng chỉ</span> · <span id="foot-count">—</span> câu khác nhau
     · cập nhật <span id="foot-date">—</span> · chỉ dùng cho mục đích tự học</div>
 </div>
 <div class="toast" id="toast"></div>
@@ -1149,8 +1246,21 @@ const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','
 // Cấu hình đề thi thử cho từng nhánh
 const EXAM_SPEC = {
   GHC:    { count: 70, minutes: 100, pass: 70, label: 'GH-300 — thi thử' },
-  Claude: { count: 60, minutes: 120, pass: 70, label: 'CCA-F — thi thử' },
+  'GH-600': { count: 50, minutes: 120, pass: 70, label: 'GH-600 — thi thử' },
+  Claude: { count: 60, minutes: 120, pass: 70, label: 'Claude — thi thử' },
 };
+function currentExamSpec() { return EXAM_SPEC[S.certId] || EXAM_SPEC[S.track]; }
+// Nhóm chứng chỉ tách khỏi track cũ để giữ màu sắc, lịch sử và dữ liệu localStorage.
+// Có thể thêm certId trực tiếp vào một exam khi nạp bộ đề mới.
+const CERTIFICATIONS = [
+  { id: 'GH-300', provider: 'GitHub', vendor: 'GitHub', name: 'GitHub Copilot Certification', track: 'GHC', order: 1 },
+  { id: 'GH-600', provider: 'GitHub', vendor: 'GitHub', name: 'GitHub Certified: Agentic AI Developer', track: 'GHC', order: 2 },
+  { id: 'CCAR-F', provider: 'Claude', vendor: 'Anthropic · Claude', name: 'Claude Certified Architect — Foundations', track: 'Claude', level: 'foundations', order: 3 },
+  { id: 'CCAP', provider: 'Claude', vendor: 'Anthropic · Claude', name: 'Claude Certified Architect — Pro', track: 'Claude', level: 'pro', order: 4 },
+];
+const certById = (id) => CERTIFICATIONS.find(c => c.id === id) || CERTIFICATIONS[0];
+let catalogProvider = 'all';
+let catalogQuery = '';
 const MAX_SESSIONS = 8;      // số lượt làm dở giữ lại nhiều nhất
 const MAX_HISTORY = 60;      // số lượt đã hoàn thành lưu trong lịch sử
 const REPORT_TOP_Q = 12;     // số câu sai nhiều nhất hiện trong báo cáo
@@ -1161,6 +1271,7 @@ const NO_CAT = ' (chưa phân loại)';
 
 const S = {
   track: 'GHC',
+  certId: 'GH-300',
   claudeLevel: 'foundations', // 'foundations' | 'pro'
   mode: 'practice',      // 'practice' | 'exam'
   examId: null,          // id đề luyện tập, hoặc pool MIX/SAVED/WEAK
@@ -1259,8 +1370,9 @@ applyTheme();
 
 /* --- Streak: số ngày học liên tiếp tính từ lịch sử --- */
 function computeStreak() {
-  if (!HISTORY.length) return 0;
-  const days = new Set(HISTORY.map(h => new Date(h.at).toDateString()));
+  const certHistory = historyForCert(S.certId);
+  if (!certHistory.length) return 0;
+  const days = new Set(certHistory.map(h => new Date(h.at).toDateString()));
   const oneDay = 86400000;
   let cur = new Date(); cur.setHours(0, 0, 0, 0);
   // Chưa học hôm nay thì không tính là gãy streak (ngày chưa kết thúc), bắt đầu đếm từ hôm qua
@@ -1285,12 +1397,12 @@ function setSaved(examId, qid, on, why) {
   const k = qkey(examId, qid);
   if (on) SAVED[k] = { exam: examId, qid, at: Date.now(), why: why || 'manual' };
   else delete SAVED[k];
-  lsSet(LS.saved, SAVED);
+  SAVED = persistCertMap(LS.saved, SAVED, S.certId, value => value.exam);
 }
 function savedCount(track) {
   return Object.values(SAVED).filter(s => {
     const e = DATA.exams.find(x => x.id === s.exam);
-    return e && (!track || e.track === track);
+    return e && matchesSelectedCert(e) && (!track || track === 'ALL' || e.track === track);
   }).length;
 }
 
@@ -1300,12 +1412,12 @@ function setConfusing(examId, qid, on) {
   const k = qkey(examId, qid);
   if (on) CONFUSE[k] = { exam: examId, qid, at: Date.now() };
   else delete CONFUSE[k];
-  lsSet(LS.confuse, CONFUSE);
+  CONFUSE = persistCertMap(LS.confuse, CONFUSE, S.certId, value => value.exam);
 }
 function confusingCount(track) {
   return Object.values(CONFUSE).filter(s => {
     const e = DATA.exams.find(x => x.id === s.exam);
-    return e && (!track || e.track === track);
+    return e && matchesSelectedCert(e) && (!track || track === 'ALL' || e.track === track);
   }).length;
 }
 
@@ -1318,18 +1430,20 @@ function bumpStat(examId, qid, isCorrect) {
   s.lastAt = Date.now();
   s.lastOk = !!isCorrect;
   STATS[k] = s;
-  lsSet(LS.stats, STATS);
+  STATS = persistCertMap(LS.stats, STATS, S.certId, (_value, key) => key.split('#')[0]);
 }
 // Câu "yếu": đã từng làm sai và lần làm gần nhất vẫn chưa sửa đúng.
 // Khi làm lại đúng, câu sẽ rời khỏi danh sách yếu để phản ánh đúng các câu
 // còn cần ôn lại ở thời điểm hiện tại.
 function weakList(track) {
   const out = [];
+  const selectedTrack = CERTIFICATIONS.some(c => c.id === track) ? certById(track).track : track;
   for (const [k, s] of Object.entries(STATS)) {
     if (!s.bad || s.lastOk) continue;
     const [exam, qid] = k.split('#');
     const e = DATA.exams.find(x => x.id === exam);
-    if (!e || (track && track !== 'ALL' && e.track !== track)) continue;
+    if (!e || (selectedTrack && selectedTrack !== 'ALL' && e.track !== selectedTrack) ||
+        !matchesSelectedCert(e)) continue;
     const q = e.questions.find(x => String(x.id) === String(qid));
     if (!q) continue;
     out.push({ exam: e, q, rate: s.bad / s.seen, bad: s.bad, seen: s.seen, lastAt: s.lastAt || 0 });
@@ -1341,10 +1455,12 @@ function weakList(track) {
 /* --- Tổng hợp thống kê theo chủ đề, cho báo cáo điểm yếu --- */
 function statsByCategory(track) {
   const agg = {};
+  const selectedTrack = CERTIFICATIONS.some(c => c.id === track) ? certById(track).track : track;
   for (const [k, s] of Object.entries(STATS)) {
     const [exam, qid] = k.split('#');
     const e = DATA.exams.find(x => x.id === exam);
-    if (!e || (track && track !== 'ALL' && e.track !== track)) continue;
+    if (!e || (selectedTrack && selectedTrack !== 'ALL' && e.track !== selectedTrack) ||
+        !matchesSelectedCert(e)) continue;
     const q = e.questions.find(x => String(x.id) === String(qid));
     if (!q) continue;
     const c = catOf(q);
@@ -1359,36 +1475,86 @@ function statsByCategory(track) {
 /* --- Lịch sử --- */
 function pushHistory(rec) {
   HISTORY.unshift(rec);
-  if (HISTORY.length > MAX_HISTORY) HISTORY = HISTORY.slice(0, MAX_HISTORY);
-  lsSet(LS.history, HISTORY);
+  const certId = historyCertId(rec);
+  if (certId) {
+    let retained = 0;
+    HISTORY = HISTORY.filter(item => {
+      if (historyCertId(item) !== certId) return true;
+      retained++;
+      return retained <= MAX_HISTORY;
+    });
+  }
+  HISTORY = persistCertHistory(certId || S.certId, HISTORY);
 }
 
 /* --- Tuỳ chọn --- */
-const PREF_KEYS = ['track', 'claudeLevel', 'mode', 'examId', 'examSetId', 'categories', 'count', 'mixExamIds',
+const CERT_PREF_KEYS = ['claudeLevel', 'mode', 'examId', 'examSetId', 'categories', 'count', 'mixExamIds',
   'shuffleQ', 'shuffleO', 'instant', 'autoNext', 'resume', 'requireAnswerNext',
-  'navOpen', 'histOpen', 'reportOpen', 'helpOpen', 'theme'];
-function savePrefs() {
-  const p = {};
-  PREF_KEYS.forEach(k => { p[k] = S[k]; });
-  lsSet(LS.prefs, p);
+  'navOpen', 'histOpen', 'reportOpen', 'helpOpen'];
+function resetCertPrefs(cert) {
+  S.claudeLevel = cert.level || 'foundations';
+  S.mode = 'practice';
+  S.examId = null; S.examSetId = null; S.categories = []; S.mixExamIds = [];
+  S.count = 20; S.shuffleQ = true; S.shuffleO = true; S.instant = true;
+  S.autoNext = false; S.resume = true; S.requireAnswerNext = true;
+  S.navOpen = false; S.histOpen = false; S.reportOpen = false; S.helpOpen = false;
 }
-function loadPrefs() {
-  const p = lsGet(LS.prefs, null);
-  if (!p) return;
-  PREF_KEYS.forEach(k => { if (p[k] !== undefined) S[k] = p[k]; });
-  if (!['foundations', 'pro'].includes(S.claudeLevel)) S.claudeLevel = 'foundations';
-  // Prefs bản cũ lưu `category` là 1 chuỗi — chuyển sang mảng `categories`
-  if (typeof p.category === 'string' && !Array.isArray(p.categories)) {
-    S.categories = p.category ? [p.category] : [];
+function applyCertPrefs(certId, source) {
+  const cert = certById(certId);
+  resetCertPrefs(cert);
+  if (source && typeof source === 'object') {
+    CERT_PREF_KEYS.forEach(k => { if (source[k] !== undefined) S[k] = source[k]; });
+    if (typeof source.category === 'string' && !Array.isArray(source.categories)) {
+      S.categories = source.category ? [source.category] : [];
+    }
   }
+  S.certId = cert.id;
+  S.track = cert.track;
+  if (cert.level) S.claudeLevel = cert.level;
+  if (S.examId === 'SAVED:ALL' || S.examId === 'SAVED:' + cert.track) S.examId = 'SAVED:' + cert.id;
+  if (S.examId === 'WEAK:' + cert.track) S.examId = 'WEAK:' + cert.id;
+  if (S.examId === 'CONFUSE:' + cert.track) S.examId = 'CONFUSE:' + cert.id;
+  if (!['foundations', 'pro'].includes(S.claudeLevel)) S.claudeLevel = cert.level || 'foundations';
   if (!Array.isArray(S.categories)) S.categories = [];
   if (!Array.isArray(S.mixExamIds)) S.mixExamIds = [];
+  S.mixExamIds = S.mixExamIds.filter(id => DATA.exams.some(e => e.id === id && certIdOfExam(e) === cert.id));
+  if (S.examSetId && !DATA.exams.some(e => e.id === S.examSetId && certIdOfExam(e) === cert.id)) S.examSetId = null;
+  if (S.examId && DATA.exams.some(e => e.id === S.examId) &&
+      !DATA.exams.some(e => e.id === S.examId && certIdOfExam(e) === cert.id)) S.examId = null;
   $('opt-shuffle-q').checked = S.shuffleQ;
   $('opt-shuffle-o').checked = S.shuffleO;
   $('opt-instant').checked = S.instant;
   $('opt-auto-next').checked = S.autoNext;
   $('opt-resume').checked = S.resume;
   $('opt-require-next').checked = S.requireAnswerNext;
+}
+function savePrefs() {
+  const p = lsGet(LS.prefs, {}) || {};
+  const certPrefs = p.certPrefs && typeof p.certPrefs === 'object' ? p.certPrefs : {};
+  const current = {};
+  CERT_PREF_KEYS.forEach(k => { current[k] = S[k]; });
+  certPrefs[S.certId] = current;
+  p.certPrefs = certPrefs;
+  p.certId = S.certId;
+  p.track = S.track;
+  p.theme = S.theme;
+  lsSet(LS.prefs, p);
+}
+function loadPrefs() {
+  const p = lsGet(LS.prefs, null);
+  if (!p) return;
+  S.theme = p.theme === 'light' ? 'light' : 'dark';
+  // Nâng cấp tùy chọn cũ vào cert cuối cùng đã dùng; các cert khác bắt đầu độc lập.
+  let certId = CERTIFICATIONS.some(c => c.id === p.certId) ? p.certId : '';
+  if (!certId) {
+    certId = p.track === 'Claude'
+      ? (p.claudeLevel === 'pro' ? 'CCAP' : 'CCAR-F')
+      : 'GH-300';
+  }
+  const scoped = p.certPrefs && typeof p.certPrefs === 'object' ? p.certPrefs[certId] : null;
+  applyCertPrefs(certId, scoped || (!p.certPrefs && p.certId === certId ? p : null));
+  applyTheme();
+  savePrefs();
 }
 
 /* =========================================================
@@ -1410,9 +1576,101 @@ function dedupe(list) {
 
 function examsOf(track) { return DATA.exams.filter(e => e.track === track); }
 function claudeLevelOf(exam) { return exam.certLevel === 'pro' ? 'pro' : 'foundations'; }
+function certIdOfExam(exam) {
+  const raw = exam.certificationId || exam.certId || exam.certification || '';
+  const aliases = { 'CCA-F': 'CCAR-F', 'CCA-F Foundations': 'CCAR-F', 'GH600': 'GH-600' };
+  if (raw) return aliases[raw] || raw;
+  if (exam.track === 'Claude') return claudeLevelOf(exam) === 'pro' ? 'CCAP' : 'CCAR-F';
+  if (exam.track === 'GHC') return 'GH-300';
+  return '';
+}
+function examsForCert(certId) {
+  return DATA.exams.filter(e => certIdOfExam(e) === certId);
+}
+function historyCertId(record) {
+  if (!record) return '';
+  if (CERTIFICATIONS.some(c => c.id === record.certId)) return record.certId;
+  for (const source of [record.examSetId, record.examId]) {
+    if (!source) continue;
+    const direct = DATA.exams.find(e => e.id === source);
+    if (direct) return certIdOfExam(direct);
+  }
+  const title = String(record.title || '').toLowerCase();
+  const examSource = String(record.examId || '').replace(/^EXAM:/, '');
+  if (examSource === 'GH-600' || title.includes('gh-600')) return 'GH-600';
+  if (examSource === 'GH-300' || title.includes('gh-300')) return 'GH-300';
+  if (examSource === 'GHC' && record.track === 'GHC') return 'GH-300';
+  if (examSource === 'Claude' || record.track === 'Claude') {
+    if (/\bccap\b|\bpro\b/.test(title)) return 'CCAP';
+    if (/\bccar-f\b|\bcca-f\b|foundation/.test(title)) return 'CCAR-F';
+    return '';
+  }
+  if (record.track === 'GHC' && title.includes('github copilot')) return 'GH-300';
+  return '';
+}
+function historyForCert(certId) {
+  return HISTORY.filter(item => historyCertId(item) === certId);
+}
+function removeCertEntries(map, certId, getExamId) {
+  Object.keys(map).forEach(key => {
+    const examId = getExamId(map[key], key);
+    const exam = DATA.exams.find(e => e.id === examId);
+    if (exam && certIdOfExam(exam) === certId) delete map[key];
+  });
+}
+function entriesForCert(map, certId, getExamId) {
+  return Object.fromEntries(Object.entries(map || {}).filter(([key, value]) => {
+    const examId = getExamId(value, key);
+    const exam = DATA.exams.find(e => e.id === examId);
+    return exam && certIdOfExam(exam) === certId;
+  }));
+}
+function replaceCertEntries(target, incoming, certId, getExamId) {
+  removeCertEntries(target, certId, getExamId);
+  Object.entries(incoming || {}).forEach(([key, value]) => {
+    const examId = getExamId(value, key);
+    const exam = DATA.exams.find(e => e.id === examId);
+    if (exam && certIdOfExam(exam) === certId) target[key] = value;
+  });
+}
+function persistCertMap(storageKey, localMap, certId, getExamId) {
+  const latest = { ...(lsGet(storageKey, {}) || {}) };
+  removeCertEntries(latest, certId, getExamId);
+  Object.entries(localMap || {}).forEach(([key, value]) => {
+    const examId = getExamId(value, key);
+    const exam = DATA.exams.find(e => e.id === examId);
+    if (exam && certIdOfExam(exam) === certId) latest[key] = value;
+  });
+  lsSet(storageKey, latest);
+  return latest;
+}
+function persistCertHistory(certId, localHistory) {
+  const latest = lsGet(LS.history, []);
+  const history = [
+    ...(localHistory || []).filter(item => historyCertId(item) === certId),
+    ...latest.filter(item => historyCertId(item) !== certId),
+  ];
+  lsSet(LS.history, history);
+  return history;
+}
+function persistCertSessions(certId, localSessions) {
+  const latest = { ...(lsGet(LS.sessions, {}) || {}) };
+  Object.keys(latest).forEach(key => {
+    if (sessionCertId(latest[key]) === certId) delete latest[key];
+  });
+  Object.entries(localSessions || {}).forEach(([key, session]) => {
+    if (sessionCertId(session) === certId) latest[key] = session;
+  });
+  lsSet(LS.sessions, latest);
+  return latest;
+}
+function displayExamText(exam, text) {
+  const value = String(text || '');
+  return certIdOfExam(exam) === 'CCAR-F' ? value.replace(/\bCCA-F\b/g, 'CCAR-F') : value;
+}
+function matchesSelectedCert(exam) { return certIdOfExam(exam) === S.certId; }
 function visibleTrackExams() {
-  const exams = examsOf(S.track);
-  return S.track === 'Claude' ? exams.filter(e => claudeLevelOf(e) === S.claudeLevel) : exams;
+  return examsForCert(S.certId);
 }
 
 // Chủ đề của một câu, câu chưa gán thì vào nhóm NO_CAT
@@ -1421,40 +1679,44 @@ const catOf = (q) => q.category || NO_CAT;
 // Toàn bộ câu của một pool, ĐÃ loại trùng và ĐÃ lọc chủ đề.
 // `cats` là mảng; rỗng/không truyền = lấy tất cả chủ đề.
 function poolQuestions(poolId, cats) {
+  if (!poolId) return [];
   let src = [];
   if (poolId === 'MIX:CUSTOM') {
     const want = new Set(S.mixExamIds);
-    DATA.exams.filter(e => want.has(e.id)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
+    visibleTrackExams().filter(e => want.has(e.id))
+      .forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('SAVED:')) {
     const tr = poolId.slice(6);
     Object.values(SAVED).forEach(s => {
       const e = DATA.exams.find(x => x.id === s.exam);
-      if (!e || (tr !== 'ALL' && e.track !== tr) ||
-          (tr === 'Claude' && claudeLevelOf(e) !== S.claudeLevel)) return;
+      if (!e || !matchesSelectedCert(e) ||
+          (tr !== 'ALL' && tr !== S.certId && e.track !== tr)) return;
       const q = e.questions.find(x => String(x.id) === String(s.qid));
       if (q) src.push({ q, exam: e });
     });
   } else if (poolId.startsWith('WEAK:')) {
     const tr = poolId.slice(5);
-    weakList(tr).filter(w => tr !== 'Claude' || claudeLevelOf(w.exam) === S.claudeLevel)
+    weakList(tr).filter(w => matchesSelectedCert(w.exam))
       .forEach(w => src.push({ q: w.q, exam: w.exam }));
   } else if (poolId.startsWith('CONFUSE:')) {
     const tr = poolId.slice(8);
     Object.values(CONFUSE).forEach(s => {
       const e = DATA.exams.find(x => x.id === s.exam);
-      if (!e || (tr !== 'ALL' && e.track !== tr) ||
-          (tr === 'Claude' && claudeLevelOf(e) !== S.claudeLevel)) return;
+      if (!e || !matchesSelectedCert(e) ||
+          (tr !== 'ALL' && tr !== S.certId && e.track !== tr)) return;
       const q = e.questions.find(x => String(x.id) === String(s.qid));
       if (q) src.push({ q, exam: e });
     });
   } else if (poolId.startsWith('MIX:CLAUDE_LEVEL:')) {
     const level = poolId.slice('MIX:CLAUDE_LEVEL:'.length);
-    examsOf('Claude').filter(e => claudeLevelOf(e) === level)
+    examsOf('Claude').filter(e => claudeLevelOf(e) === level && matchesSelectedCert(e))
       .forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('MIX:')) {
-    examsOf(poolId.slice(4)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
+    examsOf(poolId.slice(4)).filter(matchesSelectedCert)
+      .forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else if (poolId.startsWith('EXAM:')) {
-    examsOf(poolId.slice(5)).forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
+    examsOf(poolId.slice(5)).filter(matchesSelectedCert)
+      .forEach(e => e.questions.forEach(q => src.push({ q, exam: e })));
   } else {
     const e = DATA.exams.find(x => x.id === poolId);
     if (e) e.questions.forEach(q => src.push({ q, exam: e }));
@@ -1470,14 +1732,15 @@ function poolQuestions(poolId, cats) {
 function pools() {
   const list = [];
   const inTrack = visibleTrackExams();
+  if (!inTrack.length) return list;
   inTrack.forEach(e => list.push({
-    id: e.id, title: e.title, sub: e.subtitle,
+    id: e.id, title: displayExamText(e, e.title), sub: displayExamText(e, e.subtitle),
     count: poolQuestions(e.id, S.categories).length, explain: e.hasExplanation,
   }));
   if (inTrack.length > 1) {
     list.push({
       id: S.track === 'Claude' ? 'MIX:CLAUDE_LEVEL:' + S.claudeLevel : 'MIX:' + S.track,
-      title: 'Trộn tất cả đề ' + (S.track === 'Claude' ? (S.claudeLevel === 'pro' ? 'Claude Pro' : 'Claude Foundations') : S.track),
+      title: 'Trộn tất cả đề ' + certById(S.certId).id,
       sub: 'Rút ngẫu nhiên từ ' + inTrack.length + ' đề, đã loại câu trùng',
       count: poolQuestions(S.track === 'Claude' ? 'MIX:CLAUDE_LEVEL:' + S.claudeLevel : 'MIX:' + S.track, S.categories).length,
       explain: true, mix: true,
@@ -1493,33 +1756,26 @@ function pools() {
     explain: true, mix: true, custom: true,
   });
 
-  const nSaved = poolQuestions('SAVED:' + S.track, S.categories).length;
+  const nSaved = poolQuestions('SAVED:' + S.certId, S.categories).length;
   if (nSaved) list.push({
-    id: 'SAVED:' + S.track,
-    title: '★ Câu đã lưu — ' + S.track,
-    sub: 'Câu bạn đánh dấu hoặc làm sai trong nhánh này',
+    id: 'SAVED:' + S.certId,
+    title: '★ Câu đã lưu — ' + S.certId,
+    sub: 'Câu bạn đánh dấu hoặc làm sai trong chứng chỉ này',
     count: nSaved, explain: true, saved: true,
   });
-  const nSavedAll = poolQuestions('SAVED:ALL', S.categories).length;
-  if (nSavedAll && nSavedAll !== nSaved) list.push({
-    id: 'SAVED:ALL',
-    title: '★ Câu đã lưu — tất cả',
-    sub: 'Toàn bộ câu đã lưu ở cả 2 nhánh',
-    count: nSavedAll, explain: true, saved: true,
-  });
 
-  const nWeak = poolQuestions('WEAK:' + S.track, S.categories).length;
+  const nWeak = poolQuestions('WEAK:' + S.certId, S.categories).length;
   if (nWeak) list.push({
-    id: 'WEAK:' + S.track,
-    title: '⚠ Câu yếu nhất — ' + S.track,
+    id: 'WEAK:' + S.certId,
+    title: '⚠ Câu yếu nhất — ' + S.certId,
     sub: 'Tự chọn theo thống kê: câu bạn từng làm sai, sai nhiều lên trước',
     count: nWeak, explain: true, weak: true,
   });
 
-  const nConfuse = poolQuestions('CONFUSE:' + S.track, S.categories).length;
+  const nConfuse = poolQuestions('CONFUSE:' + S.certId, S.categories).length;
   if (nConfuse) list.push({
-    id: 'CONFUSE:' + S.track,
-    title: '🔁 Câu hay nhầm — ' + S.track,
+    id: 'CONFUSE:' + S.certId,
+    title: '🔁 Câu hay nhầm — ' + S.certId,
     sub: 'Câu bạn tự đánh dấu là dễ nhầm lẫn, không phụ thuộc đúng/sai',
     count: nConfuse, explain: true, weak: true,
   });
@@ -1527,40 +1783,81 @@ function pools() {
   return list;
 }
 
-function renderTracks() {
-  $('track-tabs').innerHTML = DATA.tracks.map(t => {
-    const exs = examsOf(t.id);
-    const uniq = dedupe(exs.flatMap(e => e.questions.map(q => ({ q, exam: e })))).length;
-    return `<button class="track-tab ${t.id === S.track ? 'active' : ''}" data-track="${t.id}">
-      ${esc(t.label)}<span class="tt-sub">${exs.length} đề · ${uniq} câu</span></button>`;
-  }).join('');
-  $('track-tabs').querySelectorAll('.track-tab').forEach(b => {
-    b.onclick = () => {
-      S.track = b.dataset.track;
-      document.body.dataset.track = S.track;
-      S.examId = null; S.categories = [];
-      renderHome(); savePrefs();
-    };
-  });
+function selectCertification(certId) {
+  const cert = certById(certId);
+  if (S.certId === cert.id) return;
+  savePrefs();
+  const stored = lsGet(LS.prefs, {}) || {};
+  const scoped = stored.certPrefs && stored.certPrefs[cert.id];
+  applyCertPrefs(cert.id, scoped);
+  document.body.dataset.track = cert.track;
+  cleanOrphans();
+  catalogQuery = '';
+  $('catalog-search').value = '';
+  $('search-input').value = '';
+  $('search-results').classList.remove('show');
+  $('search-results').innerHTML = '';
+  renderHome(); savePrefs();
 }
 
-function renderClaudeLevelTabs() {
-  const wrap = $('claude-level-tabs');
-  wrap.style.display = S.track === 'Claude' ? 'flex' : 'none';
-  if (S.track !== 'Claude') return;
-  wrap.innerHTML = [
-    ['foundations', 'Foundations (CCA-F)'],
-    ['pro', 'Pro (CCAP)'],
-  ].map(([level, label]) => `<button type="button" class="claude-level-tab ${S.claudeLevel === level ? 'active' : ''}"
-    data-level="${level}" aria-pressed="${S.claudeLevel === level}">${label}</button>`).join('');
-  wrap.querySelectorAll('.claude-level-tab').forEach(button => {
+function renderCertCatalog() {
+  const filters = [
+    ['all', 'Tất cả'],
+    ['GitHub', 'GitHub'],
+    ['Claude', 'Claude'],
+  ];
+  $('provider-filters').innerHTML = filters.map(([id, label]) =>
+    `<button type="button" class="provider-filter ${catalogProvider === id ? 'active' : ''}" data-provider="${id}">${label}</button>`
+  ).join('');
+  $('provider-filters').querySelectorAll('.provider-filter').forEach(button => {
     button.onclick = () => {
-      if (S.claudeLevel === button.dataset.level) return;
-      S.claudeLevel = button.dataset.level;
-      S.examId = null; S.examSetId = null; S.categories = [];
+      catalogProvider = button.dataset.provider;
+      const available = CERTIFICATIONS.filter(c => catalogProvider === 'all' || c.provider === catalogProvider);
+      if (available.length && !available.some(c => c.id === S.certId)) {
+        const withQuestions = available.find(c => examsForCert(c.id).length);
+        const next = withQuestions || available[0];
+        savePrefs();
+        const stored = lsGet(LS.prefs, {}) || {};
+        applyCertPrefs(next.id, stored.certPrefs && stored.certPrefs[next.id]);
+        document.body.dataset.track = next.track;
+        cleanOrphans();
+        catalogQuery = '';
+        $('catalog-search').value = '';
+        $('search-input').value = '';
+        $('search-results').classList.remove('show');
+        $('search-results').innerHTML = '';
+      }
       renderHome(); savePrefs();
     };
   });
+
+  const query = catalogQuery.trim().toLowerCase();
+  const shown = CERTIFICATIONS.filter(cert => {
+    if (catalogProvider !== 'all' && cert.provider !== catalogProvider) return false;
+    if (!query) return true;
+    const exams = examsForCert(cert.id);
+    const hay = [cert.id, cert.provider, cert.vendor, cert.name, ...exams.flatMap(e => [e.title, e.subtitle || ''])].join(' ').toLowerCase();
+    return hay.includes(query);
+  });
+  $('cert-grid').innerHTML = shown.map(cert => {
+    const exams = examsForCert(cert.id);
+    const questions = dedupe(exams.flatMap(e => e.questions.map(q => ({ q, exam: e })))).length;
+    const ready = exams.length > 0;
+    return `<button type="button" class="cert-card ${S.certId === cert.id ? 'active' : ''}" data-cert="${esc(cert.id)}" data-provider="${esc(cert.provider)}" aria-pressed="${S.certId === cert.id}">
+      <div class="cert-vendor"><span class="cert-vendor-name">${esc(cert.vendor)}</span><span class="cert-status ${ready ? '' : 'empty'}">${ready ? 'CÓ BỘ ĐỀ' : 'SẮP CÓ'}</span></div>
+      <div class="cert-code">${esc(cert.id)}</div><div class="cert-name">${esc(cert.name)}</div>
+      <div class="cert-meta"><span><b>${exams.length}</b> ${exams.length === 1 ? 'bộ đề' : 'bộ đề'}</span><span><b>${questions || '—'}</b> ${questions ? 'câu' : 'câu'}</span></div>
+    </button>`;
+  }).join('');
+  $('cert-grid').querySelectorAll('.cert-card').forEach(button => {
+    button.onclick = () => selectCertification(button.dataset.cert);
+  });
+  const cert = certById(S.certId);
+  const certExams = examsForCert(cert.id);
+  const certQuestions = dedupe(certExams.flatMap(e => e.questions.map(q => ({ q, exam: e })))).length;
+  $('selected-cert-title').textContent = 'Bộ đề ' + cert.id;
+  $('selected-cert-provider').textContent = cert.provider;
+  $('selected-cert-count').textContent = certQuestions ? certQuestions + ' câu' : 'Chưa có dữ liệu';
 }
 
 function claudeExamSets() {
@@ -1579,59 +1876,35 @@ function selectedClaudeExamSet() {
 }
 
 function renderClaudeExamPicker() {
-  const picker = $('claude-exam-picker');
-  const active = S.mode === 'exam' && S.track === 'Claude';
-  picker.style.display = active ? 'block' : 'none';
-  if (!active) return null;
-  $('claude-exam-label').textContent = S.claudeLevel === 'pro'
-    ? 'Chọn bộ đề Claude Pro để thi thử'
-    : 'Chọn bộ đề Claude Foundations để thi thử';
-
-  const sets = claudeExamSets();
-  const selected = selectedClaudeExamSet();
-  $('claude-exam-grid').innerHTML = sets.map(({ exam, count }) => {
-    const eligible = count >= EXAM_SPEC.Claude.count;
-    const chosen = selected && selected.exam.id === exam.id;
-    return `<button class="exam-card ${chosen ? 'active' : ''}" data-id="${esc(exam.id)}" ${eligible ? '' : 'disabled'}>
-      <div class="ec-title">${esc(exam.title)}</div>
-      <div class="ec-sub">${esc(exam.subtitle || 'Bộ câu hỏi Claude')}</div>
-      <div class="ec-meta">
-        <span class="tag count">${count} câu khả dụng</span>
-        ${eligible ? '<span class="tag explain">thi thử 60 câu</span>' : '<span class="tag">cần tối thiểu 60 câu</span>'}
-      </div>
-    </button>`;
-  }).join('');
-  $('claude-exam-grid').querySelectorAll('.exam-card:not(:disabled)').forEach(b => {
-    b.onclick = () => { S.examSetId = b.dataset.id; renderHome(); savePrefs(); };
-  });
-  $('claude-exam-warn').textContent = selected
-    ? ''
-    : 'Chưa có bộ Claude nào đủ 60 câu để thi thử.';
-  $('claude-exam-warn').classList.toggle('show', !selected);
-  return selected;
+  return selectedClaudeExamSet();
 }
 
 function renderModeTabs() {
   ['practice', 'exam'].forEach(m => {
     $('mode-' + m).classList.toggle('active', S.mode === m);
   });
-  $('practice-panel').style.display = S.mode === 'practice' ? 'block' : 'none';
-  $('exam-panel').style.display = S.mode === 'exam' ? 'block' : 'none';
-  $('mode-exam').querySelector('.mt-sub').textContent = S.track === 'Claude' && S.claudeLevel === 'pro'
+  const hasBank = visibleTrackExams().length > 0;
+  $('mode-tabs').style.display = hasBank ? 'flex' : 'none';
+  $('quiz-config').style.display = hasBank ? 'block' : 'none';
+  $('mode-practice').disabled = !hasBank;
+  $('mode-exam').disabled = !hasBank;
+  $('practice-panel').style.display = hasBank && S.mode === 'practice' ? 'block' : 'none';
+  $('exam-panel').style.display = hasBank && S.mode === 'exam' ? 'block' : 'none';
+  $('mode-exam').querySelector('.mt-sub').textContent = S.certId === 'CCAP'
     ? 'Bấm giờ, chấm sau khi nộp; cấu hình luyện tập'
     : 'Bấm giờ, không chấm ngay, giống đề thật';
   $('start-btn').textContent = S.mode === 'exam' ? 'Vào phòng thi ⏱' : 'Bắt đầu làm bài';
-  $('start-btn').disabled = false;
+  $('start-btn').disabled = !hasBank;
 
   if (S.mode === 'exam') {
-    const spec = EXAM_SPEC[S.track];
+    const spec = currentExamSpec();
     const selectedSet = S.track === 'Claude' ? renderClaudeExamPicker() : null;
-    const pool = S.track === 'Claude'
+    if (selectedSet) S.examId = selectedSet.exam.id;
+    const pool = !hasBank ? [] : S.track === 'Claude'
       ? (selectedSet ? poolQuestions(selectedSet.exam.id, []) : [])
       : poolQuestions('EXAM:' + S.track, []);
-    $('start-btn').disabled = S.track === 'Claude' && !selectedSet;
-    $('exam-title').textContent = S.track === 'Claude' && S.claudeLevel === 'pro'
-      ? 'Claude Pro (CCAP) — thi thử' : spec.label;
+    $('start-btn').disabled = !hasBank || (S.track === 'Claude' && !selectedSet);
+    $('exam-title').textContent = certById(S.certId).id + ' — thi thử';
     $('es-count').textContent = spec.count;
     $('es-mins').textContent = spec.minutes;
     $('es-pass').textContent = spec.pass + '%';
@@ -1644,8 +1917,11 @@ function renderModeTabs() {
       'Không chấm ngay và không hiện giải thích cho tới khi nộp bài. Lưới câu chỉ hiện đã làm / chưa làm.',
       'Hết giờ tự động nộp. Đồng hồ vẫn đúng nếu bạn F5 giữa lúc thi.',
     ];
-    if (S.track === 'Claude' && S.claudeLevel === 'pro') {
+    if (S.certId === 'CCAP') {
       notes.unshift('60 câu, 120 phút và ngưỡng 70% là cấu hình luyện tập của trang, chưa xác nhận là quy định thi CCAP.');
+    }
+    if (S.certId === 'GH-600') {
+      notes.unshift('Mock 50 câu / 120 phút theo cấu hình của dự án cộng đồng; ngưỡng 70% là cấu hình luyện tập của trang.');
     }
     if (!multi && pool.length) notes.push('⚠ Kho câu đã chọn hiện không có câu multi-choice, nên đề thi thử sẽ toàn câu chọn 1 đáp án — có thể khác đề thật.');
     if (pool.length < spec.count && S.track !== 'Claude') notes.push('⚠ Kho câu (' + pool.length + ') ít hơn số câu đề thi (' + spec.count + '), sẽ thi với ' + pool.length + ' câu.');
@@ -1653,14 +1929,33 @@ function renderModeTabs() {
     if (pc) notes.unshift('📈 Ước tính khả năng đậu hiện tại: ~' + pc.chance + '% (dựa trên ' + pc.n + ' lượt gần đây, điểm TB ' + pc.avg + '%)');
     $('exam-note').innerHTML = notes.map(n => '• ' + esc(n)).join('<br>');
   } else {
-    $('claude-exam-picker').style.display = 'none';
+    // Bộ đề được chọn ở thư viện phía trên; không cần một picker lặp lại ở đây.
   }
 }
 
 function renderExams() {
   const list = pools();
+  const query = catalogQuery.trim().toLowerCase();
+  if (!list.length) {
+    S.examId = null;
+    S.examSetId = null;
+    $('exam-library-count').textContent = 'Chưa có bộ đề';
+    $('exam-grid').innerHTML = '';
+    $('exam-library-empty').innerHTML = `<b>${esc(certById(S.certId).id)} chưa có bộ đề trong kho hiện tại.</b><br>Có thể thêm ngân hàng câu hỏi sau; các chứng chỉ khác vẫn dùng bình thường.`;
+    $('exam-library-empty').classList.add('show');
+    return;
+  }
+  $('exam-library-empty').classList.remove('show');
   if (!S.examId || !list.some(p => p.id === S.examId)) S.examId = list[0].id;
-  $('exam-grid').innerHTML = list.map(p => `
+  if (S.track === 'Claude' && DATA.exams.some(e => e.id === S.examId)) S.examSetId = S.examId;
+  const shown = query ? list.filter(p => (p.title + ' ' + p.sub).toLowerCase().includes(query)) : list;
+  const sourceSetCount = visibleTrackExams().length;
+  const extraPoolCount = Math.max(0, list.length - sourceSetCount);
+  const countSummary = sourceSetCount + ' bộ đề' + (extraPoolCount ? ' · ' + extraPoolCount + ' lựa chọn ôn thêm' : '');
+  $('exam-library-count').textContent = query
+    ? shown.length + ' lựa chọn khớp · ' + countSummary
+    : countSummary;
+  $('exam-grid').innerHTML = shown.map(p => `
     <button class="exam-card ${p.id === S.examId ? 'active' : ''}" data-id="${esc(p.id)}">
       <div class="ec-title">${esc(p.title)}</div>
       <div class="ec-sub">${esc(p.sub)}</div>
@@ -1672,8 +1967,16 @@ function renderExams() {
         ${p.weak ? '<span class="tag mix">theo thống kê</span>' : ''}
       </div>
     </button>`).join('');
+  if (!shown.length) {
+    $('exam-library-empty').textContent = 'Không tìm thấy bộ đề khớp với từ khoá này.';
+    $('exam-library-empty').classList.add('show');
+  }
   $('exam-grid').querySelectorAll('.exam-card').forEach(b => {
-    b.onclick = () => { S.examId = b.dataset.id; renderHome(); savePrefs(); };
+    b.onclick = () => {
+      S.examId = b.dataset.id;
+      if (S.track === 'Claude') S.examSetId = DATA.exams.some(e => e.id === S.examId) ? S.examId : null;
+      renderHome(); savePrefs();
+    };
   });
 }
 
@@ -1684,18 +1987,17 @@ function renderMixPicker() {
   if (!isCustom) return;
 
   // Loại id đề không còn tồn tại (VD sau khi cập nhật kho câu)
-  const validIds = new Set(DATA.exams.map(e => e.id));
+  const validIds = new Set(visibleTrackExams().map(e => e.id));
   S.mixExamIds = S.mixExamIds.filter(id => validIds.has(id));
 
-  // Đề của nhánh đang xem lên trước cho dễ chọn, đề nhánh khác xuống sau
-  const sorted = DATA.exams.slice().sort((a, b) =>
-    (a.track === S.track ? 0 : 1) - (b.track === S.track ? 0 : 1));
+  // Chỉ liệt kê các bộ đề thuộc chứng chỉ hiện hành.
+  const sorted = visibleTrackExams();
 
   const sel = new Set(S.mixExamIds);
   $('mix-chips').innerHTML = sorted.map(e => {
     const n = e.questions.length;
     return `<button class="cat-chip ${sel.has(e.id) ? 'active' : ''}" data-id="${esc(e.id)}"
-      title="${n} câu — nhánh ${esc(e.track)}">${esc(e.title)} <span class="cc-n">${n}</span></button>`;
+      title="${n} câu — chứng chỉ ${esc(S.certId)}">${esc(displayExamText(e, e.title))} <span class="cc-n">${n}</span></button>`;
   }).join('');
 
   $('mix-chips').querySelectorAll('.cat-chip').forEach(b => {
@@ -1797,10 +2099,13 @@ function renderCounts() {
 }
 
 function renderSavedLine() {
-  const n = savedCount(null);
+  const n = savedCount(S.track);
   $('saved-line').classList.toggle('show', n > 0);
   if (n) {
-    const wrong = Object.values(SAVED).filter(s => s.why === 'wrong').length;
+    const wrong = Object.values(SAVED).filter(s => {
+      const exam = DATA.exams.find(e => e.id === s.exam);
+      return exam && matchesSelectedCert(exam) && s.why === 'wrong';
+    }).length;
     $('saved-info').textContent = '★ Đã lưu ' + n + ' câu' + (wrong ? ' (' + wrong + ' câu do làm sai)' : '');
   }
 }
@@ -1815,12 +2120,12 @@ function renderResumeList() {
   let dirty = false;
   keys.sort((a, b) => (SESSIONS[b].at || 0) - (SESSIONS[a].at || 0)).forEach(k => {
     const sess = SESSIONS[k];
+    if (sessionCertId(sess) !== S.certId) return;
     const q = rebuildSession(sess);
     if (!q) { delete SESSIONS[k]; dirty = true; return; }
-    if (sess.track !== S.track) return;   // chỉ hiện lượt dở của track đang chọn
     rows.push({ k, sess, q });
   });
-  if (dirty) lsSet(LS.sessions, SESSIONS);
+  if (dirty) SESSIONS = persistCertSessions(S.certId, SESSIONS);
 
   $('resume-list').innerHTML = rows.map(r => {
     const done = r.q.filter(x => x.result).length;
@@ -1850,7 +2155,7 @@ function renderResumeList() {
     card.querySelector('[data-act="drop"]').onclick = () => {
       if (!confirm('Bỏ lượt đang làm dở này?')) return;
       delete SESSIONS[k];
-      lsSet(LS.sessions, SESSIONS);
+      SESSIONS = persistCertSessions(S.certId, SESSIONS);
       renderResumeList();
       toast('Đã bỏ lượt đó');
     };
@@ -1859,18 +2164,19 @@ function renderResumeList() {
 
 /* --- Lịch sử + biểu đồ --- */
 function renderHistory() {
-  $('hist-block').style.display = HISTORY.length ? 'block' : 'none';
-  if (!HISTORY.length) return;
+  const certHistory = historyForCert(S.certId);
+  $('hist-block').style.display = certHistory.length ? 'block' : 'none';
+  if (!certHistory.length) return;
 
-  const best = Math.max(...HISTORY.map(h => h.pct));
-  const avg = Math.round(HISTORY.reduce((s, h) => s + h.pct, 0) / HISTORY.length);
+  const best = Math.max(...certHistory.map(h => h.pct));
+  const avg = Math.round(certHistory.reduce((s, h) => s + h.pct, 0) / certHistory.length);
   $('hist-summary').innerHTML =
-    `<span>${HISTORY.length} lượt</span><span>TB <b>${avg}%</b></span><span>cao nhất <b style="color:var(--green)">${best}%</b></span>`;
+    `<span>${certHistory.length} lượt</span><span>TB <b>${avg}%</b></span><span>cao nhất <b style="color:var(--green)">${best}%</b></span>`;
   $('hist-head').classList.toggle('open', S.histOpen);
   $('hist-body').classList.toggle('open', S.histOpen);
 
   // Biểu đồ cột: cũ → mới
-  const series = HISTORY.slice(0, 30).reverse();
+  const series = certHistory.slice(0, 30).reverse();
   const W = 600, H = 130, pad = 18, n = series.length;
   const bw = n ? (W - pad * 2) / n : 0;
   const bars = series.map((h, i) => {
@@ -1904,8 +2210,8 @@ function renderHistory() {
 
 /* --- Ước tính % khả năng đậu, dựa trên điểm TB các lượt gần đây so với ngưỡng pass --- */
 function estimatePassChance() {
-  const pass = EXAM_SPEC[S.track] ? EXAM_SPEC[S.track].pass : 70;
-  const recent = HISTORY.filter(h => h.track === S.track).slice(0, 8);
+  const pass = currentExamSpec() ? currentExamSpec().pass : 70;
+  const recent = historyForCert(S.certId).slice(0, 8);
   if (recent.length < 3) return null; // chưa đủ dữ liệu để ước tính đáng tin
   const avg = recent.reduce((s, h) => s + h.pct, 0) / recent.length;
   // Hàm logistic đơn giản: điểm TB càng cao hơn ngưỡng pass thì % ước tính càng gần 100
@@ -1916,7 +2222,7 @@ function estimatePassChance() {
 
 /* --- Biểu đồ mini (sparkline) tiến bộ theo chủ đề, dựa trên lịch sử các lượt gần đây --- */
 function catTrendPoints(cat) {
-  return HISTORY
+  return historyForCert(S.certId)
     .filter(h => h.cats && h.cats[cat] && h.cats[cat].total)
     .slice(0, 20)
     .reverse()
@@ -1934,7 +2240,7 @@ function sparkline(points) {
 /* --- Báo cáo điểm yếu: theo chủ đề + câu sai nhiều nhất --- */
 function renderReport() {
   const cats = statsByCategory(S.track);
-  const weak = weakList(S.track);
+  const weak = weakList(S.track).filter(w => matchesSelectedCert(w.exam));
   const has = cats.length > 0;
   $('report-block').style.display = has ? 'block' : 'none';
   if (!has) return;
@@ -1964,7 +2270,7 @@ function renderReport() {
     b.onclick = () => {
       // Luyện đúng các câu yếu của chủ đề đó
       S.mode = 'practice';
-      S.examId = 'WEAK:' + S.track;
+      S.examId = 'WEAK:' + S.certId;
       S.categories = [b.dataset.c];
       S.count = 0;
       renderHome();
@@ -1983,9 +2289,7 @@ function renderReport() {
         ${isSaved(w.exam.id, w.q.id) ? '<span style="color:var(--amber)">★</span>' : ''}
       </div>
       <div class="rp-q-text">${esc(w.q.question.length > 190 ? w.q.question.slice(0, 190) + '…' : w.q.question)}</div>
-      <div class="rp-q-meta">Đáp án đúng: ${
-        w.q.options.filter(o => w.q.correct.includes(o.key)).map(o => o.key).join(', ')
-      }</div>
+      <div class="rp-q-meta">Đáp án đúng: ${esc(formatCorrectAnswer(w.q))}</div>
     </div>`).join('');
   if (weak.length > REPORT_TOP_Q) {
     $('rp-questions').innerHTML +=
@@ -2029,16 +2333,18 @@ function releaseValueMarkup(note, field, label) {
 }
 
 function renderQuestionReleaseNotes() {
-  const allNotes = Array.isArray(DATA.questionReleaseNotes) ? DATA.questionReleaseNotes : [];
-  const knownIds = new Set(DATA.exams.map(e => String(e.id)));
+  const certExamIds = new Set(visibleTrackExams().map(e => String(e.id)));
+  const allNotes = (Array.isArray(DATA.questionReleaseNotes) ? DATA.questionReleaseNotes : [])
+    .filter(note => note && note.examSetId && certExamIds.has(String(note.examSetId)));
+  const knownIds = certExamIds;
   const select = $('question-release-filter');
   const currentFilter = select.value || 'ALL';
   const noteSetIds = [...new Set(allNotes.map(n => n && n.examSetId).filter(Boolean).map(String))];
   const unknownSetNotes = allNotes.some(n => QuestionReleaseNotes.missingFields(n, knownIds)
     .some(field => field === 'record' || field === 'examSetId' || field === 'examSetId (unknown set)'));
   const options = [
-    '<option value="ALL">Tất cả bộ đề</option>',
-    ...DATA.exams.map(e => `<option value="${esc(e.id)}">${esc(e.title || e.id)}</option>`),
+    '<option value="ALL">Tất cả bộ đề ' + esc(S.certId) + '</option>',
+    ...visibleTrackExams().map(e => `<option value="${esc(e.id)}">${esc(e.title || e.id)}</option>`),
   ];
   if (unknownSetNotes) options.push('<option value="__UNVERIFIED__">Bộ đề chưa xác minh</option>');
   select.innerHTML = options.join('');
@@ -2103,8 +2409,7 @@ function renderQuestionReleaseNotes() {
 function renderHome() {
   $('kicker').textContent = 'Multi-Cert AI Preparation';
   $('top-title').textContent = 'AI Cert Hub - Multi-Cert Practice';
-  renderTracks();
-  renderClaudeLevelTabs();
+  renderCertCatalog();
   renderModeTabs();
   renderExams();
   renderMixPicker();
@@ -2121,7 +2426,7 @@ function renderHome() {
   updateDocumentTitle('home-screen');
 }
 
-/* --- Tìm kiếm câu hỏi toàn ngân hàng --- */
+/* --- Tìm kiếm câu hỏi trong chứng chỉ đang chọn --- */
 function doSearch(term) {
   term = term.trim().toLowerCase();
   const box = $('search-results');
@@ -2129,7 +2434,7 @@ function doSearch(term) {
   const words = term.split(/\s+/).filter(Boolean);
   const hits = [];
   outer:
-  for (const e of DATA.exams) {
+  for (const e of visibleTrackExams()) {
     for (const q of e.questions) {
       const hay = q.question.toLowerCase();
       if (words.every(w => hay.includes(w))) {
@@ -2143,7 +2448,7 @@ function doSearch(term) {
   box.innerHTML = hits.map((h, i) => `
     <button class="sr-item" data-i="${i}">
       <div class="sr-q">${esc(h.q.question.length > 150 ? h.q.question.slice(0, 150) + '…' : h.q.question)}</div>
-      <div class="sr-meta"><span class="tag">${esc(h.e.title)}</span>${h.q.category ? '<span class="tag mix">' + esc(h.q.category) + '</span>' : ''}</div>
+      <div class="sr-meta"><span class="tag">${esc(displayExamText(h.e, h.e.title))}</span>${h.q.category ? '<span class="tag mix">' + esc(h.q.category) + '</span>' : ''}</div>
     </button>`).join('') +
     (hits.length >= 30 ? '<div class="sr-empty">…còn nữa, gõ từ khoá cụ thể hơn để thu hẹp kết quả.</div>' : '');
   box.querySelectorAll('.sr-item').forEach((btn, i) => {
@@ -2168,7 +2473,7 @@ function startSingleQuestion(exam, q) {
    ========================================================= */
 function makeItem(q, exam, orderedOpts) {
   return {
-    origin: exam.title,
+    origin: displayExamText(exam, exam.title),
     originId: exam.id,
     originNo: q.id,
     category: q.category || '',
@@ -2179,6 +2484,11 @@ function makeItem(q, exam, orderedOpts) {
     type: q.type,
     options: orderedOpts,
     correct: (Array.isArray(q.correct) ? q.correct : [q.correct]).slice(),
+    correctOrder: Array.isArray(q.correctOrder) ? q.correctOrder.slice() : null,
+    acceptedAnswers: Array.isArray(q.acceptedAnswers) ? q.acceptedAnswers.slice() : null,
+    caseSensitive: q.caseSensitive !== false,
+    leftItems: Array.isArray(q.leftItems) ? q.leftItems.map(item => ({ ...item })) : null,
+    correctPairs: Array.isArray(q.correctPairs) ? q.correctPairs.map(pair => ({ ...pair })) : null,
     explanation: q.explanation || '',
     expSource: q.expSource || '',
     disputed: q.disputed || null,
@@ -2196,6 +2506,7 @@ function labelOptions(q, opts) {
 }
 
 function collectQuestions() {
+  if (!visibleTrackExams().length) return [];
   const isExam = S.mode === 'exam';
   const poolId = isExam
     ? (S.track === 'Claude' ? S.examSetId : 'EXAM:' + S.track)
@@ -2208,13 +2519,13 @@ function collectQuestions() {
   // nguyên thứ tự gốc (và với pool "câu yếu" là giữ thứ tự sai-nhiều-lên-trước).
   if (isExam || S.shuffleQ) src = shuffle(src);
 
-  const want = isExam ? EXAM_SPEC[S.track].count : (S.count === 0 ? src.length : S.count);
+  const want = isExam ? currentExamSpec().count : (S.count === 0 ? src.length : S.count);
   src = src.slice(0, Math.min(want, src.length));
 
   const shuffleOpts = isExam ? true : S.shuffleO;
   return src.map(item => makeItem(
     item.q, item.exam,
-    labelOptions(item.q, shuffleOpts ? shuffle(item.q.options) : item.q.options)
+    labelOptions(item.q, item.q.shuffleOptions === false || !shuffleOpts ? item.q.options : shuffle(item.q.options))
   ));
 }
 
@@ -2222,8 +2533,10 @@ function collectQuestions() {
    5b. Lưu / phục hồi nhiều lượt
    ========================================================= */
 function sessionKeyFor() {
-  const examSource = S.track === 'Claude' ? (S.examSetId || S.track) : S.track;
-  return (S.mode === 'exam' ? 'EXAM:' + examSource : 'P:' + S.examId) +
+  const examSource = S.track === 'Claude'
+    ? (S.examSetId || S.track)
+    : (S.certId === 'GH-300' ? S.track : S.track + ':' + S.certId);
+  return S.certId + '|' + (S.mode === 'exam' ? 'EXAM:' + examSource : 'P:' + S.examId) +
     (S.mode === 'practice' && S.categories.length ? '|' + S.categories.slice().sort().join(',') : '');
 }
 
@@ -2234,6 +2547,7 @@ function saveSession() {
     at: Date.now(),
     mode: S.mode,
     track: S.track,
+    certId: S.certId,
     examId: S.examId,
     examSetId: S.examSetId,
     categories: S.categories.slice(),
@@ -2249,10 +2563,15 @@ function saveSession() {
       r: q.result ? { p: q.result.picked, c: q.result.isCorrect } : null,
     })),
   };
-  // giữ tối đa MAX_SESSIONS lượt gần nhất
+  // Giới hạn lượt đang dở riêng từng cert để một cert không đẩy lượt của cert khác.
   const keys = Object.keys(SESSIONS).sort((a, b) => (SESSIONS[b].at || 0) - (SESSIONS[a].at || 0));
-  keys.slice(MAX_SESSIONS).forEach(k => delete SESSIONS[k]);
-  lsSet(LS.sessions, SESSIONS);
+  let retained = 0;
+  keys.forEach(k => {
+    if (sessionCertId(SESSIONS[k]) !== S.certId) return;
+    retained++;
+    if (retained > MAX_SESSIONS) delete SESSIONS[k];
+  });
+  SESSIONS = persistCertSessions(S.certId, SESSIONS);
 }
 
 function rebuildSession(sess) {
@@ -2273,15 +2592,49 @@ function rebuildSession(sess) {
   return out;
 }
 
+function sessionCertId(sess) {
+  if (sess && CERTIFICATIONS.some(c => c.id === sess.certId)) return sess.certId;
+  const itemCerts = new Set((sess && Array.isArray(sess.items) ? sess.items : [])
+    .map(it => DATA.exams.find(e => e.id === it.e))
+    .filter(Boolean).map(certIdOfExam));
+  if (itemCerts.size === 1) return [...itemCerts][0];
+  if (itemCerts.size > 1) return '';
+  const sourceId = sess && (sess.examSetId || sess.examId);
+  const source = sourceId && DATA.exams.find(e => e.id === sourceId);
+  if (source) return certIdOfExam(source);
+  if (sess && sess.track === 'Claude') {
+    const hint = [sess.title, sess.examId, sess.examSetId].join(' ').toLowerCase();
+    if (/\bccap\b|\bpro\b/.test(hint)) return 'CCAP';
+    if (/\bccar-f\b|\bcca-f\b|foundation/.test(hint)) return 'CCAR-F';
+    return '';
+  }
+  if (sess && sess.track === 'GHC') {
+    const hint = [sess.title, sess.examId, sess.examSetId].join(' ').toLowerCase();
+    if (hint.includes('gh-600')) return 'GH-600';
+    if (hint.includes('gh-300') || hint.includes('github copilot')) return 'GH-300';
+    return '';
+  }
+  return '';
+}
+
 function resumeSession(key) {
   const sess = SESSIONS[key];
   const q = rebuildSession(sess);
   if (!q) {
-    delete SESSIONS[key]; lsSet(LS.sessions, SESSIONS);
+    delete SESSIONS[key]; SESSIONS = persistCertSessions(S.certId, SESSIONS);
     toast('Không phục hồi được lượt đó'); renderHome(); return;
   }
+  const targetCertId = sessionCertId(sess);
+  if (targetCertId && targetCertId !== S.certId) {
+    savePrefs();
+    const stored = lsGet(LS.prefs, {}) || {};
+    applyCertPrefs(targetCertId, stored.certPrefs && stored.certPrefs[targetCertId]);
+  }
   S.mode = sess.mode || 'practice';
-  S.track = sess.track || S.track;
+  S.certId = targetCertId || S.certId;
+  S.track = certById(S.certId).track || sess.track || S.track;
+  const resumedCert = certById(S.certId);
+  if (resumedCert.level) S.claudeLevel = resumedCert.level;
   S.examId = sess.examId || S.examId;
   S.examSetId = sess.examSetId || S.examSetId;
   S.categories = Array.isArray(sess.categories) ? sess.categories.slice() : [];
@@ -2316,10 +2669,7 @@ function show(screen) {
 }
 
 function updateDocumentTitle(screen) {
-  const track = (DATA && Array.isArray(DATA.tracks))
-    ? DATA.tracks.find(t => t.id === S.track)
-    : null;
-  const trackLabel = track ? track.label : (S.track || '');
+  const trackLabel = certById(S.certId).id || S.track || '';
   if (screen === 'quiz-screen') {
     document.title = APP_BRAND + ' | ' + (S.mode === 'exam' ? 'Exam' : 'Practice') +
       (trackLabel ? ' - ' + trackLabel : '');
@@ -2344,10 +2694,10 @@ function tally() {
 
 function currentTitle() {
   if (S.mode === 'exam') {
-    const label = EXAM_SPEC[S.track].label;
+    const label = certById(S.certId).id + ' — thi thử';
     if (S.track !== 'Claude' || !S.examSetId) return label;
     const set = DATA.exams.find(e => e.id === S.examSetId);
-    return label + (set ? ' · ' + set.title : '');
+    return label + (set ? ' · ' + displayExamText(set, set.title) : '');
   }
   const p = pools().find(x => x.id === S.examId);
   return (p ? p.title : S.examId) + (S.categories.length ? ' · ' + S.categories.map(labelCat).join(' + ') : '');
@@ -2414,8 +2764,9 @@ function scrollToQuestionArea() {
 function startQuiz() {
   S.quiz = collectQuestions();
   if (!S.quiz.length) { toast('Bộ đề này chưa có câu nào'); return; }
+  const spec = currentExamSpec();
   if (S.mode === 'exam' && !confirm(
-    'Vào phòng thi: ' + S.quiz.length + ' câu / ' + EXAM_SPEC[S.track].minutes +
+    'Vào phòng thi: ' + S.quiz.length + ' câu / ' + spec.minutes +
     ' phút' + (S.track === 'Claude' && S.examSetId ? ' · bộ ' + (DATA.exams.find(e => e.id === S.examSetId)?.title || '') : '') +
     '.\nKhông chấm ngay, hết giờ tự nộp. Bắt đầu?')) return;
 
@@ -2423,7 +2774,7 @@ function startQuiz() {
   S.finished = false;
   S.answerKeyOpen = false;
   S.startedAt = Date.now();
-  S.deadline = S.mode === 'exam' ? Date.now() + EXAM_SPEC[S.track].minutes * 60000 : 0;
+  S.deadline = S.mode === 'exam' ? Date.now() + spec.minutes * 60000 : 0;
   S.sessionKey = sessionKeyFor();
   delete SESSIONS[S.sessionKey];      // lượt mới thay lượt cũ CỦA CHÍNH BỘ ĐỀ ĐÓ
   savePrefs();
@@ -2440,7 +2791,7 @@ function renderNav() {
       // Khi đang thi: không tiết lộ đúng/sai, chỉ cho biết đã làm
       if (isExam) cls.push('answered');
       else cls.push(q.result.isCorrect ? 'correct'
-        : (q.result.picked.some(k => q.correct.includes(k)) ? 'partial' : 'wrong'));
+        : (responsePartial(q, q.result.picked) ? 'partial' : 'wrong'));
     }
     if (i === S.idx) cls.push('current');
     if (isSaved(q.originId, q.originNo)) cls.push('saved');
@@ -2479,7 +2830,202 @@ function jumpTo(i, shouldScroll = true) {
   saveSession();
 }
 
+function isChoiceQuestion(q) { return q.type === 'single' || q.type === 'multiple'; }
+function pairToken(left, right) { return `${left}:${right}`; }
+function splitPairToken(token) {
+  const at = String(token).indexOf(':');
+  return at < 0 ? null : { left: token.slice(0, at), right: token.slice(at + 1) };
+}
+function normalizedBlank(value, caseSensitive = true) {
+  const text = String(value ?? '').normalize('NFC').trim().replace(/\s+/g, ' ');
+  return caseSensitive ? text : text.toLocaleLowerCase();
+}
+function responseReady(q, picked) {
+  if (!Array.isArray(picked)) return false;
+  if (q.type === 'single' || q.type === 'multiple') return picked.length > 0;
+  if (q.type === 'ordering') return picked.length === q.options.length && new Set(picked).size === q.options.length && picked.every(k => q.options.some(o => o.key === k));
+  if (q.type === 'fill_blank') return picked.length === 1 && String(picked[0]).trim().length > 0;
+  if (q.type === 'matching') {
+    const pairs = picked.map(splitPairToken).filter(Boolean);
+    return pairs.length === (q.leftItems || []).length &&
+      new Set(pairs.map(p => p.left)).size === pairs.length &&
+      new Set(pairs.map(p => p.right)).size === pairs.length;
+  }
+  return false;
+}
+function responseIsCorrect(q, picked) {
+  if (q.type === 'single' || q.type === 'multiple') return setEq(picked.slice().sort(), q.correct.slice().sort());
+  if (q.type === 'ordering') return Array.isArray(q.correctOrder) && picked.length === q.correctOrder.length && picked.every((key, i) => key === q.correctOrder[i]);
+  if (q.type === 'fill_blank') {
+    const answer = normalizedBlank(picked[0], q.caseSensitive);
+    return (q.acceptedAnswers || q.correct).some(value => normalizedBlank(value, q.caseSensitive) === answer);
+  }
+  if (q.type === 'matching') return setEq(picked.slice().sort(), q.correct.slice().sort());
+  return false;
+}
+function responsePartial(q, picked) {
+  if (!picked || !picked.length || responseIsCorrect(q, picked)) return false;
+  if (q.type === 'multiple') return picked.some(key => q.correct.includes(key));
+  if (q.type === 'ordering') return picked.some((key, i) => q.correctOrder[i] === key);
+  if (q.type === 'matching') return picked.some(pair => q.correct.includes(pair));
+  return false;
+}
+function formatAnswer(q, picked) {
+  if (!picked || !picked.length) return '—';
+  if (q.type === 'fill_blank') return String(picked[0]);
+  if (q.type === 'ordering') {
+    const byKey = new Map(q.options.map(o => [o.key, o.text]));
+    return picked.map(key => byKey.get(key) || key).join(' → ');
+  }
+  if (q.type === 'matching') {
+    const left = new Map((q.leftItems || []).map(item => [item.key, item.text]));
+    const right = new Map(q.options.map(item => [item.key, item.text]));
+    return picked.map(token => {
+      const pair = splitPairToken(token);
+      return pair ? `${left.get(pair.left) || pair.left} → ${right.get(pair.right) || pair.right}` : token;
+    }).join('; ');
+  }
+  return q.options.filter(o => picked.includes(o.key)).map(o => o.label).sort().join(', ') || '—';
+}
+function formatCorrectAnswer(q) {
+  if (q.type === 'fill_blank') return (q.acceptedAnswers || q.correct).join(' / ');
+  if (q.type === 'ordering') return formatAnswer(q, q.correctOrder || q.correct);
+  if (q.type === 'matching') return formatAnswer(q, q.correct);
+  return formatAnswer(q, q.correct);
+}
+function updateSpecialResponse(q) {
+  const ready = responseReady(q, S.picked);
+  $('submit-btn').disabled = !ready;
+  if (S.mode === 'exam' && !S.finished) {
+    if (ready) recordAnswer();
+    else if (q.result) {
+      q.result = null;
+      updateNextBtn(); renderNav();
+      const { done } = tally();
+      $('prog-text').textContent = 'Câu ' + (S.idx + 1) + ' / ' + S.quiz.length + ' · đã làm ' + done;
+      $('prog-pct').textContent = Math.round(done / S.quiz.length * 100) + '%';
+      $('prog-fill').style.width = Math.round(done / S.quiz.length * 100) + '%';
+      saveSession();
+    }
+  }
+}
+function moveOrdering(index, direction) {
+  const q = S.quiz[S.idx];
+  if (!q || q.type !== 'ordering' || (q.result && S.mode !== 'exam') || S.answerKeyOpen) return;
+  const order = S.picked.length ? S.picked.slice() : q.options.map(o => o.key);
+  const target = index + direction;
+  if (target < 0 || target >= order.length) return;
+  [order[index], order[target]] = [order[target], order[index]];
+  S.picked = order;
+  renderSpecialInteraction(q, S.picked, { locked: false });
+  updateSpecialResponse(q);
+}
+function setMatchingResponse(leftKey, rightKey) {
+  const q = S.quiz[S.idx];
+  if (!q || q.type !== 'matching' || (q.result && S.mode !== 'exam') || S.answerKeyOpen) return;
+  const map = new Map(S.picked.map(splitPairToken).filter(Boolean).map(pair => [pair.left, pair.right]));
+  if (rightKey) map.set(leftKey, rightKey); else map.delete(leftKey);
+  S.picked = (q.leftItems || []).filter(item => map.has(item.key)).map(item => pairToken(item.key, map.get(item.key)));
+  renderSpecialInteraction(q, S.picked, { locked: false });
+  const nextSelect = [...$('options').querySelectorAll('[data-left-key]')].find(select => !select.value);
+  if (nextSelect) nextSelect.focus();
+  else $('submit-btn').focus();
+  updateSpecialResponse(q);
+}
+function setBlankResponse(value) {
+  const q = S.quiz[S.idx];
+  if (!q || q.type !== 'fill_blank' || (q.result && S.mode !== 'exam') || S.answerKeyOpen) return;
+  S.picked = [value];
+  updateSpecialResponse(q);
+}
+function renderSpecialInteraction(q, picked, options = {}) {
+  const locked = !!options.locked;
+  const reveal = !!options.reveal;
+  const host = $('options');
+  host.className = 'options special-interaction';
+  if (q.type === 'ordering') {
+    const order = picked.length ? picked : q.options.map(o => o.key);
+    const byKey = new Map(q.options.map(o => [o.key, o]));
+    host.innerHTML = order.map((key, index) => {
+      const item = byKey.get(key);
+      const rightHere = reveal && q.correctOrder[index] === key;
+      const wrongHere = reveal && !rightHere;
+      return `<div class="order-row${rightHere ? ' is-correct' : wrongHere ? ' is-wrong' : ''}">
+        <span class="order-index">${index + 1}</span><span class="order-text">${esc(item ? item.text : key)}</span>
+        <span class="order-actions"><button class="order-move" type="button" aria-label="Di chuyển lên" data-order-index="${index}" data-order-dir="-1" ${locked || index === 0 ? 'disabled' : ''}>↑</button>
+        <button class="order-move" type="button" aria-label="Di chuyển xuống" data-order-index="${index}" data-order-dir="1" ${locked || index === order.length - 1 ? 'disabled' : ''}>↓</button></span>
+        ${reveal && !rightHere ? `<span class="special-answer-key">Vị trí đúng: ${(q.correctOrder || []).indexOf(key) + 1}</span>` : ''}
+      </div>`;
+    }).join('');
+    host.querySelectorAll('[data-order-index]').forEach(button => {
+      button.onclick = () => moveOrdering(Number(button.dataset.orderIndex), Number(button.dataset.orderDir));
+    });
+    return;
+  }
+  if (q.type === 'fill_blank') {
+    const value = picked.length ? picked[0] : '';
+    const isCorrect = reveal && responseIsCorrect(q, picked);
+    host.innerHTML = `<label class="special-instruction" for="blank-answer">Nhập đáp án chính xác (không phân biệt khoảng trắng thừa).</label>
+      <input id="blank-answer" class="blank-answer" type="text" autocomplete="off" spellcheck="false" placeholder="Nhập đáp án…" value="${esc(value)}" ${locked ? 'disabled' : ''}>
+      ${reveal ? `<div class="special-instruction" style="color:var(--${isCorrect ? 'green' : 'red'})">${isCorrect ? 'Đáp án của bạn khớp.' : 'Đáp án đúng: ' + esc(formatCorrectAnswer(q))}</div>` : ''}`;
+    const input = $('blank-answer');
+    input.oninput = () => setBlankResponse(input.value);
+    return;
+  }
+  if (q.type === 'matching') {
+    const selected = new Map(picked.map(splitPairToken).filter(Boolean).map(pair => [pair.left, pair.right]));
+    const correct = new Map((q.correctPairs || []).map(pair => [pair.left, pair.right]));
+    host.innerHTML = (q.leftItems || []).map(left => {
+      const rightKey = selected.get(left.key) || '';
+      const isCorrect = reveal && correct.get(left.key) === rightKey;
+      const isWrong = reveal && !isCorrect;
+      const rightCorrect = q.options.find(o => o.key === correct.get(left.key));
+      return `<div class="match-row${isCorrect ? ' is-correct' : isWrong ? ' is-wrong' : ''}">
+        <span class="match-left">${esc(left.text)}</span>
+        <select class="match-select" data-left-key="${esc(left.key)}" aria-label="Ghép với: ${esc(left.text)}" ${locked ? 'disabled' : ''}>
+          <option value="">Chọn mục phù hợp…</option>
+          ${q.options.map(right => {
+            const taken = [...selected.entries()].some(([otherLeft, otherRight]) => otherLeft !== left.key && otherRight === right.key);
+            return `<option value="${esc(right.key)}" ${rightKey === right.key ? 'selected' : ''} ${taken ? 'disabled' : ''}>${esc(right.text)}</option>`;
+          }).join('')}
+        </select>
+        ${reveal && rightCorrect ? `<span class="special-answer-key">Đáp án: ${esc(rightCorrect.text)}</span>` : ''}
+      </div>`;
+    }).join('');
+    host.querySelectorAll('[data-left-key]').forEach(select => {
+      select.onchange = () => setMatchingResponse(select.dataset.leftKey, select.value);
+    });
+    return;
+  }
+  host.className = 'options';
+  host.innerHTML = '';
+}
+
 function paintResult(q, picked, reveal) {
+  if (!isChoiceQuestion(q)) {
+    if (!reveal) {
+      const fb = $('feedback');
+      fb.className = 'feedback-banner show partial';
+      fb.textContent = '✓ Đã ghi nhận đáp án — kết quả hiện sau khi nộp bài';
+      return;
+    }
+    const isCorrect = responseIsCorrect(q, picked);
+    const partial = responsePartial(q, picked);
+    renderSpecialInteraction(q, picked, { locked: true, reveal: true });
+    const fb = $('feedback');
+    fb.className = 'feedback-banner show ' + (isCorrect ? 'correct' : partial ? 'partial' : 'wrong');
+    fb.textContent = isCorrect
+      ? '✓ Chính xác!'
+      : (partial ? '◐ Một phần đúng. ' : '✗ Chưa đúng. ') + 'Đáp án: ' + formatCorrectAnswer(q);
+    if (q.explanation) {
+      const h = $('hint');
+      h.className = 'hint-block show ' + (isCorrect ? 'correct-hint' : 'wrong-hint');
+      h.innerHTML = '<span class="hint-label">Giải thích</span>' + esc(q.explanation) + renderSources(q);
+    }
+    renderDataNote(q);
+    renderTranslateBox();
+    return;
+  }
   const isCorrect = setEq(picked.slice().sort(), q.correct.slice().sort());
   const partial = !isCorrect && picked.some(k => q.correct.includes(k));
 
@@ -2563,6 +3109,19 @@ function renderDataNote(q) {
 }
 
 function revealAnswer(q) {
+  if (!isChoiceQuestion(q)) {
+    const picked = q.result ? q.result.picked : S.picked;
+    renderSpecialInteraction(q, picked || [], { locked: true, reveal: true });
+    $('feedback').className = 'feedback-banner show correct';
+    $('feedback').textContent = 'Đáp án đúng: ' + formatCorrectAnswer(q);
+    if (q.explanation) {
+      $('hint').className = 'hint-block show correct-hint';
+      $('hint').innerHTML = '<span class="hint-label">Giải thích</span>' + esc(q.explanation) + renderSources(q);
+    }
+    $('submit-btn').disabled = true;
+    $('submit-btn').textContent = 'Đang xem đáp án';
+    return;
+  }
   const rightLabels = q.options.filter(o => q.correct.includes(o.key)).map(o => o.label).join(', ');
   $('options').querySelectorAll('.option').forEach(b => {
     const isRight = q.correct.includes(b.dataset.key);
@@ -2596,7 +3155,11 @@ function renderQuestion() {
 
   $('qnum-badge').textContent = 'Câu ' + (S.idx + 1);
   const multi = q.type === 'multiple';
-  $('type-badge').textContent = multi ? 'Chọn ' + q.correct.length + ' đáp án' : 'Một đáp án';
+  $('type-badge').textContent = q.type === 'multiple' ? 'Chọn ' + q.correct.length + ' đáp án'
+    : q.type === 'ordering' ? 'Sắp xếp thứ tự'
+      : q.type === 'fill_blank' ? 'Điền khuyết'
+        : q.type === 'matching' ? 'Ghép ' + q.leftItems.length + ' cặp'
+          : 'Một đáp án';
   $('type-badge').className = 'type-badge' + (multi ? ' multi' : '');
   $('origin-badge').textContent = q.origin + ' · #' + q.originNo;
   $('cat-badge').textContent = q.category;
@@ -2615,12 +3178,17 @@ function renderQuestion() {
   $('hint').innerHTML = '';
   $('data-note').className = 'data-note';
 
-  $('options').innerHTML = q.options.map(o => `
-    <button class="option ${multi ? 'multi' : ''}" data-key="${esc(o.key)}">
-      <span class="letter">${o.label}</span>
-      <span class="otext">${esc(o.text)}</span>
-    </button>`).join('');
-  $('options').querySelectorAll('.option').forEach(b => { b.onclick = () => pick(b.dataset.key); });
+  if (isChoiceQuestion(q)) {
+    $('options').className = 'options';
+    $('options').innerHTML = q.options.map(o => `
+      <button class="option ${multi ? 'multi' : ''}" data-key="${esc(o.key)}">
+        <span class="letter">${o.label}</span>
+        <span class="otext">${esc(o.text)}</span>
+      </button>`).join('');
+    $('options').querySelectorAll('.option').forEach(b => { b.onclick = () => pick(b.dataset.key); });
+  } else {
+    renderSpecialInteraction(q, S.picked, { locked: !!q.result && !isExam, reveal: !!q.result && !isExam });
+  }
 
   if (q.result) {
     if (isExam) {
@@ -2628,7 +3196,7 @@ function renderQuestion() {
       $('options').querySelectorAll('.option').forEach(b => {
         b.classList.toggle('selected', S.picked.includes(b.dataset.key));
       });
-      $('submit-btn').disabled = false;
+      $('submit-btn').disabled = !responseReady(q, S.picked);
       $('submit-btn').textContent = 'Check';
     } else {
       paintResult(q, q.result.picked, true);
@@ -2639,7 +3207,7 @@ function renderQuestion() {
     $('options').querySelectorAll('.option').forEach(b => {
       b.classList.toggle('selected', S.picked.includes(b.dataset.key));
     });
-    $('submit-btn').disabled = S.picked.length === 0;
+    $('submit-btn').disabled = !responseReady(q, S.picked);
     $('submit-btn').textContent = 'Check';
   }
 
@@ -2704,7 +3272,7 @@ function saveNote() {
     const k = qkey(q.originId, q.originNo);
     const v = $('note-text').value.trim();
     if (v) NOTES[k] = v; else delete NOTES[k];
-    lsSet(LS.notes, NOTES);
+    NOTES = persistCertMap(LS.notes, NOTES, S.certId, (_value, key) => key.split('#')[0]);
     $('note-btn').classList.toggle('on', !!v);
   }, 500);
 }
@@ -2765,15 +3333,18 @@ async function renderTranslateBox() {
   box.innerHTML = '<span class="tr-label">🌐 Bản dịch (tự động, có thể chưa chính xác 100%)</span><span class="tr-loading">Đang dịch…</span>';
 
   try {
-    const optTexts = q.options.map(o => o.text);
-    const [qTr, ...optTr] = await Promise.all([translateText(q.question), ...optTexts.map(translateText)]);
+    const translationItems = [
+      ...q.options.map(o => ({ label: o.label, text: o.text })),
+      ...(q.leftItems || []).map((item, index) => ({ label: 'Ghép ' + (index + 1), text: item.text })),
+    ];
+    const [qTr, ...itemTr] = await Promise.all([translateText(q.question), ...translationItems.map(item => translateText(item.text))]);
     // Chỉ dịch giải thích khi câu đã được chấm — tránh lộ đáp án sớm qua bản dịch
     const expTr = (q.explanation && q.result) ? await translateText(q.explanation) : '';
     if (token !== S.trToken) return; // đã chuyển câu khác trong lúc đang dịch
 
     let html = '<span class="tr-label">🌐 Bản dịch (tự động, có thể chưa chính xác 100%)</span>';
     html += '<div class="tr-q">' + esc(qTr) + '</div>';
-    html += q.options.map((o, i) => '<div class="tr-opt"><b>' + esc(o.label) + ':</b> ' + esc(optTr[i]) + '</div>').join('');
+    html += translationItems.map((item, i) => '<div class="tr-opt"><b>' + esc(item.label) + ':</b> ' + esc(itemTr[i]) + '</div>').join('');
     if (expTr) html += '<div class="tr-exp"><b>Giải thích:</b> ' + esc(expTr) + '</div>';
     box.innerHTML = html;
   } catch (e) {
@@ -2818,8 +3389,8 @@ function pick(key) {
 // Ghi đáp án khi đang thi (chưa tiết lộ kết quả)
 function recordAnswer() {
   const q = S.quiz[S.idx];
-  if (!S.picked.length) return;
-  const isCorrect = setEq(S.picked.slice().sort(), q.correct.slice().sort());
+  if (!responseReady(q, S.picked)) return;
+  const isCorrect = responseIsCorrect(q, S.picked);
   const first = !q.result;
   q.result = { picked: S.picked.slice(), isCorrect };
   paintResult(q, q.result.picked, false);
@@ -2830,7 +3401,7 @@ function recordAnswer() {
   const pct = Math.round(done / S.quiz.length * 100);
   $('prog-pct').textContent = pct + '%';
   $('prog-fill').style.width = pct + '%';
-  if (first) $('next-btn').focus();
+  if (first && isChoiceQuestion(q)) $('next-btn').focus();
   saveSession();
 }
 
@@ -2841,9 +3412,9 @@ function submit() {
   if (S.answerKeyOpen) return;
   const q = S.quiz[S.idx];
   if (S.mode === 'exam' && !S.finished) return recordAnswer();
-  if (q.result || !S.picked.length) return;
+  if (q.result || !responseReady(q, S.picked)) return;
 
-  const isCorrect = setEq(S.picked.slice().sort(), q.correct.slice().sort());
+  const isCorrect = responseIsCorrect(q, S.picked);
   q.result = { picked: S.picked.slice(), isCorrect };
   bumpStat(q.originId, q.originNo, isCorrect);
 
@@ -2917,7 +3488,7 @@ function finish(auto) {
   const total = S.quiz.length;
   const pct = total ? Math.round(correct / total * 100) : 0;
   const durationSec = Math.round((Date.now() - S.startedAt) / 1000);
-  const pass = EXAM_SPEC[S.track] ? EXAM_SPEC[S.track].pass : 70;
+  const pass = currentExamSpec() ? currentExamSpec().pass : 70;
 
   $('final-label').textContent = wasExam ? (auto ? 'Hết giờ — kết quả thi thử' : 'Kết quả thi thử') : 'Kết quả';
   $('final-score').textContent = correct + '/' + total;
@@ -2946,13 +3517,12 @@ function finish(auto) {
     return `<button class="ri-save${on ? ' on' : ''}" data-i="${i}">${on ? '★ Đã lưu' : '☆ Lưu'}</button>`;
   };
   $('review-list').innerHTML = S.quiz.map((q, i) => {
-    const lab = (keys) => q.options.filter(o => keys.includes(o.key)).map(o => o.label).sort().join(', ') || '—';
     if (!q.result) {
       return `<div class="review-item ri-copyable" data-i="${i}" title="Bấm để copy nội dung câu này">
         <div class="ri-icon" style="color:var(--muted)">—</div>
         <div class="ri-body">
           <div class="ri-q"><span>${i + 1}. ${esc(q.question)}</span>${saveBtn(q, i)}</div>
-          <div class="ri-ans">Chưa làm · Đáp án đúng: <b class="good">${lab(q.correct)}</b>
+          <div class="ri-ans">Chưa làm · Đáp án đúng: <b class="good">${esc(formatCorrectAnswer(q))}</b>
             <span style="opacity:.7"> · ${esc(q.origin)} #${q.originNo}</span></div>
           ${tagsOf(q)}
           ${q.explanation ? '<div class="ri-exp">' + esc(q.explanation) + '</div>' : ''}
@@ -2963,8 +3533,8 @@ function finish(auto) {
       <div class="ri-icon" style="color:var(--${ok ? 'green' : 'red'})">${ok ? '✓' : '✗'}</div>
       <div class="ri-body">
         <div class="ri-q"><span>${i + 1}. ${esc(q.question)}</span>${saveBtn(q, i)}</div>
-        <div class="ri-ans">Bạn chọn: <b class="${ok ? 'good' : 'bad'}">${lab(q.result.picked)}</b>
-          ${ok ? '' : ' · Đáp án đúng: <b class="good">' + lab(q.correct) + '</b>'}
+        <div class="ri-ans">Bạn chọn: <b class="${ok ? 'good' : 'bad'}">${esc(formatAnswer(q, q.result.picked))}</b>
+          ${ok ? '' : ' · Đáp án đúng: <b class="good">' + esc(formatCorrectAnswer(q)) + '</b>'}
           <span style="opacity:.7"> · ${esc(q.origin)} #${q.originNo}</span></div>
         ${tagsOf(q)}
         ${q.explanation ? '<div class="ri-exp">' + esc(q.explanation) + '</div>' : ''}
@@ -3005,13 +3575,13 @@ function finish(auto) {
 
   pushHistory({
     at: Date.now(), mode: wasExam ? 'exam' : 'practice',
-    track: S.track, examId: wasExam ? 'EXAM:' + S.track : S.examId,
+    track: S.track, certId: S.certId, examId: wasExam ? 'EXAM:' + S.track : S.examId,
     title: currentTitle(), correct, total, pct, durationSec, pass: wasExam ? pass : 70,
     cats: catBreak,
   });
 
   delete SESSIONS[S.sessionKey];
-  lsSet(LS.sessions, SESSIONS);
+  SESSIONS = persistCertSessions(S.certId, SESSIONS);
   show('results-screen');
 }
 
@@ -3021,12 +3591,17 @@ function finish(auto) {
 function reviewItemText(q, i, revealCorrect) {
   if (revealCorrect === undefined) revealCorrect = true;
   const lines = ['Câu ' + (i + 1) + ': ' + q.question];
-  q.options.forEach(o => {
-    const tags = [];
-    if (revealCorrect && q.correct.includes(o.key)) tags.push('đáp án đúng');
-    if (q.result && q.result.picked.includes(o.key)) tags.push('bạn chọn');
-    lines.push('  ' + o.label + '. ' + o.text + (tags.length ? '  [' + tags.join(', ') + ']' : ''));
-  });
+  if (isChoiceQuestion(q)) {
+    q.options.forEach(o => {
+      const tags = [];
+      if (revealCorrect && q.correct.includes(o.key)) tags.push('đáp án đúng');
+      if (q.result && q.result.picked.includes(o.key)) tags.push('bạn chọn');
+      lines.push('  ' + o.label + '. ' + o.text + (tags.length ? '  [' + tags.join(', ') + ']' : ''));
+    });
+  } else {
+    if (q.result) lines.push('Bạn trả lời: ' + formatAnswer(q, q.result.picked));
+    if (revealCorrect) lines.push('Đáp án đúng: ' + formatCorrectAnswer(q));
+  }
   if (revealCorrect && q.explanation) lines.push('Giải thích: ' + q.explanation);
   lines.push('Nguồn: ' + q.origin + ' #' + q.originNo);
   return lines.join('\n');
@@ -3079,7 +3654,7 @@ function buildResultCanvas() {
   grad.addColorStop(0, '#201f3d'); grad.addColorStop(1, '#0f1220');
   ctx.fillStyle = grad; ctx.fillRect(0, 0, 640, 360);
   ctx.fillStyle = '#7c6cff'; ctx.font = 'bold 15px sans-serif';
-  ctx.fillText('AI CERT HUB — ' + S.track, 32, 40);
+  ctx.fillText('AI CERT HUB — ' + S.certId, 32, 40);
   ctx.fillStyle = '#e8e9f3'; ctx.font = 'bold 26px sans-serif';
   ctx.fillText($('final-label').textContent, 32, 88);
   ctx.font = 'bold 68px sans-serif';
@@ -3112,22 +3687,32 @@ function shareResultImage() {
    7. Xuất / nạp tiến độ
    ========================================================= */
 function exportProgress() {
+  const certId = S.certId;
+  const certPrefs = {};
+  CERT_PREF_KEYS.forEach(k => { certPrefs[k] = S[k]; });
+  const examIdFromStat = (_value, key) => key.split('#')[0];
   const payload = {
-    app: 'ai-cert-hub', v: 1, exportedAt: new Date().toISOString(),
-    saved: SAVED, sessions: SESSIONS, stats: STATS, history: HISTORY, prefs: lsGet(LS.prefs, {}),
+    app: 'ai-cert-hub', v: 2, certId, exportedAt: new Date().toISOString(),
+    saved: entriesForCert(SAVED, certId, value => value.exam),
+    confuse: entriesForCert(CONFUSE, certId, value => value.exam),
+    notes: entriesForCert(NOTES, certId, (_value, key) => key.split('#')[0]),
+    sessions: Object.fromEntries(Object.entries(SESSIONS).filter(([, session]) => sessionCertId(session) === certId)),
+    stats: entriesForCert(STATS, certId, examIdFromStat),
+    history: historyForCert(certId),
+    prefs: { certId, certPrefs: { [certId]: certPrefs } },
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const d = new Date();
   a.href = url;
-  a.download = 'aicert-progress-' + d.getFullYear() +
+  a.download = 'aicert-progress-' + certId.toLowerCase() + '-' + d.getFullYear() +
     String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '.json';
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toast('Đã xuất tiến độ ra file .json');
+  toast('Đã xuất tiến độ ' + certId + ' ra file .json');
 }
 
 function importProgress(text) {
@@ -3136,43 +3721,94 @@ function importProgress(text) {
   catch (e) { toast('File không phải JSON hợp lệ'); return; }
   if (!p || p.app !== 'ai-cert-hub') { toast('File không phải tiến độ của trang này'); return; }
 
-  const nSaved = Object.keys(p.saved || {}).length;
-  const nHist = (p.history || []).length;
-  const nSess = Object.keys(p.sessions || {}).length;
-  if (!confirm('Nạp tiến độ từ file?\n' + nSaved + ' câu đã lưu · ' + nHist +
-    ' lượt trong lịch sử · ' + nSess + ' lượt đang dở.\nDữ liệu hiện tại sẽ bị thay thế.')) return;
+  const fileCertId = CERTIFICATIONS.some(c => c.id === p.certId)
+    ? p.certId
+    : (p.prefs && CERTIFICATIONS.some(c => c.id === p.prefs.certId) ? p.prefs.certId : '');
+  if (fileCertId && fileCertId !== S.certId) {
+    toast('File thuộc ' + fileCertId + '. Hãy chọn cert đó trước khi nạp.');
+    return;
+  }
 
-  if (p.saved)    { SAVED = p.saved;       lsSet(LS.saved, SAVED); }
-  if (p.sessions) { SESSIONS = p.sessions; lsSet(LS.sessions, SESSIONS); }
-  if (p.stats)    { STATS = p.stats;       lsSet(LS.stats, STATS); }
-  if (p.history)  { HISTORY = p.history;   lsSet(LS.history, HISTORY); }
-  if (p.prefs)    { lsSet(LS.prefs, p.prefs); loadPrefs(); }
+  const statExam = (_value, key) => key.split('#')[0];
+  const nSaved = Object.keys(entriesForCert(p.saved, S.certId, value => value.exam)).length;
+  const nHist = (p.history || []).filter(item => historyCertId(item) === S.certId).length;
+  const nSess = Object.values(p.sessions || {}).filter(session => sessionCertId(session) === S.certId).length;
+  if (!confirm('Nạp tiến độ ' + S.certId + ' từ file?\n' + nSaved +
+    ' câu đã lưu · ' + nHist + ' lượt trong lịch sử · ' + nSess +
+    ' lượt đang dở. Chỉ dữ liệu của cert này sẽ được thay thế.')) return;
+
+  if (p.saved) {
+    replaceCertEntries(SAVED, p.saved, S.certId, value => value.exam);
+    SAVED = persistCertMap(LS.saved, SAVED, S.certId, value => value.exam);
+  }
+  if (p.confuse) {
+    replaceCertEntries(CONFUSE, p.confuse, S.certId, value => value.exam);
+    CONFUSE = persistCertMap(LS.confuse, CONFUSE, S.certId, value => value.exam);
+  }
+  if (p.notes) {
+    replaceCertEntries(NOTES, p.notes, S.certId, (_value, key) => key.split('#')[0]);
+    NOTES = persistCertMap(LS.notes, NOTES, S.certId, (_value, key) => key.split('#')[0]);
+  }
+  if (p.sessions) {
+    Object.keys(SESSIONS).forEach(key => {
+      if (sessionCertId(SESSIONS[key]) === S.certId) delete SESSIONS[key];
+    });
+    Object.entries(p.sessions).forEach(([key, session]) => {
+      if (sessionCertId(session) === S.certId) SESSIONS[key] = session;
+    });
+    SESSIONS = persistCertSessions(S.certId, SESSIONS);
+  }
+  if (p.stats) {
+    replaceCertEntries(STATS, p.stats, S.certId, statExam);
+    STATS = persistCertMap(LS.stats, STATS, S.certId, statExam);
+  }
+  if (p.history) {
+    const currentHistory = p.history.filter(item => historyCertId(item) === S.certId);
+    HISTORY = [...currentHistory, ...HISTORY.filter(item => historyCertId(item) !== S.certId)];
+    HISTORY = persistCertHistory(S.certId, HISTORY);
+  }
+  const importedPrefs = p.prefs && p.prefs.certPrefs && p.prefs.certPrefs[S.certId]
+    ? p.prefs.certPrefs[S.certId]
+    : (p.prefs && p.prefs.certId === S.certId ? p.prefs : null);
+  if (importedPrefs) {
+    const stored = lsGet(LS.prefs, {}) || {};
+    stored.certPrefs = stored.certPrefs || {};
+    stored.certPrefs[S.certId] = importedPrefs;
+    stored.certId = S.certId;
+    stored.track = S.track;
+    lsSet(LS.prefs, stored);
+    applyCertPrefs(S.certId, importedPrefs);
+  }
 
   cleanOrphans();
   renderHome();
-  toast('Đã nạp tiến độ');
+  savePrefs();
+  toast('Đã nạp tiến độ ' + S.certId);
 }
 
 // Dọn dữ liệu trỏ tới câu/đề không còn tồn tại
 function cleanOrphans() {
   const exists = (exam, qid) => {
     const e = DATA.exams.find(x => x.id === exam);
-    return !!e && e.questions.some(q => String(q.id) === String(qid));
+    return e ? { certId: certIdOfExam(e), question: e.questions.some(q => String(q.id) === String(qid)) } : null;
   };
   let d1 = false, d2 = false, d3 = false;
   Object.keys(SAVED).forEach(k => {
-    if (!exists(SAVED[k].exam, SAVED[k].qid)) { delete SAVED[k]; d1 = true; }
+    const found = exists(SAVED[k].exam, SAVED[k].qid);
+    if (found && found.certId === S.certId && !found.question) { delete SAVED[k]; d1 = true; }
   });
   Object.keys(STATS).forEach(k => {
     const [exam, qid] = k.split('#');
-    if (!exists(exam, qid)) { delete STATS[k]; d2 = true; }
+    const found = exists(exam, qid);
+    if (found && found.certId === S.certId && !found.question) { delete STATS[k]; d2 = true; }
   });
   Object.keys(CONFUSE).forEach(k => {
-    if (!exists(CONFUSE[k].exam, CONFUSE[k].qid)) { delete CONFUSE[k]; d3 = true; }
+    const found = exists(CONFUSE[k].exam, CONFUSE[k].qid);
+    if (found && found.certId === S.certId && !found.question) { delete CONFUSE[k]; d3 = true; }
   });
-  if (d1) lsSet(LS.saved, SAVED);
-  if (d2) lsSet(LS.stats, STATS);
-  if (d3) lsSet(LS.confuse, CONFUSE);
+  if (d1) SAVED = persistCertMap(LS.saved, SAVED, S.certId, value => value.exam);
+  if (d2) STATS = persistCertMap(LS.stats, STATS, S.certId, (_value, key) => key.split('#')[0]);
+  if (d3) CONFUSE = persistCertMap(LS.confuse, CONFUSE, S.certId, value => value.exam);
 }
 
 /* =========================================================
@@ -3207,6 +3843,11 @@ $('search-input').oninput = (e) => {
   clearTimeout(searchTimer);
   const v = e.target.value;
   searchTimer = setTimeout(() => doSearch(v), 200);
+};
+$('catalog-search').oninput = (e) => {
+  catalogQuery = e.target.value;
+  renderCertCatalog();
+  renderExams();
 };
 $('theme-toggle').onclick = () => {
   S.theme = S.theme === 'light' ? 'dark' : 'light';
@@ -3302,24 +3943,25 @@ $('report-head').onclick = () => {
   savePrefs();
 };
 $('clear-stats').onclick = () => {
-  if (!confirm('Xoá toàn bộ thống kê đúng/sai? Bộ “Câu yếu nhất” và báo cáo sẽ trống.\n' +
+  if (!confirm('Xoá toàn bộ thống kê đúng/sai của ' + S.certId + '? Bộ “Câu yếu nhất” và báo cáo của cert này sẽ trống.\n' +
     '(Câu đã lưu ★ và lịch sử không bị ảnh hưởng)')) return;
-  STATS = {};
-  lsSet(LS.stats, STATS);
+  removeCertEntries(STATS, S.certId, (_value, key) => key.split('#')[0]);
+  STATS = persistCertMap(LS.stats, STATS, S.certId, (_value, key) => key.split('#')[0]);
   renderHome();
   toast('Đã xoá thống kê');
 };
 $('clear-saved').onclick = () => {
-  if (!confirm('Xoá toàn bộ ' + savedCount(null) + ' câu đã lưu?')) return;
-  SAVED = {};
-  lsSet(LS.saved, SAVED);
+  if (!confirm('Xoá toàn bộ ' + savedCount(S.track) + ' câu đã lưu của ' + S.certId + '?')) return;
+  removeCertEntries(SAVED, S.certId, value => value.exam);
+  SAVED = persistCertMap(LS.saved, SAVED, S.certId, value => value.exam);
   renderHome();
   toast('Đã xoá hết câu đã lưu');
 };
 $('clear-hist').onclick = () => {
-  if (!confirm('Xoá toàn bộ ' + HISTORY.length + ' lượt trong lịch sử?')) return;
-  HISTORY = [];
-  lsSet(LS.history, HISTORY);
+  const certHistory = historyForCert(S.certId);
+  if (!confirm('Xoá toàn bộ ' + certHistory.length + ' lượt trong lịch sử của ' + S.certId + '?')) return;
+  HISTORY = HISTORY.filter(item => historyCertId(item) !== S.certId);
+  HISTORY = persistCertHistory(S.certId, HISTORY);
   renderHome();
   toast('Đã xoá lịch sử');
 };
@@ -3342,7 +3984,12 @@ $('opt-instant').onchange = (e) => { S.instant = e.target.checked; savePrefs(); 
 $('opt-auto-next').onchange = (e) => { S.autoNext = e.target.checked; savePrefs(); };
 $('opt-resume').onchange = (e) => {
   S.resume = e.target.checked;
-  if (!S.resume) { SESSIONS = {}; lsSet(LS.sessions, SESSIONS); }
+  if (!S.resume) {
+    Object.keys(SESSIONS).forEach(k => {
+      if (sessionCertId(SESSIONS[k]) === S.certId) delete SESSIONS[k];
+    });
+    SESSIONS = persistCertSessions(S.certId, SESSIONS);
+  }
   savePrefs();
   renderResumeList();
 };
@@ -3381,9 +4028,10 @@ loadData().then(d => {
   DATA = d;
   $('loading').style.display = 'none';
   $('home-body').style.display = 'block';
-  $('top-sub').textContent = DATA.exams.length + ' đề · ' + DATA.tracks.length + ' track · ' +
+  $('top-sub').textContent = CERTIFICATIONS.length + ' chứng chỉ · ' + DATA.exams.length + ' bộ đề · ' +
     (DATA.uniqueQuestions || DATA.totalQuestions) + ' câu khác nhau · luyện tập hoặc thi thử có bấm giờ';
   $('foot-count').textContent = DATA.uniqueQuestions || DATA.totalQuestions;
+  $('foot-desc').textContent = CERTIFICATIONS.length + ' chứng chỉ · ' + DATA.exams.length + ' bộ đề';
   // Ngày build — để người nhận biết bản nào mới hơn mà không cần đổi tên file
   if (DATA.generatedAt) {
     const g = new Date(DATA.generatedAt);

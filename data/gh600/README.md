@@ -1,0 +1,9 @@
+# GH-600 question bank
+
+This folder contains a local snapshot and a normalized question bank from [`fastestShipper/gh600-study`](https://github.com/fastestShipper/gh600-study), cloned on branch `master` at commit `475a9a0a67a4fa197150a2014b4d5f96df2b2c45`. The upstream repository includes an MIT license; its text is retained in [UPSTREAM-LICENSE](UPSTREAM-LICENSE).
+
+The import contains **all 87 practice questions**: 42 single-choice, 19 multi-select, 5 ordering, 12 fill-in-the-blank, and 9 match-pairs. Interactive formats are normalized to explicit answer structures: `correctOrder` for ordering, `acceptedAnswers` for fill-in-the-blank, and `leftItems`/`correctPairs` for matching. The current fill-in-the-blank entries accept the source's canonical answer after trimming and Unicode normalization; answers remain case-sensitive unless a question explicitly says otherwise. Case-study context is included in each sub-question.
+
+`source.json` and `extra-questions.ts` preserve the upstream inputs; `extra-questions.json` is a JSON snapshot of the latter for a safe, repeatable import. Regenerate the normalized file with `node tools/import-gh600.js`, then merge it into the app with `node tools/merge-gh600.js`. The merged exam uses `certificationId: "GH-600"` while retaining the GitHub track for the existing UI and history behavior. Answer choices stay in source order because the explanations refer to their original A–D labels.
+
+The upstream README describes a consolidated project drawing on multiple sources, including jtur671 material and candidate reports. Its repository-level MIT license and README do not independently establish rights or item-level provenance for every derived question. The imported questions are attributed to the upstream repository, and the bank should be reviewed before public distribution. Content is community-authored study material, not official exam questions; verify technical accuracy against GitHub's current documentation.

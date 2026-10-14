@@ -93,14 +93,16 @@ data.exams.forEach((exam, ei) => {
     }
 
     // --- type ---
-    if (q.type !== 'single' && q.type !== 'multiple') {
-      err(`${qTag}: type "${q.type}" không hợp lệ (phải là "single" hoặc "multiple")`);
+    const supportedQuestionTypes = new Set(['single', 'multiple', 'ordering', 'fill_blank', 'matching']);
+    if (!supportedQuestionTypes.has(q.type)) {
+      err(`${qTag}: type "${q.type}" không hợp lệ`);
     }
 
     // --- options ---
     const optKeys = new Set();
-    if (!Array.isArray(q.options) || q.options.length < 2) {
-      err(`${qTag}: options phải là mảng có ít nhất 2 phần tử`);
+    const optionsRequired = ['single', 'multiple', 'ordering', 'matching'].includes(q.type);
+    if (!Array.isArray(q.options) || (optionsRequired && q.options.length < 2) || (!optionsRequired && q.options.length !== 0)) {
+      err(`${qTag}: options không phù hợp với type=${q.type}`);
     } else {
       q.options.forEach((o, oi) => {
         if (!o.key) err(`${qTag}: options[${oi}] thiếu key`);
@@ -126,7 +128,7 @@ data.exams.forEach((exam, ei) => {
         if (typeof k !== 'string') { err(`${qTag}: correct chứa giá trị không phải string (${JSON.stringify(k)})`); return; }
         if (dupCheck.has(k)) warn(`${qTag}: correct chứa key trùng lặp "${k}"`);
         dupCheck.add(k);
-        if (optKeys.size && !optKeys.has(k)) {
+        if (optKeys.size && q.type !== 'matching' && !optKeys.has(k)) {
           err(`${qTag}: correct chứa key "${k}" không tồn tại trong options`);
         }
       });
@@ -141,6 +143,37 @@ data.exams.forEach((exam, ei) => {
       }
       if (q.type === 'multiple' && correctArr.length < 2) {
         warn(`${qTag}: type=multiple nhưng correct chỉ có ${correctArr.length} đáp án`);
+      }
+      if (q.type === 'ordering') {
+        if (!Array.isArray(q.correctOrder) || q.correctOrder.length !== q.options.length ||
+            new Set(q.correctOrder).size !== q.options.length || q.correctOrder.some(k => !optKeys.has(k))) {
+          err(`${qTag}: correctOrder phải sắp xếp đủ mọi option key đúng một lần`);
+        }
+      }
+      if (q.type === 'fill_blank') {
+        if (!Array.isArray(q.acceptedAnswers) || !q.acceptedAnswers.length ||
+            q.acceptedAnswers.some(a => typeof a !== 'string' || !a.trim())) {
+          err(`${qTag}: acceptedAnswers phải là mảng chuỗi non-empty`);
+        }
+        if (typeof q.caseSensitive !== 'boolean') err(`${qTag}: fill_blank cần khai báo caseSensitive`);
+      }
+      if (q.type === 'matching') {
+        const leftKeys = new Set((q.leftItems || []).map(item => item.key));
+        const rightKeys = optKeys;
+        if (!Array.isArray(q.leftItems) || q.leftItems.length < 2 || leftKeys.size !== q.leftItems.length ||
+            q.leftItems.some(item => !item.key || !item.text || !String(item.text).trim())) {
+          err(`${qTag}: matching.leftItems phải có ít nhất 2 mục duy nhất, đủ key và text`);
+        }
+        if (!Array.isArray(q.correctPairs) || q.correctPairs.length !== (q.leftItems || []).length) {
+          err(`${qTag}: matching.correctPairs phải ánh xạ đủ mọi mục bên trái`);
+        } else {
+          const usedLeft = new Set(), usedRight = new Set();
+          q.correctPairs.forEach(pair => {
+            if (!leftKeys.has(pair.left) || !rightKeys.has(pair.right)) err(`${qTag}: correctPairs tham chiếu key không tồn tại`);
+            if (usedLeft.has(pair.left) || usedRight.has(pair.right)) err(`${qTag}: correctPairs phải là ánh xạ một-một`);
+            usedLeft.add(pair.left); usedRight.add(pair.right);
+          });
+        }
       }
     }
 
