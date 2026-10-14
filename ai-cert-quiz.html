@@ -374,6 +374,16 @@
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  .devtools-warning {
+    position: fixed; inset: 0; z-index: 10000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 24px; background: #fff; color: #262626; text-align: center;
+  }
+  .devtools-warning[hidden] { display: none; }
+  .devtools-warning .dtw-icon { color: #e11d48; font-size: 52px; line-height: 1; }
+  .devtools-warning h1 { margin: 0; font-size: 22px; font-weight: 750; }
+  .devtools-warning p { max-width: 410px; margin: 0; color: #737373; font-size: 14px; line-height: 1.65; }
+
   .scroll-top-btn {
     position: fixed;
     right: 14px;
@@ -886,6 +896,11 @@
 </head>
 <body data-track="GHC">
 <button class="theme-toggle" id="theme-toggle">☀️ Sáng</button>
+<div class="devtools-warning" id="devtools-warning" role="alertdialog" aria-modal="true" aria-labelledby="devtools-warning-title" aria-describedby="devtools-warning-message" hidden>
+  <div class="dtw-icon" aria-hidden="true">⚠</div>
+  <h1 id="devtools-warning-title">Vui lòng đóng DevTools</h1>
+  <p id="devtools-warning-message">Công cụ dành cho nhà phát triển (F12 / Inspect) đang mở. Hãy đóng nó lại để tiếp tục sử dụng AI Cert Hub — trang sẽ tự động hiện lại ngay khi bạn đóng.</p>
+</div>
 <div class="app">
 
   <header class="top">
@@ -1262,7 +1277,7 @@ const CERTIFICATIONS = [
   { id: 'CCAP', provider: 'Claude', vendor: 'Anthropic · Claude', name: 'Claude Certified Architect — Pro', track: 'Claude', level: 'pro', order: 4 },
 ];
 const certById = (id) => CERTIFICATIONS.find(c => c.id === id) || CERTIFICATIONS[0];
-const TEMPORARILY_DISABLED_CERT_IDS = new Set(['GH-600']);
+const TEMPORARILY_DISABLED_CERT_IDS = new Set();
 const TEMPORARILY_DISABLED_CERT_MESSAGE = 'Đã nạp lần đầu chưa?';
 const isCertTemporarilyDisabled = certId => TEMPORARILY_DISABLED_CERT_IDS.has(certId);
 function notifyTemporarilyDisabledCert() { window.alert(TEMPORARILY_DISABLED_CERT_MESSAGE); }
@@ -4039,6 +4054,42 @@ document.addEventListener('keydown', (ev) => {
 window.addEventListener('beforeunload', () => {
   if ($('quiz-screen').style.display === 'block') saveSession();
 });
+
+// Heuristic guard matching Nihongo Nin: debugger pauses only when DevTools is
+// attached, including an undocked window. This is a casual-use deterrent, not
+// a security boundary; keep local development hosts free to use DevTools.
+const DEVTOOLS_PAUSE_THRESHOLD_MS = 100;
+const DEVTOOLS_POLL_MS = 500;
+const DEVTOOLS_REQUIRED_HITS = 2;
+function isDevToolsOpenByPause() {
+  const startedAt = performance.now();
+  debugger;
+  return performance.now() - startedAt > DEVTOOLS_PAUSE_THRESHOLD_MS;
+}
+function isLocalDevelopmentHost(hostname) {
+  const host = String(hostname || '').toLowerCase();
+  return !host || host === 'localhost' || host === '127.0.0.1' || host === '::1' || host === '[::1]' ||
+    host.endsWith('.local') ||
+    /^(?:10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2})$/.test(host);
+}
+function initializeDevToolsGuard() {
+  if (location.protocol === 'file:' || isLocalDevelopmentHost(location.hostname)) return;
+  const warning = $('devtools-warning');
+  if (!warning) return;
+  let consecutiveHits = 0;
+  const check = () => {
+    if (isDevToolsOpenByPause()) {
+      consecutiveHits++;
+      if (consecutiveHits >= DEVTOOLS_REQUIRED_HITS) warning.hidden = false;
+    } else {
+      consecutiveHits = 0;
+      warning.hidden = true;
+    }
+  };
+  check();
+  window.setInterval(check, DEVTOOLS_POLL_MS);
+}
+window.addEventListener('load', initializeDevToolsGuard, { once: true });
 
 loadData().then(d => {
   DATA = d;
